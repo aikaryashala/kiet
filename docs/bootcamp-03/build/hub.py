@@ -69,16 +69,9 @@ refs = '<div class="cards">' + "".join([
 body = "\n".join([
     section("what", "What you will build", p("""A Python program that answers HTTP requests with JSON read from a SQLite database, and a web page
 that uses it. You arrive knowing C. One day, three sessions, nine stages, each one idea. Everything runs on your own
-machine with the network off — which is why the setup below has to happen <em>before</em> the day.""") +
-        table("the two days", ["when", "stages", "shape"], [
-            ("21 Sep · morning", "0 – 2", "Python as deltas from C, SQLite by hand, Python reading it"),
-            ("21 Sep · afternoon", "3 – 5", "a server observed, your own server, the backend"),
-            ("21 Sep · after dinner, until 11:30 pm", "6 – 8", "bigger data, a browser client, the inspector"),
-            ("22 Sep", "—", "team presentations, then Omarchy customization sessions")])),
+machine with the network off — which is why the setup below has to happen <em>before</em> the day.""")),
     section("prep", "Preparation", prep),
-    section("s1", "Session 1 · morning", day1),
-    section("s2", "Session 2 · afternoon", day1b),
-    section("s3", "Session 3 · after dinner, until 11:30 pm", day2),
+    section("day1", "Day 1 · 21 September", (day1 + day1b + day2).replace('</div><div class="cards">', "")),
     section("day2", "Day 2 · 22 September", p("Team presentations of what was built on Day 1, then the Omarchy customization sessions. Details on the day.")),
     section("ref", "Reference", refs),
 ])
