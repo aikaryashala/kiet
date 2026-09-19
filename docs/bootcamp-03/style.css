@@ -113,6 +113,9 @@ pre.term .p{color:#8c8478;user-select:none}
 pre.term .ln.on{background:rgba(184,67,10,.18);box-shadow:inset 2px 0 0 var(--rust)}
 pre.term .ln.dim{color:#8c8478}
 
+/* ---------- video ---------- */
+.panel.media video{display:block;width:100%;height:auto;background:var(--ink)}
+
 /* ---------- callout ---------- */
 .callout{border:1px solid var(--line);border-left:3px solid var(--rust);border-radius:2px;background:var(--paper);padding:14px 18px;font-size:16.5px;max-width:70ch;margin:0 0 14px}
 .callout p{margin:0}

@@ -37,7 +37,8 @@
   function dotHint(c) {
     var m;
     if (/^\.headers on/.test(c)) return "print the column names above every result";
-    if (/^\.mode column/.test(c)) return "line the results up in columns instead of a|b|c";
+    if (/^\.mode box/.test(c)) return "draw every result as a table with borders and the column names on top";
+    if (/^\.mode column/.test(c)) return "line the results up in plain columns, no borders";
     if (/^\.quit/.test(c)) return "leave the sqlite3 shell, back to the normal prompt";
     if ((m = c.match(/^\.read (\S+)/))) return "run every statement in the file " + m[1];
     if (/^\.tables/.test(c)) return "list the tables in this database file";

@@ -59,7 +59,10 @@ task = steps([
 $ sqlite3 team_details.db
 SQLite version 3.45.1 2024-01-30 16:01:20
 Enter ".help" for usage hints.
-sqlite> """) + p("No <code>sqlite3</code> command? Use <code>python3 -m sqlite3 team_details.db</code> instead; the prompt and everything after it are the same."),
+sqlite> """) + p("No <code>sqlite3</code> command? Use <code>python3 -m sqlite3 team_details.db</code> instead. The SQL is the same; that shell has no dot-commands, so skip the <code>.mode</code> and <code>.headers</code> lines, and it prints each row as a Python tuple."),
+    p("First, tell the shell how to draw results. A line starting with a dot is a shell setting, not SQL: no semicolon.") +
+    term("terminal 1 — sqlite>", """sqlite> .mode box
+sqlite> """),
     p("Paste the <code>CREATE TABLE</code> from <code>schema.sql</code>. This defines the struct: three text columns.") +
     term("terminal 1 — sqlite>", """sqlite> CREATE TABLE students (
    ...>     student_name TEXT,
@@ -73,13 +76,17 @@ sqlite> INSERT INTO students VALUES ('Lakshmi Prasanna Gudla', 'Narayana Junior 
 sqlite> INSERT INTO students VALUES ('Sai Kiran Bommu', 'Sri Chaitanya Junior College', 'Visakhapatnam');
 sqlite> INSERT INTO students VALUES ('Divya Sree Pothula', 'Narayana Junior College', 'Vijayawada');
 sqlite> """),
-    p("Read everything back. <code>*</code> means every column.") +
+    p("Read everything back. <code>*</code> means every column. Box mode draws the table with its column names on top.") +
     term("terminal 1 — sqlite>", """sqlite> SELECT * FROM students;
-Ravi Teja Kanchi|Sri Chaitanya Junior College|Visakhapatnam
-Lakshmi Prasanna Gudla|Narayana Junior College|Vijayawada
-Sai Kiran Bommu|Sri Chaitanya Junior College|Visakhapatnam
-Divya Sree Pothula|Narayana Junior College|Vijayawada"""),
-    p("Two dot-commands make it readable. They are settings for this session, not SQL, so no <code>;</code>.") +
+┌────────────────────────┬──────────────────────────────┬───────────────┐
+│      student_name      │        inter_college         │  inter_city   │
+├────────────────────────┼──────────────────────────────┼───────────────┤
+│ Ravi Teja Kanchi       │ Sri Chaitanya Junior College │ Visakhapatnam │
+│ Lakshmi Prasanna Gudla │ Narayana Junior College      │ Vijayawada    │
+│ Sai Kiran Bommu        │ Sri Chaitanya Junior College │ Visakhapatnam │
+│ Divya Sree Pothula     │ Narayana Junior College      │ Vijayawada    │
+└────────────────────────┴──────────────────────────────┴───────────────┘"""),
+    p("Two more dot-commands give the plainer look you will see in other tools: names on top, no borders. Try them, then run the SELECT again.") +
     term("terminal 1 — sqlite>", """sqlite> .headers on
 sqlite> .mode column
 sqlite> SELECT * FROM students;
@@ -112,7 +119,7 @@ sqlite> SELECT COUNT(*) FROM students;
 sqlite> .quit"""),
 ])
 
-expected = p("Your names and cities will differ; the shape will not. Four things to confirm: the <code>CREATE TABLE</code> printed nothing (silence is success in SQL), each <code>INSERT</code> printed nothing, <code>SELECT *</code> printed exactly one line per person, and <code>COUNT(*)</code> after reopening equals the number of people.") + \
+expected = p("Your names and cities will differ; the shape will not. Four things to confirm: the <code>CREATE TABLE</code> printed nothing (silence is success in SQL), each <code>INSERT</code> printed nothing, <code>SELECT *</code> drew exactly one row per person inside the box, and <code>COUNT(*)</code> after reopening equals the number of people.") + \
     p("The file size will be 8192 or 12288 bytes — SQLite writes in 4 KB pages. Your date and user name replace <code>kiet</code>.")
 
 check = term("terminal 1 — in the data folder", """$ python3 ../code/stage1/check.py
@@ -142,7 +149,12 @@ qz = quiz([
      "Lines starting with a dot are sqlite3 shell settings. They do not end with ; and they would mean nothing to Python's sqlite3 module."),
 ])
 
+demo = ('<div class="panel media">\n<div class="cap">videos/stage1_demo.mp4</div>\n'
+        '<video controls preload="metadata" src="videos/stage1_demo.mp4"></video>\n</div>\n'
+        + p("A walk through this stage: opening the database, box mode, the table, four rows, the queries, and the file that is left behind."))
+
 body = "\n".join([
+    section("demo", "Demo", demo),
     section("concept", "Concept", concept + stp),
     section("task", "Task", task),
     section("expected", "Expected output", expected),

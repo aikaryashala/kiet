@@ -76,7 +76,20 @@ Divya Sree Pothula - Narayana Junior College - Vijayawada""") +
     p("Run it with a college from <em>your</em> database. The example team has two Narayana students.") +
     term("terminal 1", """$ python3 by_college.py "Narayana Junior College"
 Lakshmi Prasanna Gudla
-Divya Sree Pothula"""),
+Divya Sree Pothula""") +
+    p("Same question in the shell from Stage 1, with box mode on. The rows are the same two; the program just prints them without the box. The shell and the program are both clients of the same file.") +
+    term("terminal 1 — sqlite>", """$ sqlite3 ../../data/team_details.db
+SQLite version 3.45.1 2024-01-30 16:01:20
+Enter ".help" for usage hints.
+sqlite> .mode box
+sqlite> SELECT student_name FROM students WHERE inter_college = 'Narayana Junior College';
+┌────────────────────────┐
+│      student_name      │
+├────────────────────────┤
+│ Lakshmi Prasanna Gudla │
+│ Divya Sree Pothula     │
+└────────────────────────┘
+sqlite> .quit"""),
     p("Now a college that is not in your database. It prints nothing — that is correct. Zero rows came back, the loop ran zero times, no error.") +
     term("terminal 1", """$ python3 by_college.py "Vignan Junior College"
 $ """),

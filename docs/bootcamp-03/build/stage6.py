@@ -17,13 +17,26 @@ p("""The switch happens on the command line. <code>--db</code> is read by the sa
 with a different <code>--db</code> and the same code serves different data.""")
 
 task = steps([
-    p("<strong>Terminal 1.</strong> Build the big database from its source. The <code>&lt;</code> feeds the file to sqlite3 as if you had typed it. It prints nothing. Then ask it how many rows it has.") +
+    p("<strong>Terminal 1.</strong> Build the big database from its source. The <code>&lt;</code> feeds the file to sqlite3 as if you had typed it. It prints nothing. Then open the new file, set box mode as in Stage 1, and ask it how many rows and how many colleges it has.") +
     term("terminal 1", """$ cd ~/kiet-bootcamp-3/data
 $ sqlite3 all_students.db < all_students.sql
-$ sqlite3 all_students.db "SELECT COUNT(*) FROM students;"
-200
-$ sqlite3 all_students.db "SELECT COUNT(DISTINCT inter_college) FROM students;"
-12""") + p("No <code>sqlite3</code> command? <code>python3 -m sqlite3 all_students.db</code>, then <code>.read all_students.sql</code>, then the SELECT, then <code>.quit</code>."),
+$ sqlite3 all_students.db
+SQLite version 3.45.1 2024-01-30 16:01:20
+Enter ".help" for usage hints.
+sqlite> .mode box
+sqlite> SELECT COUNT(*) FROM students;
+┌──────────┐
+│ COUNT(*) │
+├──────────┤
+│ 200      │
+└──────────┘
+sqlite> SELECT COUNT(DISTINCT inter_college) FROM students;
+┌───────────────────────────────┐
+│ COUNT(DISTINCT inter_college) │
+├───────────────────────────────┤
+│ 12                            │
+└───────────────────────────────┘
+sqlite> .quit""") + p("No <code>sqlite3</code> command? <code>python3 -m sqlite3 all_students.db</code>, then <code>.read all_students.sql</code>, then the two SELECTs (no <code>.mode</code> there; it prints tuples), then <code>.quit</code>."),
     p("Look at the top of the source file. The counts you are about to see from the server are written there.") +
     term("terminal 1", """$ head -30 all_students.sql
 -- all_students.sql — 200 students across 12 intermediate colleges and 8 cities.
@@ -73,6 +86,49 @@ $ curl "localhost:8080/count?college=Sri+Chaitanya+Junior+College"
 {"college": "Sri Chaitanya Junior College", "count": 57}
 $ curl "localhost:8080/students/by-location?location=Kurnool"
 {"count": 9, "students": [{"student_name": "Ravi Rama Ravella", "inter_college": "Narayana Junior College", "inter_city": "Kurnool"}, {"student_name": "Gayathri Sri Gudla", "inter_college": "Narayana Junior College", "inter_city": "Kurnool"}, {"student_name": "Supriya Varshini Nalluri", "inter_college": "Narayana Junior College", "inter_city": "Kurnool"}, {"student_name": "Vasavi Prasanna Bommu", "inter_college": "Narayana Junior College", "inter_city": "Kurnool"}, {"student_name": "Venkat Satya Kota", "inter_college": "Narayana Junior College", "inter_city": "Kurnool"}, {"student_name": "Mounika Kumari Kondapalli", "inter_college": "Narayana Junior College", "inter_city": "Kurnool"}, {"student_name": "Yamini Sai Sastry", "inter_college": "Narayana Junior College", "inter_city": "Kurnool"}, {"student_name": "Rajesh Charan Kanchi", "inter_college": "Narayana Junior College", "inter_city": "Kurnool"}, {"student_name": "Arun Rama Sunkara", "inter_college": "Narayana Junior College", "inter_city": "Kurnool"}]}"""),
+    p("<strong>Terminal 3 — the same questions in the shell.</strong> Open the big file with box mode on and ask what the three curls asked. Twelve colleges, 49 Narayana students, nine names in Kurnool: the server was only ever running these statements.") +
+    term("terminal 3 — sqlite>", """$ sqlite3 ~/kiet-bootcamp-3/data/all_students.db
+SQLite version 3.45.1 2024-01-30 16:01:20
+Enter ".help" for usage hints.
+sqlite> .mode box
+sqlite> SELECT DISTINCT inter_college FROM students ORDER BY inter_college;
+┌──────────────────────────────┐
+│        inter_college         │
+├──────────────────────────────┤
+│ Aditya Junior College        │
+│ Bhashyam Junior College      │
+│ Government Junior College    │
+│ Krishnaveni Junior College   │
+│ NRI Junior College           │
+│ Narayana Junior College      │
+│ Sasi Junior College          │
+│ Sri Chaitanya Junior College │
+│ Sri Gayatri Junior College   │
+│ Sri Prakash Junior College   │
+│ Tirumala Junior College      │
+│ Vignan Junior College        │
+└──────────────────────────────┘
+sqlite> SELECT COUNT(*) FROM students WHERE inter_college = 'Narayana Junior College';
+┌──────────┐
+│ COUNT(*) │
+├──────────┤
+│ 49       │
+└──────────┘
+sqlite> SELECT student_name FROM students WHERE inter_city = 'Kurnool';
+┌───────────────────────────┐
+│       student_name        │
+├───────────────────────────┤
+│ Ravi Rama Ravella         │
+│ Gayathri Sri Gudla        │
+│ Supriya Varshini Nalluri  │
+│ Vasavi Prasanna Bommu     │
+│ Venkat Satya Kota         │
+│ Mounika Kumari Kondapalli │
+│ Yamini Sai Sastry         │
+│ Rajesh Charan Kanchi      │
+│ Arun Rama Sunkara         │
+└───────────────────────────┘
+sqlite> .quit"""),
     p("A college that exists in the big file but not in your team's. In Stage 5 this gave <code>count 0</code>; the code is identical, the data is not.") +
     term("terminal 2 — curl", """$ curl "localhost:8080/students?college=Sri+Prakash+Junior+College"
 {"count": 4, "students": [{"student_name": "Sruthi Varshini Boddu", "inter_college": "Sri Prakash Junior College", "inter_city": "Kakinada"}, {"student_name": "Lakshmi Sai Gudla", "inter_college": "Sri Prakash Junior College", "inter_city": "Kakinada"}, {"student_name": "Pavan Kiran Puli", "inter_college": "Sri Prakash Junior College", "inter_city": "Kakinada"}, {"student_name": "Rohith Reddy Boddu", "inter_college": "Sri Prakash Junior College", "inter_city": "Kakinada"}]}

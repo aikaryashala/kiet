@@ -142,11 +142,19 @@ Enter ".help" for usage hints.
 sqlite> """) + p("The file is created if it does not exist. The prompt changes to <code>sqlite&gt;</code>: you are now typing SQL, not shell. Every SQL statement ends with <code>;</code>. Dot-commands do not.") +
     p("<strong>No <code>sqlite3</code> command?</strong> Python ships the same shell:") + term("terminal", """$ python3 -m sqlite3 team_details.db
 sqlite> """)) + \
-section("dots", "Dot-commands", rules([
+section("dots", "Dot-commands", p("Lines starting with a dot are settings of the shell, not SQL. No semicolon. The Python fallback shell has none of them and prints rows as tuples.") + term("sqlite> with .mode box", """sqlite> .mode box
+sqlite> SELECT student_name, inter_city FROM students WHERE inter_city = 'Vijayawada';
+┌────────────────────────┬────────────┐
+│      student_name      │ inter_city │
+├────────────────────────┼────────────┤
+│ Lakshmi Prasanna Gudla │ Vijayawada │
+│ Divya Sree Pothula     │ Vijayawada │
+└────────────────────────┴────────────┘""") + rules([
     ("<code>.tables</code>", "list the tables in this file"),
     ("<code>.schema</code>", "print the CREATE TABLE statements"),
-    ("<code>.headers on</code>", "print column names above results"),
-    ("<code>.mode column</code>", "align results in columns (default is <code>a|b|c</code>)"),
+    ("<code>.mode box</code>", "draw every result as a table with borders and the column names on top — set this first"),
+    ("<code>.headers on</code>", "print column names above results (box mode already does)"),
+    ("<code>.mode column</code>", "align results in plain columns, no borders (the default is <code>a|b|c</code>)"),
     ("<code>.read schema.sql</code>", "run every statement in a file"),
     ("<code>.quit</code>", "leave (or Ctrl+D)"),
 ])) + \

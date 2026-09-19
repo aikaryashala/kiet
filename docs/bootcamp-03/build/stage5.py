@@ -68,6 +68,19 @@ $ curl "localhost:8080/students?college=Vignan+Junior+College"
 {"count": 0, "students": []}
 $ curl localhost:8080/students
 {"error": "college parameter is required"}""") +
+    p("The SQL inside that route is exactly what you would type in the shell, with <code>?</code> where the value goes. Terminal 3: open the same file with box mode on and run it by hand. Two rows — the same two the route packed into JSON.") +
+    term("terminal 3 — sqlite>", """$ sqlite3 ~/kiet-bootcamp-3/data/team_details.db
+SQLite version 3.45.1 2024-01-30 16:01:20
+Enter ".help" for usage hints.
+sqlite> .mode box
+sqlite> SELECT student_name, inter_college, inter_city FROM students WHERE inter_college = 'Narayana Junior College';
+┌────────────────────────┬─────────────────────────┬────────────┐
+│      student_name      │      inter_college      │ inter_city │
+├────────────────────────┼─────────────────────────┼────────────┤
+│ Lakshmi Prasanna Gudla │ Narayana Junior College │ Vijayawada │
+│ Divya Sree Pothula     │ Narayana Junior College │ Vijayawada │
+└────────────────────────┴─────────────────────────┴────────────┘
+sqlite> """) + p("Keep that shell open in Terminal 3. For the SQL of each task below, try it there first; when the box shows the right rows, put the same statement into the route with <code>?</code> in place of the value.") +
     p("Now open <code>server.py</code>. This is the whole file. Read <code>query</code>, <code>pack</code>, and the given route against the stepper. Then the four TODOs:") +
     code_file("code/stage5/server.py", "code/stage5/server.py"),
     p("<strong>Task 1.</strong> <code>/students/by-location?location=Y</code>. Same shape as the given route; the parameter is <code>location</code>, the column is <code>inter_city</code>. Restart the server after the edit.") +
@@ -82,10 +95,24 @@ $ curl "localhost:8080/students/search?college=Narayana+Junior+College&location=
 {"count": 0, "students": []}
 $ curl "localhost:8080/students/search?college=Narayana+Junior+College"
 {"error": "college and location parameters are required"}"""),
-    p("<strong>Task 3.</strong> <code>/colleges</code>. No parameter, and the loop is already written: each row is a one-item tuple and <code>row[0]</code> goes into the list. Your only line is the SQL — every college once, sorted: <code>SELECT DISTINCT inter_college FROM students ORDER BY inter_college</code>.") +
+    p("<strong>Task 3.</strong> <code>/colleges</code>. No parameter, and the loop is already written: each row is a one-item tuple and <code>row[0]</code> goes into the list. Your only line is the SQL — every college once, sorted. In the shell first:") +
+    term("terminal 3 — sqlite>", """sqlite> SELECT DISTINCT inter_college FROM students ORDER BY inter_college;
+┌──────────────────────────────┐
+│        inter_college         │
+├──────────────────────────────┤
+│ Narayana Junior College      │
+│ Sri Chaitanya Junior College │
+└──────────────────────────────┘""") + p("One column, one row per college. Now the same statement in <code>query(\"…\", [])</code>, restart, curl:") +
     term("terminal 2 — curl", """$ curl localhost:8080/colleges
 {"colleges": ["Narayana Junior College", "Sri Chaitanya Junior College"]}"""),
-    p("<strong>Task 4.</strong> <code>/count?college=X</code>. Unpack, guard and return are given; <code>rows[0][0]</code> is already there because <code>SELECT COUNT(*)</code> gives one row with one number. Your only line is the SQL. Until you write it, this route answers 500 and Terminal 1 says <code>ProgrammingError: Incorrect number of bindings supplied</code> — the empty SQL has no <code>?</code> for the college.") +
+    p("<strong>Task 4.</strong> <code>/count?college=X</code>. Unpack, guard and return are given; <code>rows[0][0]</code> is already there because <code>SELECT COUNT(*)</code> gives one row with one number. Your only line is the SQL. In the shell first, with the college typed in:") +
+    term("terminal 3 — sqlite>", """sqlite> SELECT COUNT(*) FROM students WHERE inter_college = 'Sri Chaitanya Junior College';
+┌──────────┐
+│ COUNT(*) │
+├──────────┤
+│ 2        │
+└──────────┘
+sqlite> .quit""") + p("One row, one number: that is why the route reads <code>rows[0][0]</code>. In the route, the college is not typed in — <code>?</code> stands for it and <code>[college]</code> supplies it. Until you write the SQL, this route answers 500 and Terminal 1 says <code>ProgrammingError: Incorrect number of bindings supplied</code> — the empty SQL has no <code>?</code> for the college.") +
     term("terminal 2 — curl", """$ curl "localhost:8080/count?college=Sri+Chaitanya+Junior+College"
 {"college": "Sri Chaitanya Junior College", "count": 2}
 $ curl "localhost:8080/count?college=Vignan+Junior+College"
