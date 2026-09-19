@@ -6,20 +6,20 @@
 
 ## 1. Purpose
 
-Students with a C background, no Python and no web experience, build — over one guided day — a working HTTP backend in Python that serves JSON from a SQLite database, and then watch a browser frontend consume it.
+Students with a C background, no Python and no web experience, build — over two guided days, 21 and 22 September 2026 — a working HTTP backend in Python that serves JSON from a SQLite database, and then watch a browser frontend consume it.
 
 Two deliverables come out of this spec:
 
-| Repo | Purpose | Cloned by |
+| Where | Purpose | Used |
 |---|---|---|
-| `kiet-bootcamp-3/` | Material website + all stage code + setup script | students, before the bootcamp (online) |
-| `kiet-bootcamp-3-frontend/` | Static HTML/JS client used in Stage 7 | students, during Stage 7 (from USB/LAN or pre-cloned) |
+| `aikaryashala/kiet-bootcamp-3` | Material website (`docs/`) + all stage code (`code/`, including the Stage 7 frontend in `code/frontend/`) + data | cloned to `~/kiet-bootcamp-3` by `scripts/setup.sh` before the bootcamp (online), then used offline from `http://localhost:8000`. The same `docs/` is also hosted at `https://aikaryashala.com/kiet-bootcamp-3/` |
+| `aikaryashala/kiet` → `docs/bootcamp-03/` (this folder) | Online hub page + setup page + `scripts/setup.sh` | online only, before the bootcamp; nothing here is needed on the day |
 
-Build both as sibling directories in the workspace. Each is an independent git repo.
+The bootcamp repo is built as a sibling directory in the workspace, as its own git repo. The hub lives in this repo next to `bootcamp-01/` and `bootcamp-02/`, and is published at `https://aikaryashala.com/kiet/bootcamp-03/`.
 
 ## 2. Hard constraints
 
-1. **Offline on bootcamp day.** After `setup.sh` runs once (online), nothing may need the network. No pip, no CDN links, no Google Fonts, no external images. Fonts ship as local `.woff2` files in `material/fonts/` (theme.md §2).
+1. **Offline on bootcamp day.** After `setup.sh` runs once (online), nothing may need the network. No pip, no CDN links, no Google Fonts, no external images. Fonts ship as local `.woff2` files in `docs/fonts/` (theme.md §2).
 2. **Only `python3` (≥ 3.12), `curl`, `git`, and optionally the `sqlite3` CLI.** Bottle is used by copying `bottle.py` (single file, version 0.13.x) into every folder that has a server. No venv, no PYTHONPATH tricks, no `sys.path` edits.
 3. **Target OS:** Ubuntu 24.04 (VM) and Omarchy (Arch-based). Scripts must handle both (`apt` / `pacman`).
 4. **Beginner-honest code.** Given code uses only the Python constructs taught in Stage 0 (see §7). No classes, list comprehensions, `try/except`, `with`, `if __name__ == "__main__"`, lambdas, type hints, f-string format specs, `*args`. If a construct isn't in the Stage 0 list, don't use it in student-facing code. `check.py` scripts and `setup.sh` are exempt (students only run them).
@@ -32,8 +32,11 @@ Build both as sibling directories in the workspace. Each is an independent git r
 | Table | `students(student_name TEXT, inter_college TEXT, inter_city TEXT)` — three columns, no id |
 | Team DB | `data/team_details.db`, created by students in Stage 1, one per team (team = the students sharing one machine) |
 | Big DB | `data/all_students.db`, built in Stage 6 from `data/all_students.sql` |
-| Ports | 8000 material site · 8080 given servers (Stage 3, 5, 6) · 8081 student's own server (Stage 4) · 9000 frontend (Stage 7) |
-| Clone location | `~/kiet-bootcamp-3` and `~/kiet-bootcamp-3-frontend` |
+| Ports | 8000 material site · 8080 given servers (Stage 3, 5, 6) · 8081 student's own server (Stage 4) · 9000 frontend (Stage 7, 8) |
+| Clone location | `~/kiet-bootcamp-3` — one clone holds everything |
+| Dates | 21 and 22 September 2026. Day 1: Stage 0–3. Day 2: Stage 4–8. |
+| Frontend styling | Plain HTML, no theme, no fonts, one short `<style>` block. It is "someone else's client"; theme.md does not apply to it. |
+| Setup script | `scripts/setup.sh` in this folder, run from `https://aikaryashala.com/kiet/bootcamp-03/scripts/setup.sh`. Not in the student repos. |
 | Self-check | every stage has a `check.py` printing PASS/FAIL lines |
 | Demo videos | not built here — placeholders + shot lists (see §5.4) |
 | Solutions | every task has a solution in `code/stageN/solution/`; material links to it under "Stuck? Compare with the solution" |
@@ -41,23 +44,24 @@ Build both as sibling directories in the workspace. Each is an independent git r
 
 ## 4. Repository layout — `kiet-bootcamp-3/`
 
+`code/` and `docs/` sit side by side so that one clone gives the student both the material and the files it talks about, with no network. `docs/` is also what GitHub Pages publishes.
+
 ```
 kiet-bootcamp-3/
-├── README.md                     # 5 lines: what, run setup.sh, open http://localhost:8000
-├── setup.sh                      # §5.1
+├── README.md                     # 5 lines: what, link to the hub setup page, cd docs && python3 -m http.server 8000
 ├── check_env.py                  # §5.2
 ├── .gitignore                    # data/*.db, __pycache__/
 ├── data/
 │   ├── schema.sql                # CREATE TABLE only
 │   ├── sample_team_details.sql   # schema + 5 sample rows (for anyone who skipped Stage 1)
 │   └── all_students.sql          # schema + ~200 rows (§10, Stage 6)
-├── material/                     # static site served by python3 -m http.server 8000
-│   ├── index.html                # landing page: what this is, port plan, links to stage0..stage7
+├── docs/                         # material site, served offline by python3 -m http.server 8000
+│   ├── index.html                # landing page: what this is, port plan, day plan, links to stage0..stage8
 │   ├── style.css                 # the one stylesheet, from theme.md; no inline styles in pages
 │   ├── script.js                 # the one script: copy buttons, quiz, stepper (§5.6, §5.7)
 │   ├── fonts/                    # Fraunces, Inter Tight, JetBrains Mono as .woff2 (theme.md §2)
-│   ├── img/                      # stage7 screenshots (§9 Stage 7)
-│   ├── stage0.html … stage7.html
+│   ├── img/                      # stage8 screenshots (§9 Stage 8)
+│   ├── stage0.html … stage8.html
 │   ├── troubleshooting.html
 │   ├── videos/
 │   │   └── README.md             # expected filenames + shot list per video (§5.4)
@@ -78,7 +82,9 @@ kiet-bootcamp-3/
     ├── stage4/   bottle.py  server.py (stub)  check.py  solution/
     ├── stage5/   bottle.py  server.py (partial)  check.py  solution/
     ├── stage6/   check.py   (uses stage5 server with --db)
-    └── stage7/   check.py   (verifies backend + CORS header)
+    ├── stage7/   check.py   (verifies 9000 serves the frontend, 8080 answers)
+    ├── stage8/   check.py   (verifies the CORS header on 8080)
+    └── frontend/ index.html  app.js  README.md   (§11, served on 9000 in Stage 7 and 8)
 ```
 
 ### 4.1 Code conventions (apply everywhere)
@@ -88,31 +94,46 @@ kiet-bootcamp-3/
 - Bottle's `run(host="localhost", port=..., debug=True)`; debug so request lines print in the terminal (students watch this).
 - Student stubs mark work with `# TODO (Task N): ...` comments and contain enough scaffolding that the file runs before they start.
 - `check.py` scripts use only the standard library (`urllib.request`, `json`, `sqlite3`). They print one line per check, `PASS: <what>` or `FAIL: <what> — expected X, got Y`, and end with a summary. They must give an actionable message if the server isn't running (`Cannot connect to localhost:8081 — is the server running?`).
-- Given servers include a CORS hook from Stage 5 onwards (see §9 Stage 5), with the comment `# This line matters in Stage 7. Ignore it for now.`
+- Given servers include a CORS hook from Stage 5 onwards (see §9 Stage 5), with the comment `# This line matters in Stage 8. Ignore it for now.`
 
 ## 5. Cross-cutting components
 
-### 5.1 `setup.sh`
+### 5.1 `setup.sh` and the hub (this folder)
 
-Run once, online: `curl -sSL https://raw.githubusercontent.com/<ORG>/kiet-bootcamp-3/main/setup.sh | bash`. Use a placeholder `<ORG>` variable at the top of the script.
+`setup.sh` lives in this repo at `docs/bootcamp-03/scripts/setup.sh` and is run once, online:
+
+```
+curl -sSL https://aikaryashala.com/kiet/bootcamp-03/scripts/setup.sh | bash
+```
+
+It is deliberately not inside the student repos: nothing a student uses offline should depend on it, and it can be fixed without touching the material.
+
+This folder (`docs/bootcamp-03/`) holds, in the same card-hub style as `bootcamp-02/index.html`:
+
+- `index.html` — hub. Header "KIET Bootcamp #3, 21st & 22nd Sep 2026". Sections: **Preparation** (System setup → `setup.html`; Material → `https://aikaryashala.com/kiet-bootcamp-3/`; the repo on GitHub), **Day 1** and **Day 2** (one card per stage, linking into the published material), **Reference**.
+- `setup.html` — the setup steps written out on the page itself, not only in the script: what gets installed and why, the one `curl … | bash` line, what the script prints when it succeeds, how to re-run `check_env.py`, and how to start the material site. Terminal blocks per theme.md.
+- `scripts/setup.sh` — the script below.
+- `spec.md`, `theme.md` — this spec and the visual system (not linked from the hub).
+
+The script:
 
 1. Detect OS via `/etc/os-release` (`ID=ubuntu` → apt; `ID=arch` or `ID_LIKE` contains `arch` → pacman). Unknown → print message, continue without package install.
 2. Install `git curl sqlite3` (Ubuntu) / `git curl sqlite` (Arch). Requires sudo — print one line explaining why before prompting.
 3. Check `python3 --version` ≥ 3.12; if lower, stop with a clear message.
-4. `git clone` into `~/kiet-bootcamp-3`, or `cd` + `git pull` if it exists. Same for `~/kiet-bootcamp-3-frontend` (clone URL as second placeholder).
+4. `git clone https://github.com/aikaryashala/kiet-bootcamp-3 ~/kiet-bootcamp-3`, or `cd` + `git pull` if it exists.
 5. Run `python3 ~/kiet-bootcamp-3/check_env.py`.
-6. Print next steps: `cd ~/kiet-bootcamp-3/material && python3 -m http.server 8000` → open `http://localhost:8000`.
+6. Print next steps: `cd ~/kiet-bootcamp-3/docs && python3 -m http.server 8000` → open `http://localhost:8000`.
 7. Idempotent: safe to run twice.
 
 ### 5.2 `check_env.py`
 
-Prints a PASS/FAIL table for: python3 version, `curl` on PATH, `sqlite3` CLI on PATH (FAIL here is non-fatal — prints the `python3 -m sqlite3` fallback), `import bottle` from `code/stage3`, open an in-memory SQLite DB and run `SELECT 1`, `~/kiet-bootcamp-3-frontend` exists (warn only). Exit code 0 only if the fatal ones pass. Students re-run this on bootcamp day.
+Prints a PASS/FAIL table for: python3 version, `curl` on PATH, `sqlite3` CLI on PATH (FAIL here is non-fatal — prints the `python3 -m sqlite3` fallback), `import bottle` from `code/stage3`, open an in-memory SQLite DB and run `SELECT 1`, `code/frontend/index.html` exists (warn only). Exit code 0 only if the fatal ones pass. Students re-run this on bootcamp day.
 
-### 5.3 Material site
+### 5.3 Material site (`docs/`)
 
-- Plain HTML + one `style.css` + one `script.js`, all in `material/`. No library. The script does three things only: copy buttons on terminal blocks, the quiz (§5.6), the stepper (§5.7). Pages carry no inline `<style>` or `<script>`.
+- Plain HTML + one `style.css` + one `script.js`, all in `docs/`. No library. The script does three things only: copy buttons on terminal blocks, the quiz (§5.6), the stepper (§5.7). Pages carry no inline `<style>` or `<script>`.
 - Look and feel exactly per `theme.md`: colour tokens, local fonts, flat surfaces, hairline borders, page wraps at 1040px, prose at 70ch, 16px base. Readable on a 1366×768 VM screen.
-- Left nav on every page (theme.md §4 "Left nav"): Stage 0 → 7, Reference, Troubleshooting. Current page in rust.
+- Left nav on every page (theme.md §4 "Left nav"): Stage 0 → 8, Reference, Troubleshooting. Current page in rust.
 - **Every stage page has exactly these sections, in order** (theme.md §5 is the same list with the CSS):
   1. **Concept** — the one new idea, hooked to C or to the previous stage. 200–400 words. Use the wording in §7–§9 as the basis. Stages listed in §5.7 also carry a stepper visualization here.
   2. **Demo video** — a media panel (theme.md §4 "Video and figure") with `<video controls preload="metadata" src="videos/stageN.mp4">` and fallback text inside the tag: *"Demo video not available yet — follow the written steps below."* Plus a one-line description of what the video shows.
@@ -126,7 +147,7 @@ Prints a PASS/FAIL table for: python3 version, `curl` on PATH, `sqlite3` CLI on 
 
 ### 5.4 Demo video placeholders
 
-`material/videos/README.md` lists, for `stage0.mp4` … `stage7.mp4`: target length (3–6 min), and a **shot list** — the exact sequence of terminal actions to record, matching the Task section of that stage. Videos are not committed to git; the README says so and where they'll be distributed from (USB / LAN share). The HTML must degrade cleanly when the file is missing.
+`docs/videos/README.md` lists, for `stage0.mp4` … `stage8.mp4`: target length (3–6 min), and a **shot list** — the exact sequence of terminal actions to record, matching the Task section of that stage. Videos are not committed to git; the README says so and where they'll be distributed from (USB / LAN share). The HTML must degrade cleanly when the file is missing.
 
 ### 5.5 Troubleshooting page
 
@@ -151,10 +172,11 @@ Some Concept sections carry a stepper (theme.md §4 "Stepper controls"): a two-c
 | 2 | `read_all.py` line by line: connection → cursor → `execute` (nothing returned) → `fetchall` (list of tuples appears in a slot) → loop |
 | 3 | one `curl` request: request line, path / query string / body highlighted as the three doors, then the server log line and the response |
 | 5 | one `/students?college=X` call through unpack → query → pack → return, the dict growing in a slot |
+| 8 | a `curl -i` transcript on the left, active line moving down; on the right the Network tab fields (Request URL, Request Method, Status Code, response headers, Response body) lighting up as their `curl -i` line becomes active |
 
 Stages 0, 4, 6 and 7 have no stepper; their Concept is prose only.
 
-## 6. Reference pages (`material/reference/`)
+## 6. Reference pages (`docs/reference/`)
 
 Each is a one-screen page: short explanation, then copy-pasteable examples using **this bootcamp's schema and routes**, nothing generic.
 
@@ -166,7 +188,7 @@ Each is a one-screen page: short explanation, then copy-pasteable examples using
 | `sql-for-students-table` | CREATE TABLE, INSERT (single and multi-row), SELECT *, SELECT columns, WHERE with `=`, `AND`, `LIKE`, `DISTINCT`, `COUNT(*)`, `ORDER BY`, UPDATE, DELETE — every example against `students` |
 | `json` | syntax, types, Python dict ↔ JSON, `json.dumps`, `json.loads`, nested list of dicts |
 | `bottle` | `@route`, path params `<name>`, `request.query.get()`, `request.json`, `method="POST"`, returning str vs dict, `response.status`, `run()`, `@hook('after_request')` |
-| `curl` | `curl URL`, `-i`, `-X POST`, `-H "Content-Type: application/json"`, `-d '{...}'`, quoting URLs with `&`, `-s` |
+| `curl` | `curl URL`, `-i`, `-X POST`, `-H "Content-Type: application/json"`, `-d '{...}'`, quoting URLs with `&`, spaces as `+`, `-s` |
 | `http-basics` | request line, methods GET/POST, path vs query string vs body, status codes 200/400/404/500, headers, `Content-Type` |
 
 ## 7. Stage 0 — Just Enough Python (intro session, ~2 hrs)
@@ -178,7 +200,7 @@ Page structure: same 7 sections as other stages, but the Task section is seven b
 | Block | Teach | Exercise file | Feeds |
 |---|---|---|---|
 | 1 Running a program | `python3 file.py`, no compile/main/semicolons/braces, indentation = block, `x = 5` no types, `print`, f-strings | `01_hello.py` — print name and college | Stage 4 `/hello/<name>` |
-| 2 Lists & tuples | `[]`, `len`, `.append`, `for x in items`, tuple, unpacking `a, b, c = row`; **SQLite rows are tuples, `fetchall()` is a list of tuples** | `02_rows.py` — list of 3 tuples, print `name — city` | Stage 2 |
+| 2 Lists & tuples | `[]`, `len`, `.append`, `for x in items`, `range(n)` and `range(a, b)` as the C counting loop, tuple, unpacking `a, b, c = row`; **SQLite rows are tuples, `fetchall()` is a list of tuples** | `02_rows.py` — list of 3 tuples, print `name — city` | Stage 2 |
 | 3 Dicts | `{"k": v}`, `d["k"]`, `d.get("k")` → `None`, a dict *is* JSON; `json.dumps`; **Bottle returns dict as JSON** | `03_dicts.py` — convert the tuples into a list of dicts, print `json.dumps(result)` | Stage 5 response packing |
 | 4 Functions, if, % | `def`/`return`, no prototypes, `if/elif/else`, `and`, `==`, `%`, `int("17")` | `04_prime_even.py` — `is_prime(n)`, `is_even(n)` | Stage 3/4 POST routes |
 | 5 Imports & argv | `import sys`, `sys.argv` (list of strings, `[0]` is file), `import sqlite3`, `from bottle import route, run`; module = stdlib or a file beside yours | `05_greet.py` — `python3 05_greet.py Ravi` | Stage 2 `by_college.py` |
@@ -194,7 +216,8 @@ Page structure: same 7 sections as other stages, but the Task section is seven b
 | `int arr[3]` | `arr = [1, 2, 3]` |
 | `struct` | dict |
 | `printf("%s", s)` | `print(f"{s}")` |
-| `for (i=0; i<n; i++)` | `for x in items:` |
+| `for (i=0; i<n; i++)` | `for i in range(n):` |
+| `for each element` | `for x in items:` |
 | `strcmp(a, b) == 0` | `a == b` |
 | `atoi(s)` | `int(s)` |
 | `#include` | `import` |
@@ -238,7 +261,7 @@ The Concept sections below are the seed text. Expand each to 200–400 words in 
 
 **Concept.** A program can send SQL and get rows back. Three objects: the `sqlite3` module (the driver — like `stdio.h`), the connection (the open file — like `FILE*`), the cursor (where you run queries and read results — like the file position). `execute` *positions*, it does not return rows; `fetchall` reads them, as a list of tuples. Never paste values into SQL strings — use `?`, so the same query serves different data.
 
-**Given.** `read_all.py` — connect, execute `SELECT *`, loop and print `name — college — city`. `by_college.py` stub — reads `sys.argv[1]`, has the connection lines, `# TODO (Task 2): execute the query with ? and print each student_name`.
+**Given.** `read_all.py` — connect, execute `SELECT`, loop and print `name - college - city` (plain hyphens, so the student can type the same). Both Stage 2 scripts accept an optional extra argument: the DB path (`read_all.py [db]`, `by_college.py <college> [db]`); `check.py` uses it to point them at a temp DB. `by_college.py` stub — reads `sys.argv[1]`, has the connection lines, `# TODO (Task 2): execute the query with ? and print each student_name`.
 
 **Task.** Run `read_all.py`; complete `by_college.py`; run it with a college name from their DB, then with a college not in the DB (prints nothing — that's correct).
 
@@ -310,7 +333,7 @@ curl "localhost:8080/greet?name=Ravi&lang=en"
   ```python
   @hook('after_request')
   def allow_browser():
-      response.headers['Access-Control-Allow-Origin'] = '*'   # This line matters in Stage 7. Ignore it for now.
+      response.headers['Access-Control-Allow-Origin'] = '*'   # This line matters in Stage 8. Ignore it for now.
   ```
 - TODO blocks for the four tasks.
 
@@ -320,7 +343,7 @@ curl "localhost:8080/greet?name=Ravi&lang=en"
 3. `GET /colleges` → `{"colleges": ["...", "..."]}` — `SELECT DISTINCT inter_college … ORDER BY inter_college`.
 4. `GET /count?college=X` → `{"college": "X", "count": n}` — `SELECT COUNT(*) …`.
 
-Curl list for all five routes, using values from their team DB.
+Curl list for all five routes, using values from their team DB. **Spaces in a query value are written as `+`** (`college=Narayana+Junior+College`): curl rejects a URL with a space, and the browser does the same encoding for you. The `curl` and `http-basics` reference pages say this; Stage 5's Task says it before the first curl.
 
 **Expected output.** Literal for the sample team.
 
@@ -349,24 +372,45 @@ Curl list for all five routes, using values from their team DB.
 
 ### Stage 7 — Someone else's client: the browser
 
-**Concept.** The backend is now a service. A program you didn't write — a web page — will call it. Two servers on one machine need two ports: 8080 backend, 9000 frontend. The browser does exactly what curl did, and the **Network tab** in the browser inspector shows it: request URL, method, status, response body — the same fields as `curl -i`. New thing: the browser refuses to let a page on port 9000 read responses from port 8080 unless the server says it's allowed — that's the `Access-Control-Allow-Origin` line from Stage 5.
+**Concept.** The backend is now a service. A program you didn't write — a web page — will call it. Two servers on one machine need two ports: 8080 backend, 9000 frontend. The page does exactly what curl did: it builds a URL, sends a GET, reads JSON. `app.js` is short and every `fetch` has the curl command it replaces written above it in a comment. The page's own **Request log** panel prints method, URL, status and time for each click — the same four things you read off `curl -i`. Watch Terminal 1: the server cannot tell curl and the browser apart.
 
-**Given.** The frontend repo (§11).
+**Given.** `code/frontend/` (§11).
 
 **Task.**
 1. Terminal 1: Stage 5 server with `--db ../../data/all_students.db` on 8080.
-2. Terminal 2: `cd ~/kiet-bootcamp-3-frontend && python3 -m http.server 9000`.
-3. Browser: `http://localhost:9000`. Pick a college, click **Fetch** — table fills.
-4. Open the inspector (F12 or Ctrl+Shift+I) → **Network** tab → click Fetch again → click the `students?college=…` row → **Headers** (Request URL, Request Method, Status Code) and **Response** (the JSON). Side by side with `curl -i "localhost:8080/students?college=…"` in Terminal 3 — same thing.
-5. Use the location filter and the search (both) — see `/students/by-location` and `/students/search` appear in the Network tab.
-6. **Break it on purpose:** comment out the `Access-Control-Allow-Origin` line in `server.py`, restart, click Fetch. Read the red error in the **Console** tab. Restore the line. This is the only time the material shows an error deliberately.
-7. Watch Terminal 1: the server log lines are identical whether curl or the browser made the request.
+2. Terminal 2: `cd ~/kiet-bootcamp-3/code/frontend && python3 -m http.server 9000`.
+3. Browser: `http://localhost:9000`. The College dropdown is already filled — that was `GET /colleges` on page load. Pick a college, click **Fetch by college** — the table fills, the Request log gets one line.
+4. Type a city, click **Fetch by location**; then both, **Search both**. Three lines in the Request log: `/students`, `/students/by-location`, `/students/search`.
+5. Terminal 3: `curl -s "localhost:8080/students?college=…"` with the same college — the JSON the table was built from.
+6. Watch Terminal 1: the server log lines are identical whether curl or the browser made the request.
+7. Open `app.js` in an editor. Read the comment above each `fetch`. Do not change anything.
 
-**Expected output.** Screenshot placeholders (`material/img/stage7-network-tab.png`, `stage7-cors-error.png`) in media panels with alt text describing exactly what should be visible; and the literal server log lines.
+**Expected output.** The Request log lines, the curl JSON, and the literal server log lines.
 
-**Check.** `check.py` verifies 8080 answers `/colleges` **with** the `Access-Control-Allow-Origin` header and that 9000 serves `index.html`.
+**Check.** `check.py` verifies 9000 serves `index.html` and `app.js`, and 8080 answers `/colleges`.
 
-**Takeaway.** "A backend is finished when a program you didn't write can use it. curl and the browser are the same client wearing different clothes."
+**Takeaway.** "A backend is finished when a program you didn't write can use it. The frontend is curl with buttons."
+
+### Stage 8 — The inspector: curl -i with a mouse
+
+**Concept.** Every browser has curl's `-i` view built in — the **Network** tab of the inspector. One row per request; click a row and you get **Headers** (Request URL, Request Method, Status Code, the request and response headers) and **Response** (the body). Those are exactly the lines `curl -i` prints, in the same order. The **Console** tab is where the browser prints errors the page didn't handle. One new thing lives only in the browser: a page served from port 9000 is not allowed to read a response from port 8080 unless the server says so. That is the `Access-Control-Allow-Origin` line from Stage 5; curl never checked it, the browser always does.
+
+**Given.** Everything from Stage 7 still running.
+
+**Task.**
+1. Browser: open the inspector (F12 or Ctrl+Shift+I) → **Network** tab. Click **Fetch by college** again.
+2. Click the `students?college=…` row → **Headers**: Request URL, Request Method, Status Code. Scroll: Response Headers include `Content-Type: application/json` and `Access-Control-Allow-Origin: *`.
+3. **Response** sub-tab: the JSON.
+4. Terminal 3: `curl -i "localhost:8080/students?college=…"` — same status line, same headers, same body. Put the terminal and the inspector side by side.
+5. Click **Fetch by location** and **Search both** — two more rows; open each, read the Request URL.
+6. **Break it on purpose:** in `code/stage5/server.py` put a `#` in front of **all three lines** of the `allow_browser` hook (the `@hook` line, the `def` line, and the header line — commenting only the header line leaves an empty function and Python refuses to start: `IndentationError: expected an indented block`). Restart the server, click **Fetch by college**. The table does not change, the yellow banner appears, the Request log says `FAILED`. Network tab: the row is red, status `(failed)` or `CORS error`. **Console** tab: `Access to fetch at 'http://localhost:8080/students?college=…' from origin 'http://localhost:9000' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.` followed by `TypeError: Failed to fetch`. Terminal 1: the server logged `200` — it answered; only the browser refused to hand the page the answer. Terminal 3: `curl -i` still works. Remove the three `#`s, restart, click again. This is the only time the material shows an error deliberately.
+7. Watch Terminal 1 during all of it: the log lines never changed, even during step 6.
+
+**Expected output.** Screenshot placeholders in media panels (`docs/img/stage8-network-headers.png`, `stage8-network-response.png`, `stage8-cors-error.png`) with alt text describing exactly what should be visible; the literal `curl -i` output; the literal Console error text; the literal server log lines.
+
+**Check.** `check.py` verifies 8080 answers `/colleges` **with** the `Access-Control-Allow-Origin: *` header, and prints the `curl -i` command for the student to compare by eye.
+
+**Takeaway.** "curl and the browser are the same client wearing different clothes. The Network tab is `curl -i` with a mouse; CORS is the one rule only the browser enforces."
 
 ## 10. Sample data
 
@@ -374,17 +418,16 @@ Curl list for all five routes, using values from their team DB.
 - `all_students.sql`: 200 rows. 12 intermediate colleges commonly known in Andhra Pradesh (e.g. Sri Chaitanya, Narayana, NRI, Bhashyam, Tirumala, Vignan, Sri Gayatri, Krishnaveni, Sasi, Sri Prakash, Aditya, Government Junior College), 8 cities (Visakhapatnam, Vijayawada, Guntur, Kakinada, Rajahmundry, Nellore, Tirupati, Kurnool). Realistic Telugu names, no duplicates, uneven distribution (so COUNT results differ). Include exactly one college that appears in only one city and one city with only one college — useful for search exercises. Document the exact counts in a comment at the top of the file so Expected Output sections can quote them.
 - Same `CREATE TABLE` text in all three `.sql` files, byte-identical.
 
-## 11. Frontend repo — `kiet-bootcamp-3-frontend/`
+## 11. Frontend — `code/frontend/`
 
 ```
-kiet-bootcamp-3-frontend/
-├── README.md        # run: python3 -m http.server 9000; backend must be on 8080
-├── index.html
-├── style.css
+code/frontend/
+├── README.md        # run: python3 -m http.server 9000 from this folder; backend must be on 8080
+├── index.html       # plain HTML; one <style> block of at most 30 lines
 └── app.js
 ```
 
-- Vanilla HTML/CSS/JS, no build step, no CDN, works from `file://` and from `http.server`.
+- Vanilla HTML/JS, no build step, no CDN, no fonts, no theme. Works from `file://` and from `http.server`. Deliberately plain: default browser fonts, a bordered table, a `<pre>` for the request log. The page must look like something a student could have written after this bootcamp; every line of it is meant to be read. `theme.md` does not apply here.
 - `app.js` line 1: `const BACKEND = "http://localhost:8080";` with a comment saying this is the only line to change.
 - UI: title "KIET Students — Frontend for your backend"; a **College** dropdown filled from `GET /colleges` on page load; a **Location** text input; three buttons: **Fetch by college** (`/students?college=`), **Fetch by location** (`/students/by-location?location=`), **Search both** (`/students/search?college=&location=`); a results table (student_name, inter_college, inter_city) with a row count; a **Request log** panel below listing, per click: method, full URL, status, time in ms — deliberately mirroring `curl -i`.
 - On page load, if `/colleges` fails, show a visible banner: *"Cannot reach the backend at http://localhost:8080 — is your Stage 5 server running? Open the Console tab for details."* — this is intended: the frontend only works once Stage 5 is complete.
@@ -395,21 +438,24 @@ kiet-bootcamp-3-frontend/
 1. `data/` SQL files (everything else quotes their contents).
 2. `code/stage3/demo_server.py` and `code/stage5/solution/server.py` — the two reference servers; then derive stubs.
 3. Remaining `code/` stages + solutions + `check.py` for each.
-4. `check_env.py`, `setup.sh`, `.gitignore`, `README.md`.
-5. Frontend repo.
-6. `material/` — `style.css` from theme.md and `script.js` first, fonts copied into `fonts/`, then reference pages (stage pages link to them), then stage0–7, index, troubleshooting, `videos/README.md`.
-7. Run §13.
+4. `check_env.py`, `.gitignore`, `README.md`.
+5. `code/frontend/`.
+6. `docs/` — `style.css` from theme.md and `script.js` first, fonts downloaded once into `fonts/`, then reference pages (stage pages link to them), then stage0–7, index, troubleshooting, `videos/README.md`.
+7. This folder: `scripts/setup.sh`, `setup.html`, `index.html`.
+   (Stage pages are stage0–8; `videos/README.md` covers stage0–8.)
+8. Run §13.
 
 ## 13. Definition of done
 
-- [ ] Fresh Ubuntu 24.04 and fresh Omarchy: `setup.sh` online → disconnect network → `check_env.py` passes → every stage completes using only the material site.
+- [ ] Fresh Ubuntu 24.04 and fresh Omarchy: the `curl … | bash` line from `setup.html` online → disconnect network → `check_env.py` passes → every stage completes using only the material site.
 - [ ] Every `check.py` passes against its `solution/` and fails meaningfully against the untouched stub.
-- [ ] Every command in `material/` was run and its Expected Output block is the literal captured output (with the sample data).
+- [ ] Every command in `docs/` was run and its Expected Output block is the literal captured output (with the sample data).
 - [ ] `grep` the student-facing code for the forbidden constructs in §2.4 — none present.
 - [ ] Both servers (8080 + 8081), the material site (8000) and the frontend (9000) run simultaneously on one machine.
-- [ ] Stage 7: Network tab shows the three requests; removing the CORS line produces the Console error; restoring it fixes it.
-- [ ] No file in either repo references a URL other than `localhost`, except `setup.sh` and the two README clone lines.
-- [ ] `material/videos/README.md` shot lists match the Task sections step for step.
+- [ ] Stage 7: the three buttons produce three Request log lines and three matching server log lines.
+- [ ] Stage 8: Network tab shows the three requests with Headers and Response; removing the CORS line produces the Console error and a red row while `curl -i` still succeeds; restoring it fixes it.
+- [ ] No file in the student repo references a URL other than `localhost`, except the README line pointing at the hub setup page.
+- [ ] `docs/videos/README.md` shot lists match the Task sections step for step.
 - [ ] No page has an inline `<style>` or `<script>` block, a `style=` attribute, or a `<link>`/`<script src>` pointing anywhere but `style.css` / `script.js`.
-- [ ] Every stage page has exactly four quiz questions and each answers correctly; the four steppers in §5.7 step forward, back, play, and respond to arrow keys.
+- [ ] Every stage page has exactly four quiz questions and each answers correctly; the five steppers in §5.7 step forward, back, play, and respond to arrow keys.
 - [ ] Every stage page renders with the same look with the network disconnected (fonts load from `fonts/`).

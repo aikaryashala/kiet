@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>System setup — KIET Bootcamp 3</title>
+<link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
+</head>
+<body>
+<div class="wrap">
+<div class="layout">
+<nav class="nav" aria-label="Pages">
+<a href="index.html">Home</a>
+<a href="setup.html" class="cur">Setup</a>
+<div class="group">On the day</div>
+<a href="https://aikaryashala.com/kiet-bootcamp-3/">Material site</a>
+<a href="https://github.com/aikaryashala/kiet-bootcamp-3">GitHub repo</a>
+<div class="group">Earlier</div>
+<a href="../bootcamp-02/">Bootcamp 2</a>
+<a href="../bootcamp-01/">Bootcamp 1</a>
+</nav>
+<main>
+<header class="page">
+<h1>System setup</h1>
+<p class="sub">One command, with internet, before the bootcamp. After it, nothing needs the network.</p>
+<p class="artifact">curl -sSL https://aikaryashala.com/kiet/bootcamp-03/scripts/setup.sh | bash</p>
+</header>
+<section id="need">
+<h2>What you need</h2>
+<p>A laptop running Ubuntu 24.04 (a VM is fine) or Omarchy. Internet, once, for the step below. After
+that the bootcamp needs no network. If you did the earlier bootcamps, you already have most of it;
+run the command anyway — it is safe to repeat.</p><p>The script installs three small tools — <code>git</code>, <code>curl</code>, <code>sqlite3</code> — checks that <code>python3</code> is 3.12 or newer, and clones the bootcamp repository to <code>~/kiet-bootcamp-3</code>. Nothing else is installed: no pip, no virtual environment. Bottle, the one library used, is a single file already inside the repository.</p>
+</section>
+<section id="run">
+<h2>Run the setup</h2>
+<ol class="steps">
+<li><p>Open a terminal and paste this one line. It asks for your password once, for the package install.</p><div class="panel">
+<div class="cap">terminal</div>
+<pre class="term"><span class="ln cmd"><span class="p">$ </span>curl -sSL https://aikaryashala.com/kiet/bootcamp-03/scripts/setup.sh | bash</span><span class="ln"> </span><span class="ln">==&gt; Installing git, curl and sqlite3</span><span class="ln">    (sudo will ask for your password: installing packages needs it)</span><span class="ln">[sudo] password for kiet:</span><span class="ln"> </span><span class="ln">==&gt; Checking python3</span><span class="ln">    python3 3.12 — ok</span><span class="ln"> </span><span class="ln">==&gt; Cloning into /home/kiet/kiet-bootcamp-3</span><span class="ln">Cloning into '/home/kiet/kiet-bootcamp-3'...</span><span class="ln"> </span><span class="ln">==&gt; Checking the machine</span><span class="ln">PASS: python3 is 3.12.3</span><span class="ln">PASS: curl is on PATH</span><span class="ln">PASS: sqlite3 command-line tool is on PATH</span><span class="ln">PASS: bottle.py imports from code/stage3 — 0.13.4</span><span class="ln">PASS: Python's sqlite3 module works (SELECT 1)</span><span class="ln">PASS: data/schema.sql is present</span><span class="ln">PASS: data/sample_team_details.sql is present</span><span class="ln">PASS: data/all_students.sql is present</span><span class="ln">PASS: code/frontend/index.html is present (needed in Stage 7)</span><span class="ln">PASS: docs/index.html is present (the material site)</span><span class="ln"> </span><span class="ln">Ready. Start the material site with:</span><span class="ln">    cd ~/kiet-bootcamp-3/docs &amp;&amp; python3 -m http.server 8000</span><span class="ln">then open http://localhost:8000 in your browser.</span><span class="ln"> </span><span class="ln">==&gt; Done. On the bootcamp day (no internet needed):</span><span class="ln"> </span><span class="ln">    python3 ~/kiet-bootcamp-3/check_env.py</span><span class="ln">    cd ~/kiet-bootcamp-3/docs &amp;&amp; python3 -m http.server 8000</span><span class="ln"> </span><span class="ln">  and open  http://localhost:8000  in your browser.</span></pre>
+</div></li>
+<li><p>Read the PASS lines. Every line must say PASS except <code>sqlite3 command-line tool</code>, which may say WARN — the material shows the <code>python3 -m sqlite3</code> alternative wherever it matters. A FAIL line says what to do; fix it and run the same command again.</p></li>
+<li><p>Prefer to read the script before running it? It is short: <a href="scripts/setup.sh">scripts/setup.sh</a>.</p></li>
+</ol>
+</section>
+<section id="try">
+<h2>Try the material site now</h2>
+<p>Everything the bootcamp uses is now on your disk. Start the material site and open it — the same pages as <a href="https://aikaryashala.com/kiet-bootcamp-3/">https://aikaryashala.com/kiet-bootcamp-3/</a>, served from your own machine:</p><div class="panel">
+<div class="cap">terminal</div>
+<pre class="term"><span class="ln cmd"><span class="p">$ </span>cd ~/kiet-bootcamp-3/docs &amp;&amp; python3 -m http.server 8000</span><span class="ln">Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...</span></pre>
+</div><p>Open <code>http://localhost:8000</code>. Leave that terminal running; <kbd>Ctrl+C</kbd> stops it. Read Stage 0 ahead of time if you can — it is the Python you will need on Day 1.</p>
+</section>
+<section id="day">
+<h2>On the day</h2>
+<ol class="steps">
+<li><p>Run the check again. It needs no network.</p><div class="panel">
+<div class="cap">terminal</div>
+<pre class="term"><span class="ln cmd"><span class="p">$ </span>python3 ~/kiet-bootcamp-3/check_env.py</span><span class="ln dim">…</span><span class="ln">Ready. Start the material site with:</span><span class="ln">    cd ~/kiet-bootcamp-3/docs &amp;&amp; python3 -m http.server 8000</span></pre>
+</div></li>
+<li><p>Start the material site in one terminal and keep it open all day.</p><div class="panel">
+<div class="cap">terminal</div>
+<pre class="term"><span class="ln cmd"><span class="p">$ </span>cd ~/kiet-bootcamp-3/docs &amp;&amp; python3 -m http.server 8000</span></pre>
+</div></li>
+<li><p>Open <code>http://localhost:8000</code> and begin at Stage 0. You will open two or three more terminals as the stages ask; each page says which terminal a command runs in.</p></li>
+</ol>
+</section>
+<section id="trouble">
+<h2>If something fails</h2>
+<div class="rules">
+<div class="rule"><div class="c"><code>curl: command not found</code></div><div class="d">Install it first: <code>sudo apt install curl</code> (Ubuntu) or <code>sudo pacman -S curl</code> (Arch), then run the setup line.</div></div>
+<div class="rule"><div class="c"><code>python3 is 3.10</code> (or lower)</div><div class="d">You are on an older Ubuntu. The bootcamp needs 3.12, which Ubuntu 24.04 ships. Upgrade, or use the VM image from the earlier setup.</div></div>
+<div class="rule"><div class="c"><code>git clone failed</code></div><div class="d">No internet, or GitHub blocked on the network you are on. Try another connection and re-run.</div></div>
+<div class="rule"><div class="c"><code>git pull failed</code></div><div class="d">You edited files inside <code>~/kiet-bootcamp-3</code> after an earlier run. Either <code>cd ~/kiet-bootcamp-3 && git stash</code> or delete the folder, then re-run.</div></div>
+<div class="rule"><div class="c">Windows</div><div class="d">The bootcamp targets Linux. Set up the Ubuntu VM from <a href="https://aikaryashala.com/system_setup/">aikaryashala.com/system_setup</a> first, then run the setup line inside it.</div></div>
+</div>
+</section>
+<footer class="page">
+  <span>KIET Bootcamp 3 · 21–22 September 2026</span>
+  <span>AI Karyashala</span>
+</footer>
+</main>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,187 @@
+/* KIET Bootcamp 3 — the one stylesheet. Built from theme.md. Fonts are local files. */
+
+@font-face{font-family:"Fraunces";src:url("fonts/Fraunces.woff2") format("woff2");font-weight:100 900;font-display:swap}
+@font-face{font-family:"Inter Tight";src:url("fonts/InterTight.woff2") format("woff2");font-weight:100 900;font-display:swap}
+@font-face{font-family:"JetBrains Mono";src:url("fonts/JetBrainsMono.woff2") format("woff2");font-weight:100 800;font-display:swap}
+
+:root{
+  --cream:#faf6ef;
+  --paper:#fffdf9;
+  --ink:#2b2622;
+  --muted:#6f675e;
+  --rust:#b8430a;
+  --teal:#14746f;
+  --gold:#a97b12;
+  --line:rgba(43,38,34,.14);
+  --line2:rgba(43,38,34,.07);
+  --serif:"Fraunces",Georgia,"Times New Roman",serif;
+  --sans:"Inter Tight",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background-color:var(--cream);
+  background-image:radial-gradient(rgba(43,38,34,.055) 1px, transparent 1px);
+  background-size:4px 4px;
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--rust);text-decoration:none}
+a:hover{text-decoration:underline}
+a:focus-visible,button:focus-visible{outline:2px solid var(--rust);outline-offset:2px}
+code,kbd{font-family:var(--mono);font-size:.88em}
+p code{padding:1px 4px;background:rgba(43,38,34,.05);border-radius:2px}
+p,li{max-width:70ch}
+strong{font-weight:600}
+hr{border:0;border-top:1px solid var(--line);margin:32px 0}
+
+/* ---------- layout: nav + main ---------- */
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px 80px}
+.layout{display:grid;grid-template-columns:180px minmax(0,1fr);gap:40px}
+.nav{position:sticky;top:0;align-self:start;padding:24px 0;font-family:var(--mono);font-size:12.5px;max-height:100vh;overflow-y:auto}
+.nav a{display:block;padding:5px 12px;color:var(--muted);text-decoration:none;border-left:2px solid transparent}
+.nav a:hover{color:var(--ink);text-decoration:none}
+.nav a.cur{color:var(--rust);border-left-color:var(--rust)}
+.nav .group{margin-top:14px;padding:0 12px;font-size:10.5px;color:var(--muted);letter-spacing:.04em}
+.nav .group:first-child{margin-top:0}
+@media(max-width:860px){
+  .layout{grid-template-columns:1fr;gap:16px}
+  .nav{position:static;display:flex;flex-wrap:wrap;gap:2px;max-height:none;padding:16px 0 0}
+  .nav .group{width:100%;margin-top:6px}
+  .wrap{padding:0 16px 60px}
+}
+
+/* ---------- header ---------- */
+header.page{padding:44px 0 28px;border-bottom:1px solid var(--line);margin-bottom:36px}
+header.page h1{font-family:var(--serif);font-weight:600;font-size:clamp(28px,4.4vw,42px);line-height:1.12;letter-spacing:-.01em;margin:0 0 12px}
+header.page .sub{max-width:62ch;color:var(--muted);margin:0 0 16px;font-size:16.5px}
+header.page .artifact{font-family:var(--mono);font-size:13.5px;color:var(--rust);margin:0}
+header.page .stage{font-family:var(--mono);font-size:12.5px;color:var(--muted);margin:0 0 8px}
+
+/* ---------- sections ---------- */
+section{margin:0 0 44px}
+section h2{font-family:var(--serif);font-weight:600;font-size:24px;line-height:1.2;letter-spacing:-.01em;margin:0 0 14px}
+section h3{font-family:var(--serif);font-weight:600;font-size:19px;margin:24px 0 8px}
+section p{margin:0 0 14px}
+ol.steps{padding-left:22px;margin:0 0 14px}
+ol.steps>li{margin:0 0 18px}
+ol.steps>li>p{margin:0 0 8px}
+.note{font-size:16.5px;color:var(--muted);max-width:70ch}
+
+/* ---------- panel ---------- */
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:2px;margin:0 0 14px}
+.panel>h2,.panel>.cap{font-family:var(--mono);font-size:11px;font-weight:500;color:var(--muted);margin:0;padding:9px 14px;border-bottom:1px solid var(--line2);letter-spacing:.04em;display:flex;align-items:center;gap:10px}
+.panel>.cap .copy{margin-left:auto;font-family:var(--mono);font-size:11px;padding:2px 8px;line-height:1.5}
+.panel .body{padding:12px 14px}
+.panel .body>:last-child{margin-bottom:0}
+
+/* ---------- code block (light) ---------- */
+pre{margin:0}
+pre.code{margin:0;padding:12px 8px;font-family:var(--mono);font-size:12.6px;line-height:1.75;overflow-x:auto}
+.ln{display:block;padding:1px 10px;border-left:2px solid transparent;white-space:pre}
+pre.code .ln.on{background:rgba(184,67,10,.09);border-left-color:var(--rust)}
+pre.code .cm{color:var(--muted)}
+
+/* ---------- terminal block (dark) ---------- */
+pre.term{margin:0;padding:12px 8px;background:var(--ink);color:#f3ece1;font-family:var(--mono);font-size:12.6px;line-height:1.75;overflow-x:auto}
+pre.term .ln{display:block;padding:1px 10px;white-space:pre;border-left:0}
+pre.term .ln.cmd{color:#fff}
+pre.term .p{color:#8c8478;user-select:none}
+pre.term .ln.on{background:rgba(184,67,10,.18);box-shadow:inset 2px 0 0 var(--rust)}
+pre.term .ln.dim{color:#8c8478}
+
+/* ---------- video and figure ---------- */
+.panel.media video,.panel.media img{display:block;width:100%;height:auto;background:var(--cream)}
+.panel.media .missing{padding:24px 14px;color:var(--muted);font-size:14.5px}
+
+/* ---------- callout ---------- */
+.callout{border:1px solid var(--line);border-left:3px solid var(--rust);border-radius:2px;background:var(--paper);padding:14px 18px;font-size:16.5px;max-width:70ch;margin:0 0 14px}
+.callout p{margin:0}
+
+/* ---------- state slot ---------- */
+.slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.slot{border:1px solid var(--line2);border-radius:2px;padding:9px 11px;background:rgba(43,38,34,.02);min-width:0}
+.slot .k{font-family:var(--mono);font-size:10.5px;color:var(--muted)}
+.slot .v{font-family:var(--mono);font-size:13px;margin-top:3px;white-space:pre-wrap;word-break:break-word}
+.v.live{color:var(--teal);font-weight:500}
+.v.warn{color:var(--rust)}
+.v.dead{color:var(--muted)}
+
+/* ---------- status badge ---------- */
+.rc{display:inline-block;font-family:var(--mono);font-size:12px;font-weight:700;padding:4px 10px;border-radius:2px;border:1px solid}
+.rc.ok{color:var(--teal);border-color:rgba(20,116,111,.4);background:rgba(20,116,111,.07)}
+.rc.now{color:var(--rust);border-color:rgba(184,67,10,.4);background:rgba(184,67,10,.08)}
+.rc.done{color:var(--gold);border-color:rgba(169,123,18,.4);background:rgba(169,123,18,.08)}
+.rc.none{color:var(--muted);border-color:var(--line);background:transparent}
+
+/* ---------- data table ---------- */
+table{border-collapse:collapse;width:100%;font-family:var(--mono);font-size:12.6px}
+th,td{text-align:left;padding:6px 10px;border-bottom:1px solid var(--line2);vertical-align:top}
+th{font-weight:500;color:var(--muted);font-size:11px;letter-spacing:.04em}
+tr.cur td{background:rgba(184,67,10,.1)}
+tr.cur td:first-child{box-shadow:inset 2px 0 0 var(--rust)}
+tr.skip{opacity:.34}
+table.prose{font-family:var(--sans);font-size:15px}
+table.prose td code{font-size:12.6px}
+
+/* ---------- buttons and progress track ---------- */
+button{font-family:var(--sans);font-size:14px;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:2px;padding:8px 14px;cursor:pointer;transition:background .15s}
+button:hover{background:#f3ece1}
+button:disabled{cursor:default;opacity:.6}
+.track{height:2px;background:var(--line2);margin:10px 0 12px}
+.track span{display:block;height:2px;background:var(--rust);transition:width .3s;width:0}
+
+/* ---------- stepper ---------- */
+.stepper{margin:20px 0 24px}
+.stepper .stage{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,1fr);gap:14px;align-items:start}
+@media(max-width:860px){.stepper .stage{grid-template-columns:1fr}}
+.stepper .controls{display:flex;gap:8px;align-items:center;margin-top:14px}
+.stepper .counter{margin-left:auto;font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+.stepper .narration{min-height:76px;font-size:16.5px;color:var(--muted);max-width:none}
+.stepper .stage .panel{margin:0}
+
+/* ---------- definition list ---------- */
+.rule{display:grid;grid-template-columns:170px 1fr;gap:18px;padding:14px 0;border-bottom:1px solid var(--line2)}
+.rule .c{font-family:var(--mono);font-size:12.5px;color:var(--rust);word-break:break-word}
+.rule .d{margin:0}
+.rule .d p{margin:0 0 8px}
+.rule .d p:last-child{margin:0}
+@media(max-width:640px){.rule{grid-template-columns:1fr;gap:4px}}
+.rules{margin:0 0 20px}
+
+/* ---------- quiz ---------- */
+.quiz .q{padding:16px 0;border-bottom:1px solid var(--line2)}
+.quiz .q>p:first-child{margin:0 0 10px;font-weight:500}
+.opt{display:block;width:100%;text-align:left;margin-bottom:7px;font-size:14.5px}
+.opt.right{border-color:var(--teal);background:rgba(20,116,111,.09);color:var(--teal)}
+.opt.wrong{border-color:var(--rust);background:rgba(184,67,10,.08);color:var(--rust)}
+.exp{display:none;font-size:14.5px;color:var(--muted);border-left:2px solid var(--line);padding-left:12px;margin-top:10px}
+.exp.show{display:block}
+
+/* ---------- landing cards ---------- */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin:0 0 30px}
+.card{display:flex;flex-direction:column;background:var(--paper);border:1px solid var(--line);border-radius:2px;padding:16px 18px;text-decoration:none;color:inherit}
+.card:hover{text-decoration:none;background:#fff}
+.card .num{font-family:var(--mono);font-size:11px;color:var(--muted);margin-bottom:6px}
+.card h3{font-family:var(--serif);font-weight:600;font-size:19px;line-height:1.2;margin:0 0 6px}
+.card p{margin:0 0 12px;color:var(--muted);font-size:14.5px}
+.card .go{margin-top:auto;font-family:var(--mono);font-size:11px;color:var(--rust)}
+
+/* ---------- footer ---------- */
+footer.page{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);font-family:var(--mono);font-size:11.5px;color:var(--muted);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+/* ---------- media rules ---------- */
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+@media print{
+  body{background:#fff}
+  .nav,.stepper .controls,.track,.copy{display:none!important}
+  .layout{grid-template-columns:1fr}
+  pre.term{background:#fff;color:#000;border:1px solid #000}
+}

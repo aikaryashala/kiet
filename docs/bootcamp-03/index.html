@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KIET Bootcamp 3 — KIET Bootcamp 3</title>
+<link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
+</head>
+<body>
+<div class="wrap">
+<div class="layout">
+<nav class="nav" aria-label="Pages">
+<a href="index.html" class="cur">Home</a>
+<a href="setup.html">Setup</a>
+<div class="group">On the day</div>
+<a href="https://aikaryashala.com/kiet-bootcamp-3/">Material site</a>
+<a href="https://github.com/aikaryashala/kiet-bootcamp-3">GitHub repo</a>
+<div class="group">Earlier</div>
+<a href="../bootcamp-02/">Bootcamp 2</a>
+<a href="../bootcamp-01/">Bootcamp 1</a>
+</nav>
+<main>
+<header class="page">
+<h1>KIET Bootcamp 3</h1>
+<p class="sub">Python backend with Bottle + SQLite · 21st & 22nd September 2026 · AI Karyashala</p>
+<p class="artifact">HTTP in  →  SQL in the middle  →  JSON out</p>
+</header>
+<section id="what">
+<h2>What you will build</h2>
+<p>A Python program that answers HTTP requests with JSON read from a SQLite database, and a web page
+that uses it. You arrive knowing C. Two days, nine stages, each one idea. Everything runs on your own
+machine with the network off — which is why the setup below has to happen <em>before</em> the day.</p><div class="panel">
+<div class="cap">the two days</div>
+<table><thead><tr><th>day</th><th>stages</th><th>shape</th></tr></thead><tbody><tr><td>Day 1 · 21 Sep</td><td>0 – 3</td><td>Python as deltas from C, SQLite by hand, Python reading it, a server observed</td></tr><tr><td>Day 2 · 22 Sep</td><td>4 – 8</td><td>your server, the backend, bigger data, a browser client, the inspector</td></tr></tbody></table>
+</div>
+</section>
+<section id="prep">
+<h2>Preparation</h2>
+<div class="cards"><a class="card" href="setup.html"><div class="num">01 · before the day</div><h3>System setup</h3><p>One command with internet. Installs the tools and clones the material to your machine.</p><div class="go">Open →</div></a><a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/"><div class="num">02</div><h3>Material site</h3><p>The same pages you will serve offline from ~/kiet-bootcamp-3. Read ahead here.</p><div class="go">Open →</div></a><a class="card" href="https://github.com/aikaryashala/kiet-bootcamp-3"><div class="num">03</div><h3>The repository</h3><p>All stage code, data and material. Cloned for you by the setup.</p><div class="go">Open →</div></a></div>
+</section>
+<section id="day1">
+<h2>Day 1 · 21 September</h2>
+<div class="cards"><a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/stage0.html"><div class="num">Stage 0 · ~2 h</div><h3>Just enough Python</h3><p>C with the ceremony removed. Seven small exercises.</p><div class="go">Open →</div></a><a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/stage1.html"><div class="num">Stage 1</div><h3>Data that survives</h3><p>SQLite and four SQL verbs. Your team's table, by hand.</p><div class="go">Open →</div></a><a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/stage2.html"><div class="num">Stage 2</div><h3>Python talks to the database</h3><p>Module, connection, cursor. execute positions, fetchall reads.</p><div class="go">Open →</div></a><a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/stage3.html"><div class="num">Stage 3</div><h3>What a server actually is</h3><p>Observe only: a program that waits, poked with curl.</p><div class="go">Open →</div></a></div>
+</section>
+<section id="day2">
+<h2>Day 2 · 22 September</h2>
+<div class="cards"><a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/stage4.html"><div class="num">Stage 4</div><h3>Write your own server</h3><p>Three routes on port 8081.</p><div class="go">Open →</div></a><a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/stage5.html"><div class="num">Stage 5</div><h3>Join the two halves</h3><p>Unpack, query, pack. The whole backend.</p><div class="go">Open →</div></a><a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/stage6.html"><div class="num">Stage 6 · short</div><h3>Swap the data, not the code</h3><p>200 rows, zero lines changed.</p><div class="go">Open →</div></a><a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/stage7.html"><div class="num">Stage 7</div><h3>Someone else's client</h3><p>A web page calls your backend.</p><div class="go">Open →</div></a><a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/stage8.html"><div class="num">Stage 8</div><h3>The inspector</h3><p>curl -i with a mouse. Break CORS, fix it.</p><div class="go">Open →</div></a></div>
+</section>
+<section id="ref">
+<h2>Reference</h2>
+<div class="cards"><a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/reference/python-cheatsheet.html"><div class="num">ref</div><h3>Python cheatsheet</h3><p>Every construct the stages use.</p><div class="go">Open →</div></a><a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/reference/sql-for-students-table.html"><div class="num">ref</div><h3>SQL for students</h3><p>Every statement, one table.</p><div class="go">Open →</div></a><a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/reference/bottle.html"><div class="num">ref</div><h3>Bottle</h3><p>route, request, response, run, hook.</p><div class="go">Open →</div></a><a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/reference/curl.html"><div class="num">ref</div><h3>curl</h3><p>Flags, quoting, + for spaces.</p><div class="go">Open →</div></a><a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/reference/http-basics.html"><div class="num">ref</div><h3>HTTP basics</h3><p>Request line, status line, three doors.</p><div class="go">Open →</div></a><a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/troubleshooting.html"><div class="num">help</div><h3>Troubleshooting</h3><p>The messages you will actually see.</p><div class="go">Open →</div></a></div>
+</section>
+<footer class="page">
+  <span>KIET Bootcamp 3 · 21–22 September 2026</span>
+  <span>AI Karyashala</span>
+</footer>
+</main>
+</div>
+</div>
+</body>
+</html>
