@@ -33,51 +33,7 @@ def card(num, href, title, desc):
 
 
 # ---------------------------------------------------------------- index
-prep = '<div class="cards">' + "".join([
-    card("01 · before the day", "setup.html", "System setup", "One command with internet. Installs the tools and clones the material to your machine."),
-    card("02", MATERIAL, "Material site", "The same pages you will serve offline from ~/kiet-bootcamp-3. Read ahead here."),
-    card("03", GITHUB, "The repository", "All stage code, data and material. Cloned for you by the setup."),
-]) + "</div>"
-
-day1 = '<div class="cards">' + "".join([
-    card("Stage 0 · ~2 h", MATERIAL + "stage0.html", "Just enough Python", "C with the ceremony removed. Seven programs, stepped through line by line."),
-    card("Stage 1", MATERIAL + "stage1.html", "Data that survives", "SQLite and four SQL verbs. Your team's table, by hand."),
-    card("Stage 2", MATERIAL + "stage2.html", "Python talks to the database", "Module, connection, cursor. execute positions, fetchall reads."),
-]) + "</div>"
-
-day1b = '<div class="cards">' + "".join([
-    card("Stage 3", MATERIAL + "stage3.html", "What a server actually is", "Observe only: a program that waits, poked with curl."),
-    card("Stage 4", MATERIAL + "stage4.html", "Write your own server", "Three routes on port 8081."),
-    card("Stage 5", MATERIAL + "stage5.html", "Join the two halves", "Unpack, query, pack. The whole backend."),
-]) + "</div>"
-
-day2 = '<div class="cards">' + "".join([
-    card("Stage 6 · short", MATERIAL + "stage6.html", "Swap the data, not the code", "200 rows, zero lines changed."),
-    card("Stage 7", MATERIAL + "stage7.html", "Someone else's client", "A web page calls your backend."),
-    card("Stage 8", MATERIAL + "stage8.html", "The inspector", "curl -i with a mouse. Break CORS, fix it."),
-]) + "</div>"
-
-refs = '<div class="cards">' + "".join([
-    card("ref", MATERIAL + "reference/python-cheatsheet.html", "Python cheatsheet", "Every construct the stages use."),
-    card("ref", MATERIAL + "reference/sql-for-students-table.html", "SQL for students", "Every statement, one table."),
-    card("ref", MATERIAL + "reference/bottle.html", "Bottle", "route, request, response, run, hook."),
-    card("ref", MATERIAL + "reference/curl.html", "curl", "Flags, quoting, + for spaces."),
-    card("ref", MATERIAL + "reference/http-basics.html", "HTTP basics", "Request line, status line, three doors."),
-    card("help", MATERIAL + "troubleshooting.html", "Troubleshooting", "The messages you will actually see."),
-]) + "</div>"
-
-body = "\n".join([
-    section("what", "What you will build", p("""A Python program that answers HTTP requests with JSON read from a SQLite database, and a web page
-that uses it. You arrive knowing C. One day, three sessions, nine stages, each one idea. Everything runs on your own
-machine with the network off — which is why the setup below has to happen <em>before</em> the day.""")),
-    section("prep", "Preparation", prep),
-    section("day1", "Day 1 · 21 September", (day1 + day1b + day2).replace('</div><div class="cards">', "")),
-    section("day2", "Day 2 · 22 September", p("Team presentations of what was built on Day 1, then the Omarchy customization sessions.") + '<div class="cards">' + card("Omarchy", MATERIAL + "omarchy-branding.html", "Make Omarchy yours", "Task 1: your name on the screensaver. Task 2: your photo on the boot and login screens.") + "</div>"),
-    section("ref", "Reference", refs),
-])
-hub_page("index.html", "KIET Bootcamp 3", body,
-         sub="Python backend with Bottle + SQLite · 21st & 22nd September 2026 · AI Karyashala",
-         artifact="HTTP in  →  SQL in the middle  →  JSON out")
+# index.html is hand-written in the bootcamp-02 card style (masthead, logo, inline CSS). Edit it directly.
 
 # ---------------------------------------------------------------- setup
 body = "\n".join([

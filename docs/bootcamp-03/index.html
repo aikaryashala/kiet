@@ -3,58 +3,370 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>KIET Bootcamp 3 — KIET Bootcamp 3</title>
-<link rel="stylesheet" href="style.css">
-<script src="script.js" defer></script>
+<title>KIET Bootcamp 3 by AI Karayashala</title>
+<link rel="icon" href="aiklogo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter+Tight:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#faf6ef;
+  --cream-deep:#f4efe4;
+  --paper:#fffcf5;
+  --ink:#201c17;
+  --ink-soft:#5b5147;
+  --rule:#e2d8c6;
+  --rust:#b8430a;
+  --teal:#1f6f68;
+  --gold:#a8791b;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  background-color:var(--cream);
+  background-image:radial-gradient(var(--rule) 0.6px, transparent 0.6px);
+  background-size:16px 16px;
+  color:var(--ink);
+  font-family:'Inter Tight',system-ui,sans-serif;
+  font-size:16.5px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1000px;margin:0 auto;padding:0 28px 90px;}
+
+/* ---------- header ---------- */
+header{
+  padding:64px 0 40px;
+  border-bottom:1px solid var(--rule);
+  margin-bottom:44px;
+}
+.masthead img{
+  height:54px;width:auto;max-width:100%;
+  display:block;margin:0 0 30px;
+}
+h1{
+  font-family:'Fraunces',serif;font-weight:600;
+  font-size:clamp(30px,5.2vw,50px);line-height:1.02;
+  letter-spacing:-.02em;margin:0;max-width:16ch;
+}
+h1 i{font-style:italic;font-weight:400;color:var(--rust);}
+.lede{
+  margin:22px 0 0;color:var(--ink-soft);max-width:60ch;font-size:17.5px;
+}
+
+/* ---------- jump link ---------- */
+.jump{margin:24px 0 0;}
+.jumplink{
+  display:inline-block;
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:var(--rust);text-decoration:none;
+  border:1px solid var(--rust);border-radius:999px;
+  padding:9px 16px;
+  transition:background .16s ease, color .16s ease;
+}
+.jumplink:hover{background:var(--rust);color:var(--paper);}
+.jumplink:focus-visible{outline:2px solid var(--rust);outline-offset:3px;}
+.jumplink::after{content:" ↓";}
+
+/* ---------- section label ---------- */
+.sectionlabel{
+  display:flex;align-items:baseline;gap:14px;margin-bottom:22px;
+  scroll-margin-top:24px;
+}
+.sectionlabel + .cards{margin-bottom:52px;}
+.sectionlabel h2{
+  font-family:'Fraunces',serif;font-weight:600;font-size:22px;margin:0;
+}
+.sectionlabel span{
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  letter-spacing:.16em;text-transform:uppercase;color:#a2957f;
+}
+.sectionlabel .line{flex:1;height:1px;background:var(--rule);}
+.note{margin:-8px 0 22px;color:var(--ink-soft);max-width:60ch;}
+
+/* ---------- cards ---------- */
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:20px;
+}
+.card{
+  display:flex;flex-direction:column;
+  background:var(--paper);
+  border:1px solid var(--rule);
+  border-left:3px solid var(--rust);
+  border-radius:4px;
+  padding:22px 22px 20px;
+  text-decoration:none;color:inherit;
+  transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+}
+.card:nth-child(3n+2){border-left-color:var(--teal);}
+.card:nth-child(3n+3){border-left-color:var(--gold);}
+.card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 16px 30px -22px rgba(32,28,23,.55);
+}
+.card:focus-visible{outline:2px solid var(--rust);outline-offset:3px;}
+.card .num{
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  letter-spacing:.18em;color:#a2957f;margin-bottom:10px;
+}
+.card h3{
+  font-family:'Fraunces',serif;font-weight:600;font-size:21px;
+  line-height:1.2;margin:0 0 8px;
+}
+.card p{
+  margin:0 0 18px;color:var(--ink-soft);font-size:15px;line-height:1.55;
+}
+.card .go{
+  margin-top:auto;
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--rust);
+}
+.card:nth-child(3n+2) .go{color:var(--teal);}
+.card:nth-child(3n+3) .go{color:var(--gold);}
+.card .go::after{content:" →";}
+
+footer{
+  margin-top:60px;padding-top:22px;border-top:1px solid var(--rule);
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  letter-spacing:.12em;text-transform:uppercase;color:#a2957f;
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+}
+
+@media (max-width:640px){
+  .wrap{padding:0 20px 60px;}
+  header{padding-top:44px;}
+  .masthead img{height:40px;margin-bottom:22px;}
+}
+@media (prefers-reduced-motion:reduce){
+  .card{transition:none;}
+  .card:hover{transform:none;}
+}
+</style>
 </head>
 <body>
 <div class="wrap">
-<div class="layout">
-<nav class="nav" aria-label="Pages">
-<a href="index.html" class="cur">Home</a>
-<a href="setup.html">Setup</a>
-<div class="group">On the day</div>
-<a href="https://aikaryashala.com/kiet-bootcamp-3/">Material site</a>
-<a href="https://github.com/aikaryashala/kiet-bootcamp-3">GitHub repo</a>
-<div class="group">Earlier</div>
-<a href="../bootcamp-02/">Bootcamp 2</a>
-<a href="../bootcamp-01/">Bootcamp 1</a>
-</nav>
-<main>
-<header class="page">
-<h1>KIET Bootcamp 3</h1>
-<p class="sub">Python backend with Bottle + SQLite · 21st & 22nd September 2026 · AI Karyashala</p>
-<p class="artifact">HTTP in  →  SQL in the middle  →  JSON out</p>
-</header>
-<section id="what">
-<h2>What you will build</h2>
-<p>A Python program that answers HTTP requests with JSON read from a SQLite database, and a web page
-that uses it. You arrive knowing C. One day, three sessions, nine stages, each one idea. Everything runs on your own
-machine with the network off — which is why the setup below has to happen <em>before</em> the day.</p>
-</section>
-<section id="prep">
-<h2>Preparation</h2>
-<div class="cards"><a class="card" href="setup.html"><div class="num">01 · before the day</div><h3>System setup</h3><p>One command with internet. Installs the tools and clones the material to your machine.</p><div class="go">Open →</div></a><a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/"><div class="num">02</div><h3>Material site</h3><p>The same pages you will serve offline from ~/kiet-bootcamp-3. Read ahead here.</p><div class="go">Open →</div></a><a class="card" href="https://github.com/aikaryashala/kiet-bootcamp-3"><div class="num">03</div><h3>The repository</h3><p>All stage code, data and material. Cloned for you by the setup.</p><div class="go">Open →</div></a></div>
-</section>
-<section id="day1">
-<h2>Day 1 · 21 September</h2>
-<div class="cards"><a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/stage0.html"><div class="num">Stage 0 · ~2 h</div><h3>Just enough Python</h3><p>C with the ceremony removed. Seven programs, stepped through line by line.</p><div class="go">Open →</div></a><a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/stage1.html"><div class="num">Stage 1</div><h3>Data that survives</h3><p>SQLite and four SQL verbs. Your team's table, by hand.</p><div class="go">Open →</div></a><a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/stage2.html"><div class="num">Stage 2</div><h3>Python talks to the database</h3><p>Module, connection, cursor. execute positions, fetchall reads.</p><div class="go">Open →</div></a><a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/stage3.html"><div class="num">Stage 3</div><h3>What a server actually is</h3><p>Observe only: a program that waits, poked with curl.</p><div class="go">Open →</div></a><a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/stage4.html"><div class="num">Stage 4</div><h3>Write your own server</h3><p>Three routes on port 8081.</p><div class="go">Open →</div></a><a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/stage5.html"><div class="num">Stage 5</div><h3>Join the two halves</h3><p>Unpack, query, pack. The whole backend.</p><div class="go">Open →</div></a><a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/stage6.html"><div class="num">Stage 6 · short</div><h3>Swap the data, not the code</h3><p>200 rows, zero lines changed.</p><div class="go">Open →</div></a><a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/stage7.html"><div class="num">Stage 7</div><h3>Someone else's client</h3><p>A web page calls your backend.</p><div class="go">Open →</div></a><a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/stage8.html"><div class="num">Stage 8</div><h3>The inspector</h3><p>curl -i with a mouse. Break CORS, fix it.</p><div class="go">Open →</div></a></div>
-</section>
-<section id="day2">
-<h2>Day 2 · 22 September</h2>
-<p>Team presentations of what was built on Day 1, then the Omarchy customization sessions.</p><div class="cards"><a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/omarchy-branding.html"><div class="num">Omarchy</div><h3>Make Omarchy yours</h3><p>Task 1: your name on the screensaver. Task 2: your photo on the boot and login screens.</p><div class="go">Open →</div></a></div>
-</section>
-<section id="ref">
-<h2>Reference</h2>
-<div class="cards"><a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/reference/python-cheatsheet.html"><div class="num">ref</div><h3>Python cheatsheet</h3><p>Every construct the stages use.</p><div class="go">Open →</div></a><a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/reference/sql-for-students-table.html"><div class="num">ref</div><h3>SQL for students</h3><p>Every statement, one table.</p><div class="go">Open →</div></a><a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/reference/bottle.html"><div class="num">ref</div><h3>Bottle</h3><p>route, request, response, run, hook.</p><div class="go">Open →</div></a><a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/reference/curl.html"><div class="num">ref</div><h3>curl</h3><p>Flags, quoting, + for spaces.</p><div class="go">Open →</div></a><a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/reference/http-basics.html"><div class="num">ref</div><h3>HTTP basics</h3><p>Request line, status line, three doors.</p><div class="go">Open →</div></a><a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/troubleshooting.html"><div class="num">help</div><h3>Troubleshooting</h3><p>The messages you will actually see.</p><div class="go">Open →</div></a></div>
-</section>
 
-<footer class="page">
-  <span>KIET Bootcamp 3 · 21–22 September 2026</span>
-  <span>AI Karyashala</span>
-</footer>
-</main>
+<header>
+  <div class="masthead">
+    <img src="aiklogo.png" alt="AI Karayashala">
+    <h1>KIET Bootcamp 3 <i>21st & 22nd Sep 2026</i></h1>
+  </div>
+  <!-- EDIT: one-line description of the bootcamp -->
+  <p class="lede">Python backend with Bottle + SQLite. You arrive knowing C; you leave with a program that answers HTTP requests with JSON from a database, and a web page that uses it. Nine stages on Day 1, presentations and Omarchy on Day 2.</p>
+  <p class="jump"><a class="jumplink" href="#results">Jump to Results</a></p>
+</header>
+
+
+<div class="sectionlabel" id="preparation">
+  <h2>Preparation</h2>
+  <span>3 Links</span>
+  <div class="line"></div>
 </div>
+
+<div class="cards">
+
+  <a class="card" href="setup.html">
+    <div class="num">01 · before the day</div>
+    <h3>System Setup</h3>
+    <p>One command with internet. Installs the tools and clones the material to your machine.</p>
+    <div class="go">Open</div>
+  </a>
+
+  <a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/" target="_blank" rel="noopener">
+    <div class="num">02</div>
+    <h3>Material site</h3>
+    <p>The same pages you will serve offline from ~/kiet-bootcamp-3. Read ahead here.</p>
+    <div class="go">Open</div>
+  </a>
+
+  <a class="card" href="https://github.com/aikaryashala/kiet-bootcamp-3" target="_blank" rel="noopener">
+    <div class="num">03</div>
+    <h3>The repository</h3>
+    <p>All stage code, data and material. Cloned for you by the setup.</p>
+    <div class="go">Open</div>
+  </a>
+</div>
+
+<div class="sectionlabel" id="day1">
+  <h2>Day 1 · 21 September</h2>
+  <span>9 Stages</span>
+  <div class="line"></div>
+</div>
+
+<!--
+  ============================================================
+  EDIT BELOW. Each card has three things to change:
+    1. href="..."   the page it opens
+    2. <h3>...</h3> the title
+    3. <p>...</p>   the one or two line description
+  To add a card, copy one whole <a class="card"> block and paste it.
+  Left-border colours (rust / teal / gold) cycle automatically.
+  Remove target="_blank" if you want links to open in the same tab.
+  ============================================================
+-->
+<div class="cards">
+
+  <a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/stage0.html" target="_blank" rel="noopener">
+    <div class="num">Stage 0 · ~2 h</div>
+    <h3>Just enough Python</h3>
+    <p>C with the ceremony removed. Seven programs, stepped through line by line.</p>
+    <div class="go">Open</div>
+  </a>
+
+  <a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/stage1.html" target="_blank" rel="noopener">
+    <div class="num">Stage 1</div>
+    <h3>Data that survives</h3>
+    <p>SQLite and four SQL verbs. Your team's table, by hand.</p>
+    <div class="go">Open</div>
+  </a>
+
+  <a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/stage2.html" target="_blank" rel="noopener">
+    <div class="num">Stage 2</div>
+    <h3>Python talks to the database</h3>
+    <p>Module, connection, cursor. execute positions, fetchall reads.</p>
+    <div class="go">Open</div>
+  </a>
+
+  <a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/stage3.html" target="_blank" rel="noopener">
+    <div class="num">Stage 3</div>
+    <h3>What a server actually is</h3>
+    <p>Observe only: a program that waits, poked with curl.</p>
+    <div class="go">Open</div>
+  </a>
+
+  <a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/stage4.html" target="_blank" rel="noopener">
+    <div class="num">Stage 4</div>
+    <h3>Write your own server</h3>
+    <p>Two routes on port 8081.</p>
+    <div class="go">Open</div>
+  </a>
+
+  <a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/stage5.html" target="_blank" rel="noopener">
+    <div class="num">Stage 5</div>
+    <h3>Join the two halves</h3>
+    <p>Unpack, query, pack. The whole backend.</p>
+    <div class="go">Open</div>
+  </a>
+
+  <a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/stage6.html" target="_blank" rel="noopener">
+    <div class="num">Stage 6 · short</div>
+    <h3>Swap the data, not the code</h3>
+    <p>200 rows, zero lines changed.</p>
+    <div class="go">Open</div>
+  </a>
+
+  <a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/stage7.html" target="_blank" rel="noopener">
+    <div class="num">Stage 7</div>
+    <h3>Someone else's client</h3>
+    <p>A web page calls your backend.</p>
+    <div class="go">Open</div>
+  </a>
+
+  <a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/stage8.html" target="_blank" rel="noopener">
+    <div class="num">Stage 8</div>
+    <h3>The inspector</h3>
+    <p>curl -i with a mouse. Break CORS, fix it.</p>
+    <div class="go">Open</div>
+  </a>
+
+</div>
+
+<div class="sectionlabel" id="day2">
+  <h2>Day 2 · 22 September</h2>
+  <span>1 Link</span>
+  <div class="line"></div>
+</div>
+
+<p class="note">Team presentations of what was built on Day 1, then the Omarchy customization sessions.</p>
+
+<div class="cards">
+
+  <a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/omarchy-branding.html" target="_blank" rel="noopener">
+    <div class="num">Omarchy</div>
+    <h3>Make Omarchy yours</h3>
+    <p>Task 1: your name on the screensaver. Task 2: your photo on the boot and login screens.</p>
+    <div class="go">Open</div>
+  </a>
+
+</div>
+
+<div class="sectionlabel" id="results">
+  <h2>Results</h2>
+  <span>1 Link</span>
+  <div class="line"></div>
+</div>
+
+<div class="cards">
+
+  <a class="card" href="results.html">
+    <div class="num">01</div>
+    <h3>Results</h3>
+    <p>Every team and member, completed or not. Read live from results.csv.</p>
+    <div class="go">Open</div>
+  </a>
+
+</div>
+
+<div class="sectionlabel" id="reference">
+  <h2>Reference</h2>
+  <span>6 Links</span>
+  <div class="line"></div>
+</div>
+
+<div class="cards">
+
+  <a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/reference/python-cheatsheet.html" target="_blank" rel="noopener">
+    <div class="num">01</div>
+    <h3>Python cheatsheet</h3>
+    <p>Every construct the stages use.</p>
+    <div class="go">Open</div>
+  </a>
+
+  <a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/reference/sql-for-students-table.html" target="_blank" rel="noopener">
+    <div class="num">02</div>
+    <h3>SQL for students</h3>
+    <p>Every statement, one table.</p>
+    <div class="go">Open</div>
+  </a>
+
+  <a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/reference/bottle.html" target="_blank" rel="noopener">
+    <div class="num">03</div>
+    <h3>Bottle</h3>
+    <p>route, request, response, run, hook.</p>
+    <div class="go">Open</div>
+  </a>
+
+  <a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/reference/curl.html" target="_blank" rel="noopener">
+    <div class="num">04</div>
+    <h3>curl</h3>
+    <p>Flags, quoting, + for spaces.</p>
+    <div class="go">Open</div>
+  </a>
+
+  <a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/reference/http-basics.html" target="_blank" rel="noopener">
+    <div class="num">05</div>
+    <h3>HTTP basics</h3>
+    <p>Request line, status line, three doors.</p>
+    <div class="go">Open</div>
+  </a>
+
+  <a class="card" href="https://aikaryashala.com/kiet-bootcamp-3/troubleshooting.html" target="_blank" rel="noopener">
+    <div class="num">06</div>
+    <h3>Troubleshooting</h3>
+    <p>The messages you will actually see.</p>
+    <div class="go">Open</div>
+  </a>
+
+</div>
+
+<footer>
+  <span>AI Karayashala · 21st, 22nd Sep 2026</span>
+  <span>KIET Bootcamp 3</span>
+</footer>
+
 </div>
 </body>
 </html>
