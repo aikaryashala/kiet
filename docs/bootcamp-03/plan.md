@@ -1,6 +1,6 @@
 # KIET Bootcamp #3 — Build plan
 
-Python backend with Bottle + SQLite. 21 and 22 September 2026.
+Python backend with Bottle + SQLite. 21 September 2026, one day in three sessions; 22 September is presentations and Omarchy.
 
 This is the execution plan. `spec.md` holds the content (routes, concept wording, sample data rules, check behaviour); `theme.md` holds the look. Where this plan and the spec name the same thing, the spec's detail wins; where they disagree on a decision, this plan is newer and wins.
 
@@ -21,7 +21,7 @@ This is the execution plan. `spec.md` holds the content (routes, concept wording
 | Steppers | Stages 1, 2, 3, 5, 8 (spec §5.7). Others prose only. |
 | Frontend | `code/frontend/`: `index.html` + `app.js` + `README.md`. Plain HTML, no theme, no fonts, one short `<style>`. Focus stays on request/response. |
 | Stages | 0–8. Stage 7 = run the frontend and read its request log. Stage 8 = the browser inspector, Network tab vs `curl -i`, CORS break-and-fix. |
-| Days | Day 1: Stage 0–3. Day 2: Stage 4–8. |
+| Sessions | All nine stages on 21 September. Morning: Stage 0–2. Afternoon: Stage 3–5. After dinner (until 11:30 pm): Stage 6–8. Day 2 (22 Sep): team presentations + Omarchy customization, outside this material. |
 | Ports | 8000 material · 8080 given servers · 8081 student's server · 9000 frontend |
 | Table | `students(student_name, inter_college, inter_city)`, no id |
 | Python | ≥ 3.12, Bottle 0.13.x as `bottle.py` copied into each server folder, no pip, no venv |
@@ -149,7 +149,7 @@ Each step ends with something runnable or renderable. Nothing later is started u
 ### Step 7 — This folder
 - `scripts/setup.sh` (spec §5.1): OS detect, install `git curl sqlite3|sqlite`, python ≥ 3.12 check, clone or pull `kiet-bootcamp-3`, run `check_env.py`, print next steps. Idempotent.
 - `setup.html`: the same steps written out with terminal blocks: what gets installed and why, the one curl line, what success looks like, how to re-run `check_env.py`, how to start the material site, what to do on the day.
-- `index.html`: card hub. Preparation (System setup, Material site, GitHub repo), Day 1 (Stage 0–3), Day 2 (Stage 4–8), Reference.
+- `index.html`: card hub. Preparation (System setup, Material site, GitHub repo), three session sections (Stage 0–2, 3–5, 6–8), a Day 2 note, Reference.
 - **Check:** run `setup.sh` in a fresh Ubuntu 24.04 container; run it twice.
 
 ### Step 8 — Definition of done
@@ -171,10 +171,17 @@ Spec §13, plus:
 
 ---
 
-## 6. Day plan
+## 6. Session plan
 
-| Day | Stages | Shape |
+| Session | Stages | Shape |
 |---|---|---|
+| Morning | 0, 1, 2 | Python deltas from C (~2 h), the database by hand, Python reading it |
+| Afternoon | 3, 4, 5 | Watch a server, write one, join it to the database |
+| After dinner, until 11:30 pm | 6, 7, 8 | Swap in the big data (short), hand the backend to a browser, look inside the browser |
+
+Stage 2 closes the morning with the students having read rows from their own database; the afternoon opens with the server. Stage 6 is short and sits first after dinner as a warm-up. Day 2 is team presentations and Omarchy customization, not covered here.
+
+---|---|---|
 | 1 | 0, 1, 2, 3 | Python deltas from C (~2 h), then the database, then Python reading it, then watching a server without writing one |
 | 2 | 4, 5, 6, 7, 8 | Write a server, join it to the database, swap in the big data, hand it to a browser, look inside the browser |
 

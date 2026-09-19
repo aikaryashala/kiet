@@ -6,7 +6,7 @@
 
 ## 1. Purpose
 
-Students with a C background, no Python and no web experience, build — over two guided days, 21 and 22 September 2026 — a working HTTP backend in Python that serves JSON from a SQLite database, and then watch a browser frontend consume it.
+Students with a C background, no Python and no web experience, build — in one guided day, 21 September 2026, in three sessions (morning, afternoon, after dinner until 11:30 pm) — a working HTTP backend in Python that serves JSON from a SQLite database, and then watch a browser frontend consume it.
 
 Two deliverables come out of this spec:
 
@@ -34,7 +34,7 @@ The bootcamp repo is built as a sibling directory in the workspace, as its own g
 | Big DB | `data/all_students.db`, built in Stage 6 from `data/all_students.sql` |
 | Ports | 8000 material site · 8080 given servers (Stage 3, 5, 6) · 8081 student's own server (Stage 4) · 9000 frontend (Stage 7, 8) |
 | Clone location | `~/kiet-bootcamp-3` — one clone holds everything |
-| Dates | 21 and 22 September 2026. Day 1: Stage 0–3. Day 2: Stage 4–8. |
+| Dates | 21 September 2026, three sessions: morning Stage 0–2 · afternoon Stage 3–5 · after dinner (until 11:30 pm) Stage 6–8. 22 September is team presentations and Omarchy customization, not covered by this material. |
 | Frontend styling | Plain HTML, no theme, no fonts, one short `<style>` block. It is "someone else's client"; theme.md does not apply to it. |
 | Setup script | `scripts/setup.sh` in this folder, run from `https://aikaryashala.com/kiet/bootcamp-03/scripts/setup.sh`. Not in the student repos. |
 | Self-check | every stage has a `check.py` printing PASS/FAIL lines |
@@ -110,7 +110,7 @@ It is deliberately not inside the student repos: nothing a student uses offline 
 
 This folder (`docs/bootcamp-03/`) holds, in the same card-hub style as `bootcamp-02/index.html`:
 
-- `index.html` — hub. Header "KIET Bootcamp #3, 21st & 22nd Sep 2026". Sections: **Preparation** (System setup → `setup.html`; Material → `https://aikaryashala.com/kiet-bootcamp-3/`; the repo on GitHub), **Day 1** and **Day 2** (one card per stage, linking into the published material), **Reference**.
+- `index.html` — hub. Header "KIET Bootcamp #3, 21st & 22nd Sep 2026". Sections: **Preparation** (System setup → `setup.html`; Material → `https://aikaryashala.com/kiet-bootcamp-3/`; the repo on GitHub), **Session 1 · morning**, **Session 2 · afternoon**, **Session 3 · after dinner** (one card per stage, linking into the published material), a one-line **Day 2** note (presentations, Omarchy), **Reference**.
 - `setup.html` — the setup steps written out on the page itself, not only in the script: what gets installed and why, the one `curl … | bash` line, what the script prints when it succeeds, how to re-run `check_env.py`, and how to start the material site. Terminal blocks per theme.md.
 - `scripts/setup.sh` — the script below.
 - `spec.md`, `theme.md` — this spec and the visual system (not linked from the hub).
