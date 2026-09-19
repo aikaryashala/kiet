@@ -72,7 +72,7 @@ that uses it. You arrive knowing C. One day, three sessions, nine stages, each o
 machine with the network off — which is why the setup below has to happen <em>before</em> the day.""")),
     section("prep", "Preparation", prep),
     section("day1", "Day 1 · 21 September", (day1 + day1b + day2).replace('</div><div class="cards">', "")),
-    section("day2", "Day 2 · 22 September", p("Team presentations of what was built on Day 1, then the Omarchy customization sessions. Details on the day.")),
+    section("day2", "Day 2 · 22 September", p("Team presentations of what was built on Day 1, then the Omarchy customization sessions.") + '<div class="cards">' + card("Omarchy", MATERIAL + "omarchy-branding.html", "Make Omarchy yours", "Task 1: your name on the screensaver. Task 2: your photo on the boot and login screens.") + "</div>"),
     section("ref", "Reference", refs),
 ])
 hub_page("index.html", "KIET Bootcamp 3", body,

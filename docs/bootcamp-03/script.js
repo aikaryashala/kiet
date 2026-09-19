@@ -89,6 +89,16 @@
     if ((m = c.match(/^kill (\d+)/))) return "stop the process whose id is " + m[1];
     if ((m = c.match(/^fuser -k (\d+)/))) return "stop whatever is holding port " + m[1];
     if (/^sed /.test(c)) return "edit the file in place: remove the Windows \\r at the end of every line";
+    if ((m = c.match(/^mv (\S+) (\S+)/))) return "move " + m[1] + " to " + m[2] + ", replacing what was there";
+    if (/^omarchy ascii /.test(c)) return "draw the quoted text in the Omarchy wordmark font and write it into the file after >";
+    if (/^omarchy-launch-screensaver/.test(c)) return "start the screensaver now, even if the idle one is switched off; any key exits";
+    if (/^omarchy branding/.test(c)) return "Omarchy's own branding command: edit, set from an image, or reset";
+    if (/^omarchy plymouth preview/.test(c)) return "render the boot screen with these colours and this logo into a PNG and open it; changes nothing";
+    if (/^omarchy plymouth set/.test(c)) return "apply these colours and this logo to the boot screen and the login screen (asks for your password)";
+    if (/^omarchy plymouth reset/.test(c)) return "put the Omarchy logo and colours back on the boot and login screens";
+    if (/^omarchy plymouth current/.test(c)) return "print which boot theme is in use now";
+    if (/^magick identify/.test(c)) return "print the image's format, width, height and file size";
+    if ((m = c.match(/^magick (\S+) -resize (\S+) (\S+)/))) return "shrink " + m[1] + " to fit " + m[2] + " pixels and save it as " + m[3] + " (the extension picks the format)";
     if (/^git clone/.test(c)) return "download the repository";
     if (/^git pull/.test(c)) return "fetch the latest changes into the clone";
     if (/^\./.test(c)) return dotHint(c);

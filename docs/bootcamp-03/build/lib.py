@@ -18,6 +18,8 @@ NAV = [
     ("stage6.html", "Stage 6 · Big data"),
     ("stage7.html", "Stage 7 · Browser"),
     ("stage8.html", "Stage 8 · Inspector"),
+    ("group", "Day 2"),
+    ("omarchy-branding.html", "Make Omarchy yours"),
     ("group", "Reference"),
     ("reference/python-cheatsheet.html", "Python cheatsheet"),
     ("reference/c-to-python.html", "C to Python"),
