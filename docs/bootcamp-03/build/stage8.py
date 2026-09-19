@@ -123,4 +123,5 @@ body = "\n".join([
 write("stage8.html", page("The inspector: curl -i with a mouse", "stage8.html", body,
                           sub="The Network tab shows every field curl -i prints. Then break one header on purpose and watch the browser, not the server, say no.",
                           artifact='response.headers["Access-Control-Allow-Origin"] = "*"',
-                          stage_label="Stage 8 · Session 3 · after dinner"))
+                          stage_label="Stage 8 · Session 3 · after dinner",
+                          prev_page=("stage7.html", "Stage 7 · Someone else's client: the browser")))

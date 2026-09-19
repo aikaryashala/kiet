@@ -171,4 +171,6 @@ body = "\n".join([
 write("stage3.html", page("What a server actually is", "stage3.html", body,
                           sub="A server is a program that waits. Nothing to write today: start one, poke it with curl, and read both terminals at once.",
                           artifact="python3 demo_server.py   ·   curl localhost:8080/hai",
-                          stage_label="Stage 3 · Session 2 · afternoon · observe only"))
+                          stage_label="Stage 3 · Session 2 · afternoon · observe only",
+                          prev_page=("stage2.html", 'Stage 2 · Python talks to the database'),
+                          next_page=("stage4.html", 'Stage 4 · Write your own server')))

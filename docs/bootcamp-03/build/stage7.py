@@ -94,4 +94,6 @@ body = "\n".join([
 write("stage7.html", page("Someone else's client: the browser", "stage7.html", body,
                           sub="A plain web page calls your backend. Two servers, two ports, and a server log that cannot tell curl from a browser.",
                           artifact="python3 -m http.server 9000",
-                          stage_label="Stage 7 · Session 3 · after dinner"))
+                          stage_label="Stage 7 · Session 3 · after dinner",
+                          prev_page=("stage6.html", 'Stage 6 · Swap the data, not the code'),
+                          next_page=("stage8.html", 'Stage 8 · The inspector: curl -i with a mouse')))

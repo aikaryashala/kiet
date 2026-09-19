@@ -9,15 +9,12 @@ REPO = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), 
 DOCS = os.path.join(REPO, "docs")
 
 NAV = [
-    ("group", "Session 1 · morning"),
     ("stage0.html", "Stage 0 · Python"),
     ("stage1.html", "Stage 1 · SQLite"),
     ("stage2.html", "Stage 2 · Python + SQL"),
-    ("group", "Session 2 · afternoon"),
     ("stage3.html", "Stage 3 · A server"),
     ("stage4.html", "Stage 4 · Your server"),
     ("stage5.html", "Stage 5 · The backend"),
-    ("group", "Session 3 · after dinner"),
     ("stage6.html", "Stage 6 · Big data"),
     ("stage7.html", "Stage 7 · Browser"),
     ("stage8.html", "Stage 8 · Inspector"),
@@ -61,7 +58,7 @@ def nav(cur, depth):
     return "\n".join(out)
 
 
-def page(title, cur, body, depth=0, sub="", artifact="", stage_label="", head_extra=""):
+def page(title, cur, body, depth=0, sub="", artifact="", stage_label="", head_extra="", next_page=None, prev_page=None):
     r = rel(depth)
     header = ['<header class="page">']
     if stage_label:
@@ -72,6 +69,11 @@ def page(title, cur, body, depth=0, sub="", artifact="", stage_label="", head_ex
     if artifact:
         header.append(f'<p class="artifact">{esc(artifact)}</p>')
     header.append("</header>")
+    next_html = ""
+    if next_page or prev_page:
+        prev_a = f'<a class="prev" href="{prev_page[0]}">← Previous: {esc(prev_page[1])}</a>' if prev_page else "<span></span>"
+        next_a = f'<a href="{next_page[0]}">Next: {esc(next_page[1])} →</a>' if next_page else ""
+        next_html = f'<p class="next">{prev_a}{next_a}</p>'
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -88,6 +90,7 @@ def page(title, cur, body, depth=0, sub="", artifact="", stage_label="", head_ex
 <main>
 {chr(10).join(header)}
 {body}
+{next_html}
 <footer class="page">
   <span>KIET Bootcamp 3 · 21–22 September 2026</span>
   <span>AI Karyashala</span>

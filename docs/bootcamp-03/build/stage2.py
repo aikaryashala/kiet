@@ -142,4 +142,6 @@ body = "\n".join([
 write("stage2.html", page("Python talks to the database", "stage2.html", body,
                           sub="Module, connection, cursor. execute positions, fetchall reads, and the value goes in through a question mark.",
                           artifact='cursor.execute("SELECT student_name FROM students WHERE inter_college = ?", [college])',
-                          stage_label="Stage 2 · Session 1 · morning"))
+                          stage_label="Stage 2 · Session 1 · morning",
+                          prev_page=("stage1.html", 'Stage 1 · Data that survives: SQLite and SQL'),
+                          next_page=("stage3.html", 'Stage 3 · What a server actually is')))

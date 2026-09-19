@@ -105,4 +105,6 @@ body = "\n".join([
 write("stage4.html", page("Write your own server", "stage4.html", body,
                           sub="Two functions, two addresses, port 8081. Return a string for text, a dict for JSON.",
                           artifact='@route("/wish/<name>")',
-                          stage_label="Stage 4 · Session 2 · afternoon"))
+                          stage_label="Stage 4 · Session 2 · afternoon",
+                          prev_page=("stage3.html", 'Stage 3 · What a server actually is'),
+                          next_page=("stage5.html", 'Stage 5 · Join the two halves')))
