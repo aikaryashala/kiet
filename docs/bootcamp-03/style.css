@@ -78,7 +78,14 @@ ol.steps>li>p{margin:0 0 8px}
 /* ---------- panel ---------- */
 .panel{background:var(--paper);border:1px solid var(--line);border-radius:2px;margin:0 0 14px}
 .panel>h2,.panel>.cap{font-family:var(--mono);font-size:11px;font-weight:500;color:var(--muted);margin:0;padding:9px 14px;border-bottom:1px solid var(--line2);letter-spacing:.04em;display:flex;align-items:center;gap:10px}
-.panel>.cap .copy{margin-left:auto;font-family:var(--mono);font-size:11px;padding:2px 8px;line-height:1.5}
+.panel>.cap button{font-family:var(--mono);font-size:11px;padding:2px 8px;line-height:1.5;margin-left:6px}
+.panel>.cap button:first-of-type{margin-left:auto}
+.hints{padding:8px 14px;border-bottom:1px solid var(--line2);background:var(--paper)}
+.hint{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:12px;padding:5px 0;border-bottom:1px solid var(--line2);font-size:13.5px;line-height:1.5}
+.hint:last-child{border-bottom:0}
+.hint code{font-size:12px;color:var(--rust);white-space:pre-wrap;word-break:break-all}
+.hint span{color:var(--muted)}
+@media(max-width:640px){.hint{grid-template-columns:1fr;gap:2px}}
 .panel .body{padding:12px 14px}
 .panel .body>:last-child{margin-bottom:0}
 
@@ -181,7 +188,7 @@ footer.page{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);fo
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 @media print{
   body{background:#fff}
-  .nav,.stepper .controls,.track,.copy{display:none!important}
+  .nav,.stepper .controls,.track,.copy,.hintbtn{display:none!important}
   .layout{grid-template-columns:1fr}
   pre.term{background:#fff;color:#000;border:1px solid #000}
 }
