@@ -40,7 +40,7 @@ prep = '<div class="cards">' + "".join([
 ]) + "</div>"
 
 day1 = '<div class="cards">' + "".join([
-    card("Stage 0 · ~2 h", MATERIAL + "stage0.html", "Just enough Python", "C with the ceremony removed. Seven small exercises."),
+    card("Stage 0 · ~2 h", MATERIAL + "stage0.html", "Just enough Python", "C with the ceremony removed. Seven programs, stepped through line by line."),
     card("Stage 1", MATERIAL + "stage1.html", "Data that survives", "SQLite and four SQL verbs. Your team's table, by hand."),
     card("Stage 2", MATERIAL + "stage2.html", "Python talks to the database", "Module, connection, cursor. execute positions, fetchall reads."),
 ]) + "</div>"

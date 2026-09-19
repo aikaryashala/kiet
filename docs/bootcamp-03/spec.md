@@ -195,7 +195,7 @@ Each is a one-screen page: short explanation, then copy-pasteable examples using
 
 **Audience premise:** they know C. Teach Python as deltas from C. Cover only what Stages 1–7 use.
 
-Page structure: same 7 sections as other stages, but the Task section is seven blocks, each with one exercise file in `code/stage0/`. Each exercise file has a docstring-free header comment stating the goal, a `# TODO` and a printed expected output in the comment. Solutions in `code/stage0/solution/`.
+Page structure: same sections as other stages, but the Task section is seven blocks, each with one **complete** example program in `code/stage0/` and a **stepper** that walks it line by line — the active line on the left, the variables and the output appearing on the right. Nothing is written in Stage 0: students step through, then run the file and see the same output. Each file has a header comment stating what it shows and the expected output. No stubs, no solution folder.
 
 | Block | Teach | Exercise file | Feeds |
 |---|---|---|---|
@@ -227,7 +227,7 @@ Page structure: same 7 sections as other stages, but the Task section is seven b
 
 **Deliberately not covered** (state this on the page, as a "later list"): classes, list comprehensions, try/except, `with`, `__name__`, lambdas, type hints, venv/pip.
 
-`check.py` for Stage 0 runs each exercise and compares stdout to the expected output.
+`check.py` for Stage 0 runs each example and compares stdout to the expected output — a smoke test that python3 on the machine behaves as the page shows.
 
 ## 8. Stage template — concept wording
 

@@ -19,7 +19,7 @@ ports = table("port plan — four programs, one machine", ["port", "program", "s
 ])
 
 day1 = '<div class="cards">' + "".join([
-    card("Stage 0 · ~2 h", "stage0.html", "Just enough Python", "C with the ceremony removed. Seven small exercises that feed the later stages."),
+    card("Stage 0 · ~2 h", "stage0.html", "Just enough Python", "C with the ceremony removed. Seven complete programs, each stepped through line by line — nothing to write."),
     card("Stage 1", "stage1.html", "Data that survives", "SQLite and four SQL verbs. Build your team's table by hand and watch it outlive the program."),
     card("Stage 2", "stage2.html", "Python talks to the database", "Module, connection, cursor. execute positions, fetchall reads, ? carries the value."),
 ]) + "</div>"

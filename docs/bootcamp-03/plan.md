@@ -85,7 +85,7 @@ bootcamp-03/
 
 | Stage | Title | Student writes | Given | Check | Stepper |
 |---|---|---|---|---|---|
-| 0 | Just enough Python | 7 exercise files | headers + TODOs | stdout compare | – |
+| 0 | Just enough Python | nothing — step through | 7 complete programs | stdout compare | one per block (7) |
 | 1 | Data that survives: SQLite and SQL | `team_details.db` via the CLI | `schema.sql` | file, table, ≥3 rows | SELECT…WHERE walking rows |
 | 2 | Python talks to the database | `by_college.py` | `read_all.py`, stub | stdout vs sample DB | connect → execute → fetchall |
 | 3 | What a server actually is | nothing, observe | `demo_server.py`, curl list | 4 routes + 404 + 400 | one request through path/query/body |
