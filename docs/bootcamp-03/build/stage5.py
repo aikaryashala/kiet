@@ -68,8 +68,8 @@ $ curl "localhost:8080/students?college=Vignan+Junior+College"
 {"count": 0, "students": []}
 $ curl localhost:8080/students
 {"error": "college parameter is required"}""") +
-    p("Now open <code>server.py</code>. Read <code>query</code>, <code>pack</code>, and the given route against the stepper. Then the four TODOs:") +
-    code_file("code/stage5/server.py — the part you edit", "code/stage5/server.py", lines=(57, 98)),
+    p("Now open <code>server.py</code>. This is the whole file. Read <code>query</code>, <code>pack</code>, and the given route against the stepper. Then the four TODOs:") +
+    code_file("code/stage5/server.py", "code/stage5/server.py"),
     p("<strong>Task 1.</strong> <code>/students/by-location?location=Y</code>. Same shape as the given route; the parameter is <code>location</code>, the column is <code>inter_city</code>. Restart the server after the edit.") +
     term("terminal 2 — curl", """$ curl "localhost:8080/students/by-location?location=Vijayawada"
 {"count": 2, "students": [{"student_name": "Lakshmi Prasanna Gudla", "inter_college": "Narayana Junior College", "inter_city": "Vijayawada"}, {"student_name": "Divya Sree Pothula", "inter_college": "Narayana Junior College", "inter_city": "Vijayawada"}]}
@@ -82,10 +82,10 @@ $ curl "localhost:8080/students/search?college=Narayana+Junior+College&location=
 {"count": 0, "students": []}
 $ curl "localhost:8080/students/search?college=Narayana+Junior+College"
 {"error": "college and location parameters are required"}"""),
-    p("<strong>Task 3.</strong> <code>/colleges</code>. No parameter. <code>SELECT DISTINCT inter_college FROM students ORDER BY inter_college</code> gives one-item tuples; collect <code>row[0]</code> of each into a list.") +
+    p("<strong>Task 3.</strong> <code>/colleges</code>. No parameter, and the loop is already written: each row is a one-item tuple and <code>row[0]</code> goes into the list. Your only line is the SQL — every college once, sorted: <code>SELECT DISTINCT inter_college FROM students ORDER BY inter_college</code>.") +
     term("terminal 2 — curl", """$ curl localhost:8080/colleges
 {"colleges": ["Narayana Junior College", "Sri Chaitanya Junior College"]}"""),
-    p("<strong>Task 4.</strong> <code>/count?college=X</code>. <code>SELECT COUNT(*)</code> gives one row with one number: <code>rows[0][0]</code>.") +
+    p("<strong>Task 4.</strong> <code>/count?college=X</code>. Unpack, guard and return are given; <code>rows[0][0]</code> is already there because <code>SELECT COUNT(*)</code> gives one row with one number. Your only line is the SQL. Until you write it, this route answers 500 and Terminal 1 says <code>ProgrammingError: Incorrect number of bindings supplied</code> — the empty SQL has no <code>?</code> for the college.") +
     term("terminal 2 — curl", """$ curl "localhost:8080/count?college=Sri+Chaitanya+Junior+College"
 {"college": "Sri Chaitanya Junior College", "count": 2}
 $ curl "localhost:8080/count?college=Vignan+Junior+College"

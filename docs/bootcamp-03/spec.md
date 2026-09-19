@@ -340,8 +340,8 @@ curl "localhost:8080/greet?name=Ravi&lang=en"
 **Task** — four new GET routes, different paths and parameters:
 1. `GET /students/by-location?location=Y` → same shape as the given route.
 2. `GET /students/search?college=X&location=Y` → both required, `WHERE inter_college = ? AND inter_city = ?`.
-3. `GET /colleges` → `{"colleges": ["...", "..."]}` — `SELECT DISTINCT inter_college … ORDER BY inter_college`.
-4. `GET /count?college=X` → `{"college": "X", "count": n}` — `SELECT COUNT(*) …`.
+3. `GET /colleges` → `{"colleges": ["...", "..."]}` — the `row[0]` loop and the return are given in the stub; the only TODO is the SQL, `SELECT DISTINCT inter_college … ORDER BY inter_college`.
+4. `GET /count?college=X` → `{"college": "X", "count": n}` — unpack, guard and the `rows[0][0]` return are given; the only TODO is the SQL, `SELECT COUNT(*) …`. Until written, the route answers 500 (empty SQL, one binding) and the page says so.
 
 Curl list for all five routes, using values from their team DB. **Spaces in a query value are written as `+`** (`college=Narayana+Junior+College`): curl rejects a URL with a space, and the browser does the same encoding for you. The `curl` and `http-basics` reference pages say this; Stage 5's Task says it before the first curl.
 
