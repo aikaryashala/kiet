@@ -1,0 +1,1685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Karyashala Setup Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0e27;
+            --bg-secondary: #151b3d;
+            --bg-card: #1a2249;
+            --accent-primary: #00d9ff;
+            --accent-secondary: #7c3aed;
+            --accent-tertiary: #f59e0b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border: #2d3a5f;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --code-bg: #0f1729;
+        }
+
+        body {
+            font-family: 'Manrope', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.03;
+            background-image: 
+                linear-gradient(30deg, var(--accent-primary) 12%, transparent 12.5%, transparent 87%, var(--accent-primary) 87.5%, var(--accent-primary)),
+                linear-gradient(150deg, var(--accent-primary) 12%, transparent 12.5%, transparent 87%, var(--accent-primary) 87.5%, var(--accent-primary)),
+                linear-gradient(30deg, var(--accent-primary) 12%, transparent 12.5%, transparent 87%, var(--accent-primary) 87.5%, var(--accent-primary)),
+                linear-gradient(150deg, var(--accent-primary) 12%, transparent 12.5%, transparent 87%, var(--accent-primary) 87.5%, var(--accent-primary));
+            background-size: 80px 140px;
+            background-position: 0 0, 0 0, 40px 70px, 40px 70px;
+            animation: patternShift 20s linear infinite;
+        }
+
+        @keyframes patternShift {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(140px); }
+        }
+
+        /* Home Button */
+        .home-btn {
+            position: fixed;
+            top: 1.5rem;
+            left: 1.5rem;
+            z-index: 1000;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 0.75rem 1.25rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .home-btn:hover {
+            border-color: var(--accent-primary);
+            background: var(--bg-secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 217, 255, 0.2);
+        }
+
+        .home-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Scroll to Top Button */
+        .scroll-top-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border: none;
+            border-radius: 50%;
+            width: 3.5rem;
+            height: 3.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 217, 255, 0.3);
+        }
+
+        .scroll-top-btn.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-top-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 30px rgba(0, 217, 255, 0.5);
+        }
+
+        .scroll-top-btn:active {
+            transform: translateY(-2px);
+        }
+
+        .scroll-top-btn svg {
+            width: 24px;
+            height: 24px;
+            color: var(--bg-primary);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        header {
+            padding: 3rem 0 2rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glow-orb {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        .glow-orb-1 {
+            background: var(--accent-primary);
+            top: -200px;
+            left: 10%;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .glow-orb-2 {
+            background: var(--accent-secondary);
+            top: -150px;
+            right: 10%;
+            animation: float 10s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-30px) scale(1.1); }
+        }
+
+        h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: normal;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .subtitle {
+            font-size: clamp(1rem, 3vw, 1.25rem);
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            animation: fadeInUp 0.8s ease-out 0.2s backwards;
+            padding: 0 1rem;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Navigation */
+        .nav-pills {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease-out 0.4s backwards;
+            padding: 0 1rem;
+        }
+
+        .nav-pill {
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            font-size: clamp(0.875rem, 2vw, 1rem);
+            cursor: pointer;
+        }
+
+        .nav-pill::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 217, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .nav-pill:hover::before {
+            left: 100%;
+        }
+
+        .nav-pill:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 217, 255, 0.2);
+        }
+
+        .nav-pill.active {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-color: transparent;
+            color: var(--bg-primary);
+        }
+
+        /* Section */
+        .section {
+            margin-bottom: 4rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .section:nth-child(1) { animation-delay: 0.6s; }
+        .section:nth-child(2) { animation-delay: 0.8s; }
+        .section:nth-child(3) { animation-delay: 1s; }
+        .section:nth-child(4) { animation-delay: 1.2s; }
+        .section:nth-child(5) { animation-delay: 1.4s; }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
+            flex-wrap: wrap;
+        }
+
+        .section-number {
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .section-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            font-weight: normal;
+        }
+
+        .section-description {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-size: clamp(1rem, 2.5vw, 1.1rem);
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
+            transition: left 0.8s ease;
+        }
+
+        .card:hover::before {
+            left: 100%;
+        }
+
+        .card:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 60px rgba(0, 217, 255, 0.15);
+        }
+
+        .card-title {
+            font-size: clamp(1.25rem, 3vw, 1.5rem);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--accent-primary);
+        }
+
+        .step {
+            margin-bottom: 1.5rem;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .step::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent-primary);
+            font-weight: bold;
+        }
+
+        .step-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+        }
+
+        .step-content {
+            color: var(--text-secondary);
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+        }
+
+        /* Code blocks */
+        .code-block {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .code-lang {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(0.75rem, 2vw, 0.875rem);
+            color: var(--accent-primary);
+            font-weight: 500;
+        }
+
+        .copy-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: clamp(0.75rem, 2vw, 0.875rem);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .copy-btn:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+            background: var(--bg-secondary);
+        }
+
+        pre {
+            margin: 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(0.75rem, 2vw, 0.9rem);
+            line-height: 1.6;
+            color: var(--text-primary);
+            white-space: pre;
+            word-wrap: break-word;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .inline-code {
+            background: var(--code-bg);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(0.8rem, 2vw, 0.9em);
+            color: var(--accent-primary);
+            border: 1px solid var(--border);
+            word-break: break-word;
+        }
+
+        /* Lists */
+        .feature-list {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+
+        .feature-list li {
+            padding: 0.75rem 0 0.75rem 2rem;
+            position: relative;
+            color: var(--text-secondary);
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+        }
+
+        .feature-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--success);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Alert boxes */
+        .alert {
+            padding: 1.25rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            border-left: 4px solid;
+            background: var(--bg-secondary);
+        }
+
+        .alert-info {
+            border-left-color: var(--accent-primary);
+        }
+
+        .alert-warning {
+            border-left-color: var(--warning);
+        }
+
+        .alert-success {
+            border-left-color: var(--success);
+        }
+
+        .alert-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+        }
+
+        .alert ul {
+            margin-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .alert li {
+            color: var(--text-secondary);
+            font-size: clamp(0.85rem, 2.5vw, 0.95rem);
+        }
+
+        /* Two column grid for features */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .feature-column h4 {
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+            font-size: clamp(1rem, 2.5vw, 1.15rem);
+        }
+
+        /* Asciinema Player */
+        .asciinema-container {
+            margin: 2rem 0;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            background: var(--code-bg);
+            min-height: 400px;
+        }
+
+        /* ===================== */
+        /* Section Nav Buttons   */
+        /* ===================== */
+        .section-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            gap: 1rem;
+        }
+
+        .section-nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.85rem 1.6rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-family: 'Manrope', sans-serif;
+            font-size: clamp(0.875rem, 2vw, 1rem);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .section-nav-btn:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 217, 255, 0.2);
+        }
+
+        .section-nav-btn.primary {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-color: transparent;
+            color: var(--bg-primary);
+        }
+
+        .section-nav-btn.primary:hover {
+            color: var(--bg-primary);
+            opacity: 0.9;
+            box-shadow: 0 8px 28px rgba(0, 217, 255, 0.35);
+        }
+
+        .section-nav-btn.invisible {
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .section-nav-btn svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+
+        .section-nav-label {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            line-height: 1.2;
+        }
+
+        .section-nav-label .hint {
+            font-size: 0.75rem;
+            font-weight: 400;
+            opacity: 0.75;
+        }
+
+        .section-nav-label .title {
+            font-size: clamp(0.875rem, 2vw, 1rem);
+            font-weight: 600;
+        }
+
+        .section-nav-btn.next-btn .section-nav-label {
+            align-items: flex-end;
+        }
+
+        /* Progress Bar */
+        .progress-bar-wrap {
+            position: sticky;
+            top: 0;
+            z-index: 900;
+            height: 4px;
+            background: var(--bg-secondary);
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            width: 0%;
+            transition: width 0.2s ease;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 3rem 0;
+            text-align: center;
+            color: var(--text-muted);
+            margin-top: 5rem;
+        }
+
+        footer p {
+            font-size: clamp(0.85rem, 2.5vw, 1rem);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .home-btn {
+                top: 1rem;
+                left: 1rem;
+                padding: 0.6rem 1rem;
+                font-size: 0.875rem;
+            }
+
+            .scroll-top-btn {
+                bottom: 1.5rem;
+                right: 1.5rem;
+                width: 3rem;
+                height: 3rem;
+            }
+
+            .scroll-top-btn svg {
+                width: 20px;
+                height: 20px;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            header {
+                padding: 2rem 0 1.5rem;
+                margin-bottom: 2rem;
+            }
+
+            .nav-pills {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .section {
+                margin-bottom: 3rem;
+            }
+
+            .card {
+                padding: 1.25rem;
+            }
+
+            .step {
+                padding-left: 1.5rem;
+            }
+
+            .code-block {
+                padding: 0.75rem;
+            }
+
+            pre {
+                font-size: 0.75rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-nav {
+                flex-direction: column;
+            }
+
+            .section-nav-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .section-nav-btn.next-btn .section-nav-label {
+                align-items: flex-start;
+            }
+        }
+
+        /* Scroll-triggered animations */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-pattern"></div>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="progressBar"></div>
+    </div>
+
+    <!-- Home Button -->
+    <a href="index.html" class="home-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+        Home
+    </a>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-top-btn" id="scrollTopBtn" aria-label="Scroll to top">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 19V5M5 12l7-7 7 7"/>
+        </svg>
+    </button>
+
+    <header>
+        <div class="glow-orb glow-orb-1"></div>
+        <div class="glow-orb glow-orb-2"></div>
+        <div class="container">
+            <h1>AI-Karyashala <br> Development Environment Setup</h1>
+            <p class="subtitle">A comprehensive guide to setting up your student development environment by AI-Karyashala</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Navigation Pills: steps 1–5 only -->
+        <nav class="nav-pills">
+            <a href="#step1" class="nav-pill">1. Ubuntu Setup</a>
+            <a href="#step2" class="nav-pill">2. Prerequisites</a>
+            <a href="#step3" class="nav-pill">3. Tools Setup</a>
+            <a href="#step4" class="nav-pill">4. QR Code Generator</a>
+            <a href="#step5" class="nav-pill">5. Reel Generator</a>
+        </nav>
+
+        <!-- ===== SECTION 1 ===== -->
+        <section id="step1" class="section">
+            <div class="section-header">
+                <div class="section-number">01</div>
+                <h2 class="section-title">Install Ubuntu on Windows</h2>
+            </div>
+            <p class="section-description">
+                Set up Windows Subsystem for Linux (WSL2) to run Ubuntu Linux natively.
+            </p>
+
+            <div class="card fade-in-section">
+                <h3 class="card-title">Phase 1: Environment Verification</h3>
+                
+                <div class="step">
+                    <div class="step-title">1. Open PowerShell</div>
+                    <div class="step-content">
+                        Click Start, search for "PowerShell," right-click it, and select <strong>Run as Administrator</strong>.
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-title">2. Check for WSL</div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-lang">PowerShell</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>wsl --list --online</pre>
+                    </div>
+                    <div class="alert alert-info">
+                        <div class="alert-title">💡 What to expect:</div>
+                        <ul>
+                            <li>If the command works: Skip to Phase 3</li>
+                            <li>If "command not found": Continue to Phase 2</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card fade-in-section">
+                <h3 class="card-title">Phase 2: Enabling Required Features</h3>
+                <div class="step">
+                    <div class="step-title">3. Enable WSL</div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-lang">PowerShell</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart</pre>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-title">4. Enable Virtual Machine Platform</div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-lang">PowerShell</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart</pre>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-title">5. Restart &amp; Verify</div>
+                    <div class="step-content">
+                        Restart your computer. Open PowerShell as Administrator and run <span class="inline-code">wsl --list --online</span> to verify.
+                    </div>
+                </div>
+            </div>
+
+            <div class="card fade-in-section">
+                <h3 class="card-title">Phase 3: Install Ubuntu</h3>
+                <div class="step">
+                    <div class="step-title">6. Install Ubuntu 24.04</div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-lang">PowerShell</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>wsl --install Ubuntu-24.04</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card fade-in-section">
+                <h3 class="card-title">Phase 4: User Configuration</h3>
+                <div class="step">
+                    <div class="step-title">Create Username</div>
+                    <div class="step-content">
+                        Once Ubuntu launches, you'll be prompted to create a new user account. Enter a username (use lowercase letters only, no spaces). For example: <span class="inline-code">john</span> or <span class="inline-code">student</span>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-title">Set Password</div>
+                    <div class="step-content">
+                        After entering your username, you'll be asked to create a password. Choose something memorable like your birth year (e.g., <span class="inline-code">2005</span>) or a simple password you won't forget.
+                    </div>
+                    <div class="alert alert-warning">
+                        <div class="alert-title">⚠️ IMPORTANT - Password Security Behavior:</div>
+                        <ul>
+                            <li><strong>Your password will NOT be visible as you type</strong> - this is a security feature, not a bug</li>
+                            <li>You will see NO characters, dots, or asterisks appearing on screen while typing</li>
+                            <li>The cursor will NOT move as you type your password</li>
+                            <li>This is completely normal Linux behavior designed to protect your password</li>
+                            <li>Simply type your password carefully and press Enter when done</li>
+                            <li>You'll be asked to type it twice to confirm - both times it will be invisible</li>
+                        </ul>
+                    </div>
+                    <div class="alert alert-success">
+                        <div class="alert-title">✅ Tips for Success:</div>
+                        <ul>
+                            <li>Type slowly and carefully since you can't see what you're typing</li>
+                            <li>Don't panic if nothing appears - this is expected behavior</li>
+                            <li>If you make a mistake, press Backspace a few times and start over</li>
+                            <li>Remember your password - you'll need it for installing software later</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section Navigation -->
+            <div class="section-nav">
+                <button class="section-nav-btn invisible" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+                    <span class="section-nav-label"><span class="hint">Previous</span><span class="title">—</span></span>
+                </button>
+                <button class="section-nav-btn primary next-btn" onclick="navigateTo('step2')">
+                    <span class="section-nav-label"><span class="hint">Next Step</span><span class="title">Prerequisites</span></span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                </button>
+            </div>
+        </section>
+
+        <!-- ===== SECTION 2 ===== -->
+        <section id="step2" class="section">
+            <div class="section-header">
+                <div class="section-number">02</div>
+                <h2 class="section-title">Install Prerequisites</h2>
+            </div>
+            <p class="section-description">
+                Install the fundamental packages required to download and run the setup scripts.
+            </p>
+
+            <div class="card fade-in-section">
+                <h3 class="card-title">System Package Installation</h3>
+                <div class="step">
+                    <div class="step-title">Run Update and Install</div>
+                    <div class="step-content">
+                        Copy and paste the following command into your Ubuntu terminal to install Python 3, Curl, Zip, and Unzip.
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-lang">Bash</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>sudo apt update && sudo apt install -y python3 curl zip unzip</pre>
+                    </div>
+                    <div class="alert alert-info">
+                        <div class="alert-title">💡 Note:</div>
+                        Enter your password when prompted. The characters will not appear on screen while typing.
+                    </div>
+                </div>
+
+                <div class="asciinema-container">
+                    <script src="https://asciinema.org/a/shHcjaRzwKTba6fp.js" id="asciicast-shHcjaRzwKTba6fp" async="true" data-autoplay="true" data-loop="true"></script>
+                </div>
+            </div>
+
+            <!-- Section Navigation -->
+            <div class="section-nav">
+                <button class="section-nav-btn" onclick="navigateTo('step1')">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+                    <span class="section-nav-label"><span class="hint">Previous</span><span class="title">Ubuntu Setup</span></span>
+                </button>
+                <button class="section-nav-btn primary next-btn" onclick="navigateTo('step3')">
+                    <span class="section-nav-label"><span class="hint">Next Step</span><span class="title">Tools Setup</span></span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                </button>
+            </div>
+        </section>
+
+        <!-- ===== SECTION 3 ===== -->
+        <section id="step3" class="section">
+            <div class="section-header">
+                <div class="section-number">03</div>
+                <h2 class="section-title">Download &amp; Configure Tools</h2>
+            </div>
+            <p class="section-description">
+                Download the setup scripts, unzip them, and execute the automation tools.
+            </p>
+
+            <div class="card fade-in-section">
+                <h3 class="card-title">Step-by-Step Configuration</h3>
+
+                <div class="step">
+                    <div class="step-title">1. Download the Zip File</div>
+                    <div class="step-content">
+                        Use curl to download the <code>setup_scripts.zip</code> file.
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-lang">Bash</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>curl -L -o setup_scripts.zip https://github.com/aikaryashala/bootcamp/raw/b4a8b253eba8a70c1ee282a1b2b47cedac588bdc/docs/kiet/setup_scripts.zip</pre>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-title">2. Unzip and Navigate</div>
+                    <div class="step-content">
+                        Unzip the folder and enter the directory.
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-lang">Bash</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>unzip setup_scripts.zip && cd setup_scripts</pre>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-title">3. Run Setup Tools</div>
+                    <div class="step-content">
+                        This script installs clang, lldb, micro, and other development essentials.
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-lang">Bash</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>python3 setup_tools.py</pre>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-title">4. Run AIKBT Installer</div>
+                    <div class="step-content">
+                        This configures the custom debugger interface.
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-lang">Bash</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>python3 install_aikbt.py</pre>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-title">5. Apply Changes</div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-lang">Bash</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>source ~/.bashrc</pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section Navigation -->
+            <div class="section-nav">
+                <button class="section-nav-btn" onclick="navigateTo('step2')">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+                    <span class="section-nav-label"><span class="hint">Previous</span><span class="title">Prerequisites</span></span>
+                </button>
+                <button class="section-nav-btn primary next-btn" onclick="navigateTo('step4')">
+                    <span class="section-nav-label"><span class="hint">Next Step</span><span class="title">QR Code Generator</span></span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                </button>
+            </div>
+        </section>
+
+        <!-- ===== SECTION 4 (was step5) ===== -->
+        <section id="step4" class="section">
+            <div class="section-header">
+                <div class="section-number">04</div>
+                <h2 class="section-title">Contact QR Code Generator</h2>
+            </div>
+            <p class="section-description">
+                Install and configure the Contact QR Code Generator to create shareable contact information.
+            </p>
+
+            <div class="card fade-in-section">
+                <h3 class="card-title">Setup QR Code Generator</h3>
+
+                <div class="step">
+                    <div class="step-title">1. Create Project Folder</div>
+                    <div class="step-content">
+                        Create a new folder named <code>kiet</code> for the QR code generator project.
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-lang">Bash</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>mkdir kiet</pre>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-title">2. Navigate to Project Folder</div>
+                    <div class="step-content">
+                        Change directory to the newly created <code>kiet</code> folder.
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-lang">Bash</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>cd kiet</pre>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-title">3. Install QR Library and Download Script</div>
+                    <div class="step-content">
+                        Install the QR code generation library with image support and download the contact QR generator script from GitHub.
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-lang">Bash</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>python3 -m pip install qrcode[pil] --break-system-packages
+curl -fsSL -o contact_qr.py https://raw.githubusercontent.com/sandeepbangaru17/qr/main/contact_qr.py</pre>
+                    </div>
+                    <div class="alert alert-info">
+                        <div class="alert-title">💡 What this does:</div>
+                        <ul>
+                            <li>Installs the <code>qrcode</code> library with PIL (Python Imaging Library) support</li>
+                            <li>Downloads the <code>contact_qr.py</code> script to the current directory</li>
+                            <li>Prepares your environment to generate QR codes for contact sharing</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-title">4. Run the QR Code Generator</div>
+                    <div class="step-content">
+                        Execute the script to generate contact QR codes. You'll be prompted to enter your contact information.
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-lang">Bash</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>python3 contact_qr.py</pre>
+                    </div>
+                    <div class="alert alert-success">
+                        <div class="alert-title">✅ Expected Output:</div>
+                        <ul>
+                            <li>The script will prompt you to enter contact information (name, phone, email, etc.)</li>
+                            <li>A QR code image file will be generated in the <code>kiet</code> folder</li>
+                            <li>The QR code image will be ready to view in your browser</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-title">5. Start Local Web Server</div>
+                    <div class="step-content">
+                        Start a Python HTTP server to view your generated QR code in the browser.
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-lang">Bash</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>python3 -m http.server 8000</pre>
+                    </div>
+                    <div class="alert alert-info">
+                        <div class="alert-title">💡 Server Information:</div>
+                        <ul>
+                            <li>The server will start on port 8000</li>
+                            <li>You'll see a message: <code>Serving HTTP on 0.0.0.0 port 8000...</code></li>
+                            <li>Keep this terminal window open while viewing your QR code</li>
+                            <li>Press <code>Ctrl+C</code> to stop the server when done</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-title">6. View QR Code in Browser</div>
+                    <div class="step-content">
+                        Open your web browser and navigate to localhost to view your generated QR code.
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-lang">Browser URL</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>http://localhost:8000/</pre>
+                    </div>
+                    <div class="alert alert-success">
+                        <div class="alert-title">✅ How to use:</div>
+                        <ul>
+                            <li>Copy the URL and paste it in your browser</li>
+                            <li>Click on the QR code image file to view it</li>
+                            <li>Scan with your smartphone to save contact details</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section Navigation -->
+            <div class="section-nav">
+                <button class="section-nav-btn" onclick="navigateTo('step3')">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+                    <span class="section-nav-label"><span class="hint">Previous</span><span class="title">Tools Setup</span></span>
+                </button>
+                <button class="section-nav-btn primary next-btn" onclick="navigateTo('step5')">
+                    <span class="section-nav-label"><span class="hint">Next Step</span><span class="title">Reel Generator</span></span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                </button>
+            </div>
+        </section>
+
+        <!-- ===== SECTION 5 (was step6) ===== -->
+        <section id="step5" class="section">
+            <div class="section-header">
+                <div class="section-number">05</div>
+                <h2 class="section-title">Reel Generator - Complete Activity</h2>
+            </div>
+            <p class="section-description">
+                Create your own "What I Learned Today" video reels from scratch. Watch the existing video, customize it with your content, and generate your personalized learning reel!
+            </p>
+
+            <div class="card fade-in-section">
+                <h3 class="card-title">Part 1: Initial Setup &amp; Viewing Existing Video</h3>
+
+                <div class="step">
+                    <div class="step-title">1. Ensure You're in Home Directory</div>
+                    <div class="step-content">
+                        Navigate back to your home directory to start fresh.
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-lang">Bash</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>cd ~</pre>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-title">2. Update System Packages</div>
+                    <div class="step-content">
+                        Update your package list to ensure you have the latest software information.
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-lang">Bash</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>sudo apt update</pre>
+                    </div>
+                    <div class="alert alert-info">
+                        <div class="alert-title">💡 Why update?</div>
+                        <ul>
+                            <li>Ensures you have the latest package information</li>
+                            <li>Prevents installation errors</li>
+                            <li>Takes only a few seconds</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-title">3. Download Setup Script</div>
+                    <div class="step-content">
+                        Download the automated setup script that will install all dependencies and set up the reel generator.
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-lang">Bash</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>curl -fsSL -o setup_reels.py https://raw.githubusercontent.com/ppavankumar19/Reel_Generator/refs/heads/main/setup_reels.py</pre>
+                    </div>
+                    <div class="alert alert-info">
+                        <div class="alert-title">💡 What this downloads:</div>
+                        <ul>
+                            <li>Automated setup script for the reel generator</li>
+                            <li>Will install Node.js, pnpm, and all project dependencies</li>
+                            <li>Generates a sample video automatically</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-title">4. Run Setup Script</div>
+                    <div class="step-content">
+                        Execute the setup script. This will take a few minutes as it installs everything needed.
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-lang">Bash</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>python3 setup_reels.py</pre>
+                    </div>
+                    <div class="alert alert-warning">
+                        <div class="alert-title">⚠️ This will take 5-10 minutes:</div>
+                        <ul>
+                            <li>Installing Node.js and pnpm package manager</li>
+                            <li>Downloading project dependencies</li>
+                            <li>Generating your first sample video</li>
+                            <li>Don't close the terminal - wait for it to complete!</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-title">5. Start Web Server to View Video</div>
+                    <div class="step-content">
+                        After the setup completes, start a web server to view the generated video.
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-lang">Bash</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>python3 -m http.server 8001</pre>
+                    </div>
+                    <div class="alert alert-info">
+                        <div class="alert-title">💡 Why port 8001?</div>
+                        <ul>
+                            <li>We use port 8001 to avoid conflicts with QR code server (port 8000)</li>
+                            <li>You can use any available port (8002, 8003, etc.)</li>
+                            <li>Keep this terminal window open while viewing the video</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-title">6. Watch the Existing Video</div>
+                    <div class="step-content">
+                        Open your browser and watch the sample video that was generated.
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-lang">Browser URL</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>http://localhost:8001/what-i-learned-today-reels/out/video.mp4</pre>
+                    </div>
+                    <div class="alert alert-success">
+                        <div class="alert-title">✅ You should see:</div>
+                        <ul>
+                            <li>A sample "What I Learned Today" reel video</li>
+                            <li>Default content showing algorithm principles</li>
+                            <li>Background music playing</li>
+                            <li>This is what you'll customize in the next steps!</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="margin-top: 2rem;">
+                    <div class="alert alert-warning">
+                        <div class="alert-title">⚠️ If localhost doesn't work - Use Ubuntu IP:</div>
+                        <ul>
+                            <li>Open a <strong>new terminal</strong> (don't close the server)</li>
+                            <li>Run: <code>hostname -I</code></li>
+                            <li>Use the first IP address (e.g., 172.24.144.1)</li>
+                            <li>Access: <code>http://&lt;your-ip&gt;:8001/what-i-learned-today-reels/out/video.mp4</code></li>
+                            <li>Example: <code>http://172.24.144.1:8001/what-i-learned-today-reels/out/video.mp4</code></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card fade-in-section">
+                <h3 class="card-title">Part 2: Customize &amp; Create Your Own Video</h3>
+
+                <div class="step">
+                    <div class="step-title">7. Stop the Web Server</div>
+                    <div class="step-content">
+                        Go back to the terminal running the web server and stop it.
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-lang">Action</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>Press Ctrl+C in the terminal</pre>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-title">8. Navigate to Project Directory</div>
+                    <div class="step-content">
+                        Change to the reel generator project directory.
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-lang">Bash</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>cd ~/what-i-learned-today-reels</pre>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-title">9. Edit Content File</div>
+                    <div class="step-content">
+                        Open the content file to add your own learnings. Use the micro text editor.
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-lang">Bash</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>micro public/content.json</pre>
+                    </div>
+                    <div class="alert alert-info">
+                        <div class="alert-title">💡 Editing Tips:</div>
+                        <ul>
+                            <li>The file contains your learning points in JSON format</li>
+                            <li>Replace the sample text with what YOU learned today</li>
+                            <li>Keep the same structure - just change the text inside quotes</li>
+                            <li>Save: <code>Ctrl+S</code></li>
+                            <li>Exit: <code>Ctrl+Q</code></li>
+                        </ul>
+                    </div>
+                    <div class="alert alert-success">
+                        <div class="alert-title">✅ Example content structure:</div>
+                        <ul>
+                            <li>"I learned how to install Ubuntu on Windows using WSL"</li>
+                            <li>"I understood the 5 principles of algorithms"</li>
+                            <li>"I created my first QR code for contact sharing"</li>
+                            <li>Add 3-5 learning points for best results</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-title">10. Add Your Music (Optional)</div>
+                    <div class="step-content">
+                        You can add your own background music MP3 file to the public folder.
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-lang">Info</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>Place your MP3 file in: ~/what-i-learned-today-reels/public/your-music.mp3</pre>
+                    </div>
+                    <div class="alert alert-warning">
+                        <div class="alert-title">⚠️ Music File Guidelines:</div>
+                        <ul>
+                            <li>Use MP3 format only</li>
+                            <li>Recommended length: 30-60 seconds</li>
+                            <li>You can copy your MP3 from Windows to Ubuntu</li>
+                            <li>Update the music filename in <code>public/content.json</code> if using custom music</li>
+                            <li>Skip this step if you want to use the default music</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-title">11. Preview Your Changes</div>
+                    <div class="step-content">
+                        Start the development preview server to see your changes in real-time.
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-lang">Bash</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>pnpm preview</pre>
+                    </div>
+                    <div class="alert alert-info">
+                        <div class="alert-title">💡 Preview Mode:</div>
+                        <ul>
+                            <li>This starts a live preview server</li>
+                            <li>You'll see a URL like: <code>http://localhost:3000</code></li>
+                            <li>Open this URL in your browser to preview</li>
+                            <li>You can see your changes without rendering the final video</li>
+                            <li>Press <code>Ctrl+C</code> when done previewing</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-title">12. Render Your Final Video</div>
+                    <div class="step-content">
+                        Once you're happy with your content, render the final video.
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-lang">Bash</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>pnpm render</pre>
+                    </div>
+                    <div class="alert alert-warning">
+                        <div class="alert-title">⚠️ Rendering takes 2-3 minutes:</div>
+                        <ul>
+                            <li>The video is being generated with your custom content</li>
+                            <li>You'll see progress messages</li>
+                            <li>Wait for "Rendering complete!" message</li>
+                            <li>Don't close the terminal during rendering</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-title">13. Start Web Server to View Your Video</div>
+                    <div class="step-content">
+                        After rendering completes, navigate back to home and start the server again.
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-lang">Bash</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>cd ~
+python3 -m http.server 8001</pre>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-title">14. Watch YOUR Video!</div>
+                    <div class="step-content">
+                        Open your browser and watch the video you just created with your own content!
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-lang">Browser URL</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>http://localhost:8001/what-i-learned-today-reels/out/video.mp4</pre>
+                    </div>
+                    <div class="alert alert-success">
+                        <div class="alert-title">🎉 Congratulations!</div>
+                        <ul>
+                            <li>You've created your own "What I Learned Today" reel!</li>
+                            <li>The video contains YOUR learning points</li>
+                            <li>You can share this video on social media</li>
+                            <li>Download it by right-clicking the video and selecting "Save video as..."</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card fade-in-section">
+                <h3 class="card-title">Part 3: Activity Summary &amp; Next Steps</h3>
+
+                <div class="alert alert-info">
+                    <div class="alert-title">📝 What You Accomplished:</div>
+                    <ul>
+                        <li>✅ Installed the Reel Generator from scratch</li>
+                        <li>✅ Watched the existing sample video</li>
+                        <li>✅ Customized content with your own learnings</li>
+                        <li>✅ (Optional) Added your own background music</li>
+                        <li>✅ Previewed your changes in real-time</li>
+                        <li>✅ Rendered your final personalized video</li>
+                        <li>✅ Watched your own creation!</li>
+                    </ul>
+                </div>
+
+                <div class="alert alert-success">
+                    <div class="alert-title">🚀 Want to Create More Videos?</div>
+                    <ul>
+                        <li>Navigate to project: <code>cd ~/what-i-learned-today-reels</code></li>
+                        <li>Edit content: <code>micro public/content.json</code></li>
+                        <li>Preview changes: <code>pnpm preview</code></li>
+                        <li>Render new video: <code>pnpm render</code></li>
+                        <li>View it: Start server and open in browser</li>
+                    </ul>
+                </div>
+
+                <div class="alert alert-warning">
+                    <div class="alert-title">💡 Pro Tips:</div>
+                    <ul>
+                        <li>Keep your learning points concise (1-2 sentences each)</li>
+                        <li>Use 3-5 points for optimal video length</li>
+                        <li>Choose upbeat music that matches your content</li>
+                        <li>Share your videos on LinkedIn, Instagram, or Twitter</li>
+                        <li>Create a daily learning video to track your progress!</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Section Navigation (last section — no Next button) -->
+            <div class="section-nav">
+                <button class="section-nav-btn" onclick="navigateTo('step4')">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+                    <span class="section-nav-label"><span class="hint">Previous</span><span class="title">QR Code Generator</span></span>
+                </button>
+                <button class="section-nav-btn primary" onclick="navigateTo('step1')">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    <span class="section-nav-label"><span class="hint">All done!</span><span class="title">Back to Start</span></span>
+                </button>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Quick References</h3>
+                    <a href="quickreference.html" style="color: var(--accent-primary);">Quick Reference Guide</a>
+                </div>
+                <p style="margin-top: 1rem;">© 2026 AI-Karyashala</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        /* ── Copy code ── */
+        function copyCode(button) {
+            const codeBlock = button.closest('.code-block');
+            const code = codeBlock.querySelector('pre').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                const orig = button.textContent;
+                button.textContent = 'Copied!';
+                button.style.color = 'var(--success)';
+                button.style.borderColor = 'var(--success)';
+                setTimeout(() => {
+                    button.textContent = orig;
+                    button.style.color = '';
+                    button.style.borderColor = '';
+                }, 2000);
+            });
+        }
+
+        /* ── Section nav helper ── */
+        function navigateTo(sectionId) {
+            const target = document.getElementById(sectionId);
+            if (!target) return;
+            const offset = 80; // account for sticky progress bar + a bit of breathing room
+            const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+            window.scrollTo({ top, behavior: 'smooth' });
+
+            // update active nav pill
+            document.querySelectorAll('.nav-pill').forEach(p => {
+                p.classList.toggle('active', p.getAttribute('href') === '#' + sectionId);
+            });
+        }
+
+        /* ── Progress bar ── */
+        const progressBar = document.getElementById('progressBar');
+        function updateProgress() {
+            const scrollTop = window.pageYOffset;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+            progressBar.style.width = pct + '%';
+        }
+
+        /* ── Scroll-to-top button ── */
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+        window.addEventListener('scroll', () => {
+            updateProgress();
+            scrollTopBtn.classList.toggle('visible', window.pageYOffset > 300);
+
+            // sync active nav pill while scrolling
+            let current = '';
+            document.querySelectorAll('.section').forEach(section => {
+                if (window.pageYOffset >= section.offsetTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+            document.querySelectorAll('.nav-pill').forEach(pill => {
+                pill.classList.toggle('active', pill.getAttribute('href') === '#' + current);
+            });
+        });
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        /* ── Nav pills: smooth scroll ── */
+        document.querySelectorAll('.nav-pill').forEach(pill => {
+            pill.addEventListener('click', e => {
+                e.preventDefault();
+                const targetId = pill.getAttribute('href').replace('#', '');
+                navigateTo(targetId);
+            });
+        });
+
+        /* ── Intersection Observer: fade-in cards ── */
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('is-visible');
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -100px 0px' });
+
+        document.querySelectorAll('.fade-in-section').forEach(el => observer.observe(el));
+
+        /* ── Init progress on load ── */
+        updateProgress();
+    </script>
+</body>
+</html>

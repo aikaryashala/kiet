@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 4 - Student Development Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0e27;
+            --bg-secondary: #151b3d;
+            --bg-card: #1a2249;
+            --accent-primary: #00d9ff;
+            --accent-secondary: #7c3aed;
+            --accent-tertiary: #f59e0b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border: #2d3a5f;
+        }
+
+        body {
+            font-family: 'Manrope', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Animated Background */
+        .bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.03;
+            background-image: 
+                linear-gradient(30deg, var(--accent-primary) 12%, transparent 12.5%, transparent 87%, var(--accent-primary) 87.5%, var(--accent-primary)),
+                linear-gradient(150deg, var(--accent-primary) 12%, transparent 12.5%, transparent 87%, var(--accent-primary) 87.5%, var(--accent-primary)),
+                linear-gradient(30deg, var(--accent-primary) 12%, transparent 12.5%, transparent 87%, var(--accent-primary) 87.5%, var(--accent-primary)),
+                linear-gradient(150deg, var(--accent-primary) 12%, transparent 12.5%, transparent 87%, var(--accent-primary) 87.5%, var(--accent-primary));
+            background-size: 80px 140px;
+            background-position: 0 0, 0 0, 40px 70px, 40px 70px;
+            animation: patternShift 20s linear infinite;
+        }
+
+        @keyframes patternShift {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(140px); }
+        }
+
+        /* Glow Orbs */
+        .glow-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.2;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .glow-orb-1 {
+            width: 500px;
+            height: 500px;
+            background: var(--accent-secondary);
+            top: 20%;
+            left: 10%;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .glow-orb-2 {
+            width: 400px;
+            height: 400px;
+            background: var(--accent-primary);
+            bottom: 20%;
+            right: 10%;
+            animation: float 10s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-30px) scale(1.1); }
+        }
+
+        /* Home Button - Top Left */
+        .home-btn {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text-primary);
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            font-weight: 500;
+            animation: slideInLeft 0.6s ease-out;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .home-btn:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-primary);
+            box-shadow: 0 10px 25px rgba(0, 217, 255, 0.15);
+        }
+
+        .home-btn:active {
+            transform: translateY(-1px);
+        }
+
+        /* Main Content */
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 2rem;
+            animation: fadeInUp 0.8s ease-out;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        .icon-container {
+            margin-bottom: 2rem;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .icon {
+            font-size: 6rem;
+            filter: drop-shadow(0 0 30px rgba(0, 217, 255, 0.5));
+        }
+
+        .page-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: normal;
+            background: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            margin-bottom: 3rem;
+            font-size: clamp(1rem, 3vw, 1.3rem);
+            color: var(--text-secondary);
+        }
+
+        /* Feature Buttons Grid */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            padding: 0 1rem;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 0;
+        }
+
+        .feature-card:hover::before {
+            opacity: 0.1;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-primary);
+            box-shadow: 0 20px 40px rgba(0, 217, 255, 0.2);
+        }
+
+        .feature-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            display: block;
+            filter: drop-shadow(0 0 20px rgba(0, 217, 255, 0.3));
+        }
+
+        .feature-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .feature-description {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-arrow {
+            display: inline-block;
+            color: var(--accent-primary);
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover .feature-arrow {
+            transform: translateX(10px);
+        }
+
+        /* Decorative Line */
+        .decorative-line {
+            width: 200px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
+            margin: 2rem auto;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; transform: scaleX(1); }
+            50% { opacity: 1; transform: scaleX(1.2); }
+        }
+
+        /* Stagger Animation for Cards */
+        .feature-card:nth-child(1) {
+            animation: fadeInUp 0.8s ease-out 0.2s backwards;
+        }
+
+        .feature-card:nth-child(2) {
+            animation: fadeInUp 0.8s ease-out 0.4s backwards;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .home-btn {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+                top: 1.5rem;
+                left: 1.5rem;
+            }
+
+            .icon {
+                font-size: 4rem;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .feature-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .feature-icon {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .content-wrapper {
+                padding: 1rem;
+            }
+
+            .icon {
+                font-size: 3rem;
+            }
+
+            .feature-card {
+                padding: 1.5rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-pattern"></div>
+    <div class="glow-orb glow-orb-1"></div>
+    <div class="glow-orb glow-orb-2"></div>
+
+    <!-- Home Button -->
+    <a href="bootcamp.html" class="home-btn">← Back to Bootcamp</a>
+
+    <!-- Main Content -->
+    <div class="content-wrapper">
+        <div class="icon-container">
+            <div class="icon">🌐</div>
+        </div>
+        
+        <h1 class="page-title">Session 4</h1>
+        
+        <div class="decorative-line"></div>
+        
+        <p class="subtitle">Choose a learning path to get started</p>
+
+        <!-- Feature Cards -->
+        <div class="feature-grid">
+            <!-- Web APIs Card -->
+
+            <!-- Payment QR Generator Card -->
+            <a href="payment-qr.html" class="feature-card">
+                <div class="feature-content">
+                    <span class="feature-icon">💳</span>
+                    <h2 class="feature-title">Payment QR Generator</h2>
+                    <p class="feature-description">
+                        Create custom payment QR codes with your name and amount. Perfect for accepting UPI payments instantly.
+                    </p>
+                    <span class="feature-arrow">→</span>
+                </div>
+            </a>
+            
+            <a href="api.html" class="feature-card">
+                <div class="feature-content">
+                    <span class="feature-icon">🔌</span>
+                    <h2 class="feature-title">Web APIs</h2>
+                    <p class="feature-description">
+                        Master web APIs and learn how to build powerful integrations. Understand RESTful services and modern web communication.
+                    </p>
+                    <span class="feature-arrow">→</span>
+                </div>
+            </a>
+
+            <!-- Network Internals Card -->
+            <a href="https://aikaryashala.com/network-internals/" class="feature-card">
+                <div class="feature-content">
+                    <span class="feature-icon">🌍</span>
+                    <h2 class="feature-title">Network Internals</h2>
+                    <p class="feature-description">
+                        Dive deep into networking fundamentals. Learn protocols, architecture, and how data travels across the internet.
+                    </p>
+                    <span class="feature-arrow">→</span>
+                </div>
+            </a>
+
+            <a href="" class="feature-card">
+                <div class="feature-content">
+                    <span class="feature-icon">🔍</span>
+                    <h2 class="feature-title">ChatGPT Internals</h2>
+                    <p class="feature-description">
+                        A simple guide to how ChatGPT works inside—tokens, embeddings, transformers, attention, context window, and how it generates responses.
+                    </p>
+                    <span class="feature-arrow">→</span>
+                </div>
+            </a>
+
+                        <a href="https://arunsindiri.github.io/dictionary-ai_karyashala" class="feature-card">
+                <div class="feature-content">
+                    <span class="feature-icon">📚</span>
+                    <h2 class="feature-title">Smart Dictionary</h2>
+                    <p class="feature-description">
+                        A Smart Dictionary app to search and learn tech concepts in English + Telugish, organized into clean topic-wise sections (Linux, Python, Algorithms, Call Stack, HTML, QR, tools, etc.) for quick revision and practice.                    </p>
+                    <span class="feature-arrow">→</span>
+                </div>
+            </a>
+            
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Session - AI-Karyashala</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --bg-primary: #0a0e27;
+            --bg-secondary: #151b3d;
+            --bg-card: #1a2249;
+            --accent-primary: #f59e0b;
+            --accent-secondary: #fbbf24;
+            --accent-tertiary: #fb923c;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border: #2d3a5f;
+        }
+        body {
+            font-family: 'Manrope', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Animated Background */
+        .bg-pattern {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+            opacity: 0.03;
+            background-image:
+                linear-gradient(30deg, var(--accent-primary) 12%, transparent 12.5%, transparent 87%, var(--accent-primary) 87.5%, var(--accent-primary)),
+                linear-gradient(150deg, var(--accent-primary) 12%, transparent 12.5%, transparent 87%, var(--accent-primary) 87.5%, var(--accent-primary)),
+                linear-gradient(30deg, var(--accent-primary) 12%, transparent 12.5%, transparent 87%, var(--accent-primary) 87.5%, var(--accent-primary)),
+                linear-gradient(150deg, var(--accent-primary) 12%, transparent 12.5%, transparent 87%, var(--accent-primary) 87.5%, var(--accent-primary));
+            background-size: 80px 140px;
+            background-position: 0 0, 0 0, 40px 70px, 40px 70px;
+            animation: patternShift 20s linear infinite;
+        }
+        @keyframes patternShift {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(140px); }
+        }
+
+        /* Glow Orbs */
+        .glow-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.2;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .glow-orb-1 {
+            width: 500px; height: 500px;
+            background: var(--accent-primary);
+            top: 20%; left: 10%;
+            animation: float 8s ease-in-out infinite;
+        }
+        .glow-orb-2 {
+            width: 400px; height: 400px;
+            background: var(--accent-tertiary);
+            bottom: 20%; right: 10%;
+            animation: float 10s ease-in-out infinite reverse;
+        }
+        .glow-orb-3 {
+            width: 350px; height: 350px;
+            background: var(--accent-secondary);
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulse 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-30px) scale(1.1); }
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.2; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 0.3; transform: translate(-50%, -50%) scale(1.2); }
+        }
+
+        /* Home Button */
+        .home-btn {
+            position: fixed;
+            top: 2rem; left: 2rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text-primary);
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            font-weight: 500;
+            animation: slideInLeft 0.6s ease-out;
+        }
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+        .home-btn:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-primary);
+            box-shadow: 0 10px 25px rgba(245, 158, 11, 0.25);
+        }
+
+        /* Top Right Buttons */
+        .top-right-buttons {
+            position: fixed;
+            top: 2rem; right: 2rem;
+            display: flex;
+            gap: 0.75rem;
+            z-index: 100;
+            animation: slideInRight 0.6s ease-out;
+        }
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Base top button */
+        .top-btn {
+            padding: 0.75rem 1.4rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+            position: relative;
+            overflow: hidden;
+        }
+        .top-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+            transition: left 0.5s ease;
+        }
+        .top-btn:hover::before { left: 100%; }
+        .top-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 28px rgba(245, 158, 11, 0.2);
+        }
+        .top-btn:active { transform: translateY(-1px); }
+
+        /* Highlighted variants */
+        .top-btn.highlight-amber {
+            border-color: rgba(245, 158, 11, 0.6);
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--accent-secondary);
+            box-shadow: 0 0 18px rgba(245, 158, 11, 0.15);
+        }
+        .top-btn.highlight-amber:hover {
+            border-color: var(--accent-primary);
+            background: rgba(245, 158, 11, 0.18);
+            box-shadow: 0 10px 32px rgba(245, 158, 11, 0.35);
+        }
+
+        .top-btn.highlight-green {
+            border-color: rgba(16, 185, 129, 0.6);
+            background: rgba(16, 185, 129, 0.1);
+            color: #34d399;
+            box-shadow: 0 0 18px rgba(16, 185, 129, 0.12);
+        }
+        .top-btn.highlight-green:hover {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.18);
+            box-shadow: 0 10px 32px rgba(16, 185, 129, 0.3);
+        }
+
+        .top-btn.highlight-blue {
+            border-color: rgba(0, 217, 255, 0.55);
+            background: rgba(0, 217, 255, 0.08);
+            color: #67e8f9;
+            box-shadow: 0 0 18px rgba(0, 217, 255, 0.12);
+        }
+        .top-btn.highlight-blue:hover {
+            border-color: #00d9ff;
+            background: rgba(0, 217, 255, 0.15);
+            box-shadow: 0 10px 32px rgba(0, 217, 255, 0.28);
+        }
+
+        .top-btn.highlight-purple {
+            border-color: rgba(139, 92, 246, 0.6);
+            background: rgba(139, 92, 246, 0.1);
+            color: #c4b5fd;
+            box-shadow: 0 0 18px rgba(139, 92, 246, 0.12);
+        }
+        .top-btn.highlight-purple:hover {
+            border-color: #8b5cf6;
+            background: rgba(139, 92, 246, 0.18);
+            box-shadow: 0 10px 32px rgba(139, 92, 246, 0.3);
+        }
+
+        .btn-icon {
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        /* Main Content */
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 7rem 2rem 3rem;
+            animation: fadeInUp 0.8s ease-out;
+            max-width: 780px;
+            width: 100%;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Special Badge */
+        .special-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-tertiary));
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
+            animation: glow 2s ease-in-out infinite;
+            color: #0a0e27;
+        }
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3); }
+            50%       { box-shadow: 0 10px 50px rgba(245, 158, 11, 0.6); }
+        }
+
+        /* Icon */
+        .icon-container {
+            margin-bottom: 1.5rem;
+            animation: bounce 3s ease-in-out infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50%       { transform: translateY(-14px); }
+        }
+        .icon {
+            font-size: 5rem;
+            filter: drop-shadow(0 0 40px rgba(245, 158, 11, 0.7));
+            display: inline-block;
+        }
+
+        /* Main heading */
+        .main-heading {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(2.5rem, 7vw, 4.5rem);
+            font-weight: normal;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary), var(--accent-tertiary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            line-height: 1.15;
+        }
+
+        .subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+        }
+
+        /* Stars */
+        .stars-container {
+            margin: 0 auto 2.5rem;
+        }
+        .star {
+            display: inline-block;
+            font-size: 1.8rem;
+            margin: 0 0.4rem;
+            animation: twinkle 2s ease-in-out infinite;
+            filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.5));
+        }
+        .star:nth-child(1) { animation-delay: 0s; }
+        .star:nth-child(2) { animation-delay: 0.35s; }
+        .star:nth-child(3) { animation-delay: 0.7s; }
+        @keyframes twinkle {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50%       { opacity: 0.5; transform: scale(0.8); }
+        }
+
+        /* Session Cards Grid */
+        .session-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 2.5rem;
+            text-align: left;
+        }
+
+        .session-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.4rem 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .session-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--card-accent), transparent);
+            transition: left 0.7s ease;
+        }
+        .session-card:hover::before { left: 100%; }
+        .session-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--card-accent);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.3);
+        }
+
+        .session-card.amber  { --card-accent: #f59e0b; }
+        .session-card.green  { --card-accent: #10b981; }
+        .session-card.blue   { --card-accent: #00d9ff; }
+        .session-card.purple { --card-accent: #8b5cf6; }
+
+        .card-emoji { font-size: 2rem; margin-bottom: 0.75rem; display: block; }
+
+        .card-title {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 0.4rem;
+            color: var(--text-primary);
+        }
+        .card-desc {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Action buttons row */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+
+        .action-btn {
+            padding: 0.85rem 1.8rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+        .action-btn.primary {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-tertiary));
+            color: #0a0e27;
+            box-shadow: 0 8px 24px rgba(245, 158, 11, 0.35);
+        }
+        .action-btn.primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 36px rgba(245, 158, 11, 0.5);
+        }
+        .action-btn.secondary {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 217, 255, 0.5);
+            color: #67e8f9;
+        }
+        .action-btn.secondary:hover {
+            transform: translateY(-3px);
+            border-color: #00d9ff;
+            box-shadow: 0 10px 28px rgba(0, 217, 255, 0.25);
+        }
+
+        /* Mobile */
+        @media (max-width: 900px) {
+            .top-right-buttons {
+                flex-wrap: wrap;
+                max-width: calc(100vw - 4rem);
+                justify-content: flex-end;
+            }
+        }
+        @media (max-width: 768px) {
+            .home-btn {
+                padding: 0.6rem 1.1rem;
+                font-size: 0.875rem;
+                top: 1.25rem; left: 1.25rem;
+            }
+            .top-right-buttons {
+                top: 1.25rem; right: 1.25rem;
+                gap: 0.5rem;
+            }
+            .top-btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.85rem;
+            }
+            .content-wrapper {
+                padding: 8rem 1.25rem 2rem;
+            }
+            .session-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        @media (max-width: 500px) {
+            .top-btn .btn-label { display: none; }
+            .top-btn { padding: 0.65rem 0.75rem; }
+            .session-grid { grid-template-columns: 1fr; }
+            .action-buttons { flex-direction: column; align-items: stretch; }
+            .action-btn { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-pattern"></div>
+    <div class="glow-orb glow-orb-1"></div>
+    <div class="glow-orb glow-orb-2"></div>
+    <div class="glow-orb glow-orb-3"></div>
+
+    <!-- Home Button -->
+    <a href="bootcamp.html" class="home-btn">← Back to Bootcamp</a>
+
+    <!-- Top Right Buttons (highlighted) -->
+    <div class="top-right-buttons">
+        <a href="https://forms.gle/aV28zugwr1mrvJMJ8" target="_blank" class="top-btn highlight-amber">
+            <span class="btn-icon">📝</span>
+            <span class="btn-label">Feedback Form</span>
+        </a>
+        <a href="assets/websitesteps.pdf" target="_blank" class="top-btn highlight-green">
+            <span class="btn-icon">👤</span>
+            <span class="btn-label">GitHub Profile</span>
+        </a>
+        <a href="https://aikaryashala.com/bootcamp/kiet/installation.html#step4" target="_blank" class="top-btn highlight-blue">
+            <span class="btn-icon">📱</span>
+            <span class="btn-label">QR Generator</span>
+        </a>
+        <a href="https://aikaryashala.com/bootcamp/kiet/installation.html#step5" target="_blank" class="top-btn highlight-purple">
+            <span class="btn-icon">🎬</span>
+            <span class="btn-label">Reel Generator</span>
+        </a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content-wrapper">
+        <div class="special-badge">⭐ Special Session ⭐</div>
+
+        <div class="icon-container">
+            <div class="icon">✨</div>
+        </div>
+
+        <h1 class="main-heading">Special Session</h1>
+        <p class="subtitle">An exclusive hands-on experience — explore, build, and share!</p>
+
+        <div class="stars-container">
+            <span class="star">⭐</span>
+            <span class="star">⭐</span>
+            <span class="star">⭐</span>
+        </div>
+
+        <!-- Session topic cards -->
+        <div class="session-grid">
+            <div class="session-card amber">
+                <span class="card-emoji">🐙</span>
+                <div class="card-title">GitHub Profile Creation</div>
+                <div class="card-desc">Build your professional GitHub profile with a <code>username.github.io</code> portfolio repository.</div>
+            </div>
+            <div class="session-card blue">
+                <span class="card-emoji">📱</span>
+                <div class="card-title">QR Code Generation</div>
+                <div class="card-desc">Generate contact QR codes for instant sharing — scan & save in seconds.</div>
+            </div>
+            <div class="session-card purple">
+                <span class="card-emoji">🎬</span>
+                <div class="card-title">Reel Generator</div>
+                <div class="card-desc">Create your own "What I Learned Today" video reel with custom content and music.</div>
+            </div>
+            <div class="session-card green">
+                <span class="card-emoji">🤖</span>
+                <div class="card-title">AI Tools Exploration</div>
+                <div class="card-desc">Discover and experiment with cutting-edge AI technologies and workflows.</div>
+            </div>
+        </div>
+
+        <!-- Call-to-action buttons -->
+        <div class="action-buttons">
+            <a href="https://aikaryashala.com/bootcamp/kiet/installation.html#step4" target="_blank" class="action-btn primary">
+                📱 Open QR Generator
+            </a>
+            <a href="https://aikaryashala.com/bootcamp/kiet/installation.html#step5" target="_blank" class="action-btn secondary">
+                🎬 Open Reel Generator
+            </a>
+        </div>
+    </div>
+</body>
+</html>

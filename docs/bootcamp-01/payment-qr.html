@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment QR Generator - Student Development Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0e27;
+            --bg-secondary: #151b3d;
+            --bg-card: #1a2249;
+            --accent-primary: #00d9ff;
+            --accent-secondary: #7c3aed;
+            --accent-tertiary: #f59e0b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border: #2d3a5f;
+        }
+
+        body {
+            font-family: 'Manrope', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        /* Animated Background */
+        .bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.03;
+            background-image: 
+                linear-gradient(30deg, var(--accent-primary) 12%, transparent 12.5%, transparent 87%, var(--accent-primary) 87.5%, var(--accent-primary)),
+                linear-gradient(150deg, var(--accent-primary) 12%, transparent 12.5%, transparent 87%, var(--accent-primary) 87.5%, var(--accent-primary)),
+                linear-gradient(30deg, var(--accent-primary) 12%, transparent 12.5%, transparent 87%, var(--accent-primary) 87.5%, var(--accent-primary)),
+                linear-gradient(150deg, var(--accent-primary) 12%, transparent 12.5%, transparent 87%, var(--accent-primary) 87.5%, var(--accent-primary));
+            background-size: 80px 140px;
+            background-position: 0 0, 0 0, 40px 70px, 40px 70px;
+            animation: patternShift 20s linear infinite;
+        }
+
+        @keyframes patternShift {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(140px); }
+        }
+
+        /* Glow Orbs */
+        .glow-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.2;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .glow-orb-1 {
+            width: 500px;
+            height: 500px;
+            background: var(--accent-secondary);
+            top: 20%;
+            left: 10%;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .glow-orb-2 {
+            width: 400px;
+            height: 400px;
+            background: var(--accent-primary);
+            bottom: 20%;
+            right: 10%;
+            animation: float 10s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-30px) scale(1.1); }
+        }
+
+        /* Home Button */
+        .home-btn {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text-primary);
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            font-weight: 500;
+            animation: slideInLeft 0.6s ease-out;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .home-btn:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-primary);
+            box-shadow: 0 10px 25px rgba(0, 217, 255, 0.15);
+        }
+
+        /* Container */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+            padding-top: 4rem;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        .icon-container {
+            margin-bottom: 1.5rem;
+        }
+
+        .icon {
+            font-size: 5rem;
+            filter: drop-shadow(0 0 30px rgba(0, 217, 255, 0.5));
+        }
+
+        .page-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(2rem, 6vw, 3.5rem);
+            font-weight: normal;
+            background: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Content Card */
+        .content-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-top: 2rem;
+            animation: fadeInUp 0.8s ease-out 0.3s backwards;
+        }
+
+        /* Steps Section */
+        .steps-container {
+            margin-top: 2rem;
+        }
+
+        .steps-header {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.8rem;
+            color: var(--accent-primary);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .step {
+            background: rgba(0, 217, 255, 0.05);
+            border: 1px solid rgba(0, 217, 255, 0.1);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .step:hover {
+            background: rgba(0, 217, 255, 0.08);
+            border-color: rgba(0, 217, 255, 0.2);
+            transform: translateX(5px);
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
+            font-weight: 700;
+            margin-right: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .step-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+            color: var(--accent-secondary);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .step-description {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .code-block {
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            color: var(--accent-primary);
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+            border-left: 4px solid var(--accent-primary);
+            position: relative;
+        }
+
+        .code-block::before {
+            content: '$ ';
+            color: var(--accent-tertiary);
+            font-weight: bold;
+        }
+
+        .note {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 10px;
+            padding: 1rem 1.5rem;
+            margin-top: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            font-style: italic;
+        }
+
+        .note::before {
+            content: '💡 ';
+            margin-right: 0.5rem;
+        }
+
+        /* Info Box */
+        .info-box {
+            background: rgba(124, 58, 237, 0.1);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .info-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.3rem;
+            color: var(--accent-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .info-text {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .home-btn {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+                top: 1.5rem;
+                left: 1.5rem;
+            }
+
+            .container {
+                padding-top: 5rem;
+            }
+
+            .content-card {
+                padding: 1.5rem;
+            }
+
+            .step {
+                padding: 1rem;
+            }
+
+            .code-block {
+                font-size: 0.8rem;
+                padding: 0.8rem 1rem;
+            }
+
+            .step-number {
+                width: 30px;
+                height: 30px;
+                line-height: 30px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .icon {
+                font-size: 3.5rem;
+            }
+
+            .step-title {
+                font-size: 1rem;
+            }
+
+            .code-block {
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-pattern"></div>
+    <div class="glow-orb glow-orb-1"></div>
+    <div class="glow-orb glow-orb-2"></div>
+
+    <!-- Home Button -->
+    <a href="session-4.html" class="home-btn">← Back to Session 4</a>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="icon-container">
+                <div class="icon">💳</div>
+            </div>
+            <h1 class="page-title">Payment QR Generator</h1>
+            <p class="subtitle">
+                Create custom payment QR codes with your name and amount. Perfect for accepting UPI payments instantly.
+            </p>
+        </div>
+
+        <!-- Content Card -->
+        <div class="content-card">
+            <div class="steps-container">
+                <h2 class="steps-header">Setup Instructions</h2>
+
+                <!-- Step 1 -->
+                <div class="step">
+                    <div style="display: flex; align-items: flex-start;">
+                        <span class="step-number">1</span>
+                        <div style="flex: 1;">
+                            <h3 class="step-title">Install QR Code Library</h3>
+                            <p class="step-description">
+                                Open Ubuntu terminal in your home directory and install the required QR code library with PIL support.
+                            </p>
+                            <div class="code-block">python3 -m pip install qrcode[pil] --break-system-packages</div>
+                            <div class="note">
+                                This installs the qrcode library with image generation capabilities
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="step">
+                    <div style="display: flex; align-items: flex-start;">
+                        <span class="step-number">2</span>
+                        <div style="flex: 1;">
+                            <h3 class="step-title">Download Payment Script</h3>
+                            <p class="step-description">
+                                Download the payment QR generator script from GitHub repository using curl command.
+                            </p>
+                            <div class="code-block">curl -fsSL -o sir_payment.py https://raw.githubusercontent.com/sandeepbangaru17/qr/main/sir_payment.py</div>
+                            <div class="note">
+                                This saves the script as sir_payment.py in your current directory
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="step">
+                    <div style="display: flex; align-items: flex-start;">
+                        <span class="step-number">3</span>
+                        <div style="flex: 1;">
+                            <h3 class="step-title">Run the Script</h3>
+                            <p class="step-description">
+                                Execute the Python script. It will prompt you to enter your details:
+                            </p>
+                            <div class="code-block">python3 sir_payment.py</div>
+                            <div class="note">
+                                <strong>When prompted:</strong><br>
+                                • Enter your name as the payee<br>
+                                • Enter the payment amount<br>
+                                • The script will generate a QR code image
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="step">
+                    <div style="display: flex; align-items: flex-start;">
+                        <span class="step-number">4</span>
+                        <div style="flex: 1;">
+                            <h3 class="step-title">Start Local Server</h3>
+                            <p class="step-description">
+                                Start a local HTTP server to view and share your generated QR code.
+                            </p>
+                            <div class="code-block">python3 -m http.server 8000</div>
+                            <div class="note">
+                                <strong>Access your QR code:</strong><br>
+                                • On the same machine: <code style="color: var(--accent-primary);">http://localhost:8000</code><br>
+                                • From other devices: <code style="color: var(--accent-primary);">http://[Ubuntu-IP]:8000</code><br>
+                                • Press Ctrl+C to stop the server
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Info Box -->
+            <div class="info-box">
+                <h3 class="info-title">📱 How It Works</h3>
+                <p class="info-text">
+                    This tool generates a UPI payment QR code that can be scanned by any UPI-enabled payment app like Google Pay, PhonePe, or Paytm. When someone scans the code, it will automatically fill in your name and the specified amount, making payments quick and hassle-free.
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

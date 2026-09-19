@@ -1,0 +1,851 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Web APIs Guide</title> 
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet"> 
+    <style> 
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        } 
+ 
+        :root { 
+            --bg-primary: #0a0e27; 
+            --bg-secondary: #151b3d; 
+            --bg-card: #1a2249; 
+            --accent-primary: #00d9ff; 
+            --accent-secondary: #7c3aed; 
+            --accent-tertiary: #f59e0b; 
+            --text-primary: #f8fafc; 
+            --text-secondary: #94a3b8; 
+            --text-muted: #64748b; 
+            --border: #2d3a5f; 
+            --success: #10b981; 
+            --warning: #f59e0b; 
+            --code-bg: #0f1729; 
+        } 
+ 
+        body { 
+            font-family: 'Manrope', sans-serif; 
+            background: var(--bg-primary); 
+            color: var(--text-primary); 
+            line-height: 1.7; 
+            overflow-x: hidden; 
+        } 
+ 
+        /* Animated Background */ 
+        .bg-pattern { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            z-index: 0; 
+            opacity: 0.03; 
+            background-image:  
+                linear-gradient(30deg, var(--accent-primary) 12%, transparent 12.5%, transparent 87%, var(--accent-primary) 87.5%, var(--accent-primary)), 
+                linear-gradient(150deg, var(--accent-primary) 12%, transparent 12.5%, transparent 87%, var(--accent-primary) 87.5%, var(--accent-primary)), 
+                linear-gradient(30deg, var(--accent-primary) 12%, transparent 12.5%, transparent 87%, var(--accent-primary) 87.5%, var(--accent-primary)), 
+                linear-gradient(150deg, var(--accent-primary) 12%, transparent 12.5%, transparent 87%, var(--accent-primary) 87.5%, var(--accent-primary)); 
+            background-size: 80px 140px; 
+            background-position: 0 0, 0 0, 40px 70px, 40px 70px; 
+            animation: patternShift 20s linear infinite; 
+        } 
+ 
+        @keyframes patternShift { 
+            0% { transform: translateY(0); } 
+            100% { transform: translateY(140px); } 
+        } 
+ 
+        /* Home Button */ 
+        .home-btn { 
+            position: fixed; 
+            top: 1.5rem; 
+            left: 1.5rem; 
+            z-index: 1000; 
+            background: var(--bg-card); 
+            border: 1px solid var(--border); 
+            border-radius: 12px; 
+            padding: 0.75rem 1.25rem; 
+            color: var(--text-primary); 
+            text-decoration: none; 
+            font-weight: 600; 
+            display: flex; 
+            align-items: center; 
+            gap: 0.5rem; 
+            transition: all 0.3s ease; 
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); 
+        } 
+ 
+        .home-btn:hover { 
+            border-color: var(--accent-primary); 
+            background: var(--bg-secondary); 
+            transform: translateY(-2px); 
+            box-shadow: 0 6px 20px rgba(0, 217, 255, 0.2); 
+        } 
+ 
+        .home-btn svg { 
+            width: 20px; 
+            height: 20px; 
+        } 
+ 
+        /* Scroll to Top Button */ 
+        .scroll-top-btn { 
+            position: fixed; 
+            bottom: 2rem; 
+            right: 2rem; 
+            z-index: 1000; 
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); 
+            border: none; 
+            border-radius: 50%; 
+            width: 3.5rem; 
+            height: 3.5rem; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            cursor: pointer; 
+            opacity: 0; 
+            visibility: hidden; 
+            transition: all 0.3s ease; 
+            box-shadow: 0 4px 20px rgba(0, 217, 255, 0.3); 
+        } 
+ 
+        .scroll-top-btn.visible { 
+            opacity: 1; 
+            visibility: visible; 
+        } 
+ 
+        .scroll-top-btn:hover { 
+            transform: translateY(-4px); 
+            box-shadow: 0 6px 30px rgba(0, 217, 255, 0.5); 
+        } 
+ 
+        .scroll-top-btn:active { 
+            transform: translateY(-2px); 
+        } 
+ 
+        .scroll-top-btn svg { 
+            width: 24px; 
+            height: 24px; 
+            color: var(--bg-primary); 
+        } 
+ 
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 0 1rem; 
+            position: relative; 
+            z-index: 1; 
+        } 
+ 
+        /* Header */ 
+        header { 
+            padding: 3rem 0 2rem; 
+            text-align: center; 
+            border-bottom: 1px solid var(--border); 
+            margin-bottom: 3rem; 
+            position: relative; 
+            overflow: hidden; 
+        } 
+ 
+        .glow-orb { 
+            position: absolute; 
+            width: 400px; 
+            height: 400px; 
+            border-radius: 50%; 
+            filter: blur(100px); 
+            opacity: 0.15; 
+            pointer-events: none; 
+        } 
+ 
+        .glow-orb-1 { 
+            background: var(--accent-primary); 
+            top: -200px; 
+            left: 10%; 
+            animation: float 8s ease-in-out infinite; 
+        } 
+ 
+        .glow-orb-2 { 
+            background: var(--accent-secondary); 
+            top: -150px; 
+            right: 10%; 
+            animation: float 10s ease-in-out infinite reverse; 
+        } 
+ 
+        @keyframes float { 
+            0%, 100% { transform: translateY(0) scale(1); } 
+            50% { transform: translateY(-30px) scale(1.1); } 
+        } 
+ 
+        h1 { 
+            font-family: 'DM Serif Display', serif; 
+            font-size: clamp(2rem, 5vw, 3.5rem); 
+            font-weight: normal; 
+            margin-bottom: 1rem; 
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            background-clip: text; 
+            animation: fadeInUp 0.8s ease-out; 
+        } 
+ 
+        .subtitle { 
+            font-size: clamp(1rem, 3vw, 1.25rem); 
+            color: var(--text-secondary); 
+            max-width: 600px; 
+            margin: 0 auto; 
+            animation: fadeInUp 0.8s ease-out 0.2s backwards; 
+            padding: 0 1rem; 
+        } 
+ 
+        @keyframes fadeInUp { 
+            from { 
+                opacity: 0; 
+                transform: translateY(20px); 
+            } 
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            } 
+        } 
+ 
+        /* Navigation Pills */ 
+        .nav-pills { 
+            display: flex; 
+            gap: 1rem; 
+            justify-content: center; 
+            flex-wrap: wrap; 
+            margin-bottom: 3rem; 
+            padding: 1rem; 
+            position: sticky; 
+            top: 0; 
+            background: rgba(10, 14, 39, 0.95); 
+            backdrop-filter: blur(10px); 
+            z-index: 100; 
+            border-bottom: 1px solid var(--border); 
+        } 
+ 
+        .nav-pill { 
+            padding: 0.75rem 1.5rem; 
+            background: var(--bg-card); 
+            border: 1px solid var(--border); 
+            border-radius: 25px; 
+            color: var(--text-secondary); 
+            text-decoration: none; 
+            transition: all 0.3s ease; 
+            font-weight: 500; 
+            cursor: pointer; 
+        } 
+ 
+        .nav-pill:hover { 
+            border-color: var(--accent-primary); 
+            color: var(--accent-primary); 
+            transform: translateY(-2px); 
+        } 
+ 
+        .nav-pill.active { 
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); 
+            border-color: transparent; 
+            color: var(--bg-primary); 
+        } 
+ 
+        /* Sections */ 
+        .section { 
+            margin-bottom: 4rem; 
+            scroll-margin-top: 100px; 
+        } 
+ 
+        .section-title { 
+            font-family: 'DM Serif Display', serif; 
+            font-size: clamp(1.75rem, 4vw, 2.5rem); 
+            margin-bottom: 1.5rem; 
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            background-clip: text; 
+            display: flex; 
+            align-items: center; 
+            gap: 1rem; 
+        } 
+ 
+        .section-icon { 
+            font-size: 2rem; 
+            filter: drop-shadow(0 0 20px rgba(0, 217, 255, 0.3)); 
+        } 
+ 
+        .section-intro { 
+            font-size: 1.1rem; 
+            color: var(--text-secondary); 
+            margin-bottom: 2rem; 
+            line-height: 1.8; 
+        } 
+ 
+        /* Steps */ 
+        .steps-container { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 2rem; 
+        } 
+ 
+        .step { 
+            background: var(--bg-card); 
+            border: 1px solid var(--border); 
+            border-radius: 16px; 
+            padding: 2rem; 
+            transition: all 0.3s ease; 
+        } 
+ 
+        .step:hover { 
+            border-color: var(--accent-primary); 
+            box-shadow: 0 8px 30px rgba(0, 217, 255, 0.15); 
+            transform: translateY(-4px); 
+        } 
+ 
+        .step-title { 
+            font-size: 1.5rem; 
+            font-weight: 600; 
+            color: var(--accent-primary); 
+            margin-bottom: 1rem; 
+            display: flex; 
+            align-items: center; 
+            gap: 0.75rem; 
+        } 
+ 
+        .step-number { 
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); 
+            width: 2.5rem; 
+            height: 2.5rem; 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-weight: 700; 
+            color: var(--bg-primary); 
+            flex-shrink: 0; 
+        } 
+ 
+        .step-content { 
+            color: var(--text-secondary); 
+            font-size: 1.05rem; 
+            line-height: 1.7; 
+            margin-bottom: 1rem; 
+        } 
+ 
+        /* Code Blocks */ 
+        .code-block { 
+            background: var(--code-bg); 
+            border: 1px solid var(--border); 
+            border-radius: 12px; 
+            overflow: hidden; 
+            margin: 1rem 0; 
+            transition: all 0.3s ease; 
+        } 
+ 
+        .code-block:hover { 
+            border-color: var(--accent-primary); 
+            box-shadow: 0 4px 20px rgba(0, 217, 255, 0.1); 
+        } 
+ 
+        .code-header { 
+            background: rgba(0, 217, 255, 0.05); 
+            padding: 0.75rem 1.25rem; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-bottom: 1px solid var(--border); 
+        } 
+ 
+        .code-lang { 
+            font-family: 'JetBrains Mono', monospace; 
+            font-size: 0.875rem; 
+            color: var(--accent-primary); 
+            font-weight: 600; 
+        } 
+ 
+        .copy-btn { 
+            background: transparent; 
+            border: 1px solid var(--border); 
+            color: var(--text-secondary); 
+            padding: 0.4rem 1rem; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-size: 0.875rem; 
+            transition: all 0.3s ease; 
+            font-family: 'Manrope', sans-serif; 
+        } 
+ 
+        .copy-btn:hover { 
+            border-color: var(--accent-primary); 
+            color: var(--accent-primary); 
+            background: rgba(0, 217, 255, 0.05); 
+        } 
+ 
+        pre { 
+            font-family: 'JetBrains Mono', monospace; 
+            padding: 1.25rem; 
+            overflow-x: auto; 
+            margin: 0; 
+            font-size: 0.95rem; 
+            line-height: 1.6; 
+            color: var(--text-primary); 
+        } 
+ 
+        code { 
+            font-family: 'JetBrains Mono', monospace; 
+            background: var(--code-bg); 
+            padding: 0.2rem 0.5rem; 
+            border-radius: 4px; 
+            font-size: 0.9em; 
+            color: var(--accent-primary); 
+        } 
+ 
+        /* Alerts */ 
+        .alert { 
+            padding: 1.25rem; 
+            border-radius: 12px; 
+            margin: 1rem 0; 
+            border-left: 4px solid; 
+        } 
+ 
+        .alert-info { 
+            background: rgba(0, 217, 255, 0.05); 
+            border-color: var(--accent-primary); 
+        } 
+ 
+        .alert-success { 
+            background: rgba(16, 185, 129, 0.05); 
+            border-color: var(--success); 
+        } 
+ 
+        .alert-warning { 
+            background: rgba(245, 158, 11, 0.05); 
+            border-color: var(--warning); 
+        } 
+ 
+        .alert-title { 
+            font-weight: 600; 
+            margin-bottom: 0.75rem; 
+            font-size: 1.05rem; 
+        } 
+ 
+        .alert ul { 
+            margin-left: 1.5rem; 
+            margin-top: 0.5rem; 
+        } 
+ 
+        .alert li { 
+            margin: 0.5rem 0; 
+            color: var(--text-secondary); 
+        } 
+ 
+        /* Footer */ 
+        footer { 
+            background: var(--bg-card); 
+            border-top: 1px solid var(--border); 
+            padding: 2rem 0; 
+            margin-top: 4rem; 
+        } 
+ 
+        .footer-content { 
+            text-align: center; 
+        } 
+ 
+        .footer-section { 
+            margin-bottom: 1rem; 
+        } 
+ 
+        .footer-section h3 { 
+            font-size: 1.1rem; 
+            margin-bottom: 0.75rem; 
+            color: var(--accent-primary); 
+        } 
+ 
+        .footer-section a { 
+            color: var(--text-secondary); 
+            text-decoration: none; 
+            transition: color 0.3s ease; 
+        } 
+ 
+        .footer-section a:hover { 
+            color: var(--accent-primary); 
+        } 
+ 
+        footer p { 
+            color: var(--text-muted); 
+            font-size: 0.9rem; 
+        } 
+ 
+        /* Fade-in animation */ 
+        .fade-in-section { 
+            opacity: 0; 
+            transform: translateY(20px); 
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out; 
+        } 
+ 
+        .fade-in-section.is-visible { 
+            opacity: 1; 
+            transform: translateY(0); 
+        } 
+ 
+        /* Responsive */ 
+        @media (max-width: 768px) { 
+            .home-btn { 
+                padding: 0.6rem 1rem; 
+                font-size: 0.9rem; 
+            } 
+ 
+            .nav-pills { 
+                gap: 0.5rem; 
+            } 
+ 
+            .nav-pill { 
+                padding: 0.6rem 1.2rem; 
+                font-size: 0.9rem; 
+            } 
+ 
+            .step { 
+                padding: 1.5rem; 
+            } 
+ 
+            .code-header { 
+                flex-direction: column; 
+                gap: 0.5rem; 
+                align-items: flex-start; 
+            } 
+ 
+            pre { 
+                font-size: 0.85rem; 
+            } 
+ 
+            .scroll-top-btn { 
+                width: 3rem; 
+                height: 3rem; 
+            } 
+        } 
+    </style> 
+</head> 
+<body> 
+    <div class="bg-pattern"></div> 
+ 
+    <!-- Home Button --> 
+    <a href="session-4.html" class="home-btn"> 
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"> 
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/> 
+        </svg> 
+        Back to Session 4 
+    </a> 
+ 
+    <!-- Scroll to Top Button --> 
+    <button id="scrollTopBtn" class="scroll-top-btn" aria-label="Scroll to top"> 
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"> 
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/> 
+        </svg> 
+    </button> 
+ 
+    <header> 
+        <div class="glow-orb glow-orb-1"></div> 
+        <div class="glow-orb glow-orb-2"></div> 
+        <div class="container"> 
+            <h1>Web APIs Guide</h1> 
+            <p class="subtitle">Learn to interact with real-world APIs using command line tools</p> 
+        </div> 
+    </header> 
+ 
+    <!-- Navigation Pills --> 
+    <nav class="nav-pills"> 
+        <a href="#post-office-api" class="nav-pill active">📮 Post Office API</a> 
+        <a href="#weather-api" class="nav-pill">🌤️ Weather API</a> 
+    </nav> 
+ 
+    <div class="container"> 
+        <!-- Post Office API Section --> 
+        <section id="post-office-api" class="section fade-in-section"> 
+            <h2 class="section-title"> 
+                <span class="section-icon">📮</span> 
+                Post Office API 
+            </h2> 
+            <p class="section-intro"> 
+                The Post Office API allows you to fetch detailed information about any location in India using its PIN code. This includes the post office name, district, state, and more. 
+            </p> 
+ 
+            <div class="steps-container"> 
+                <div class="step"> 
+                    <div class="step-title"> 
+                        <span class="step-number">1.1</span> 
+                        Open Ubuntu VM 
+                    </div> 
+                    <div class="step-content"> 
+                        Launch your Ubuntu virtual machine and open the terminal. Make sure you have an active internet connection. 
+                    </div> 
+                    <div class="alert alert-info"> 
+                        <div class="alert-title">💡 Prerequisites:</div> 
+                        <ul> 
+                            <li>Ubuntu VM must be running</li> 
+                            <li>Terminal application opened</li> 
+                            <li>Internet connection active</li> 
+                            <li><code>curl</code> command should be available (pre-installed on most Ubuntu systems)</li> 
+                        </ul> 
+                    </div> 
+                </div> 
+ 
+                <div class="step"> 
+                    <div class="step-title"> 
+                        <span class="step-number">1.2</span> 
+                        Use the Post Office API 
+                    </div> 
+                    <div class="step-content"> 
+                        Copy and run the following command to fetch postal information. Replace <code><pincode></code> with your desired PIN code. 
+                    </div> 
+                    <div class="code-block"> 
+                        <div class="code-header"> 
+                            <span class="code-lang">Command Format</span> 
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button> 
+                        </div> 
+                        <pre>curl https://api.postalpincode.in/pincode/<pincode></pre> 
+                    </div> 
+                     
+                    <div class="step-content" style="margin-top: 1.5rem;"> 
+                        <strong>Example Usage:</strong> 
+                    </div> 
+                    <div class="code-block"> 
+                        <div class="code-header"> 
+                            <span class="code-lang">Bash</span> 
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button> 
+                        </div> 
+                        <pre>curl https://api.postalpincode.in/pincode/530016</pre> 
+                    </div> 
+ 
+                    <div class="alert alert-success"> 
+                        <div class="alert-title">✅ Expected Output:</div> 
+                        <ul> 
+                            <li>JSON response containing post office details</li> 
+                            <li>Information includes: Name, Branch Type, Delivery Status, Circle, District, Division, Region, State</li> 
+                            <li>You'll see data for all post offices associated with that PIN code</li> 
+                            <li>Status field will indicate if the PIN code is valid</li> 
+                        </ul> 
+                    </div> 
+ 
+                    <div class="alert alert-info"> 
+                        <div class="alert-title">💡 Try different PIN codes:</div> 
+                        <ul> 
+                            <li><strong>Mumbai:</strong> <code>400001</code></li> 
+                            <li><strong>Delhi:</strong> <code>110001</code></li> 
+                            <li><strong>Bangalore:</strong> <code>560001</code></li> 
+                            <li><strong>Chennai:</strong> <code>600001</code></li> 
+                            <li><strong>Visakhapatnam:</strong> <code>530016</code></li> 
+                        </ul> 
+                    </div> 
+                </div> 
+            </div> 
+        </section> 
+ 
+        <!-- Weather API Section --> 
+        <section id="weather-api" class="section fade-in-section"> 
+            <h2 class="section-title"> 
+                <span class="section-icon">🌤️</span> 
+                Weather API 
+            </h2> 
+            <p class="section-intro"> 
+                The wttr.in Weather API provides current weather information for any city in the world. It displays beautifully formatted weather data directly in your terminal. 
+            </p> 
+ 
+            <div class="steps-container"> 
+                <div class="step"> 
+                    <div class="step-title"> 
+                        <span class="step-number">2.1</span> 
+                        Open Ubuntu VM 
+                    </div> 
+                    <div class="step-content"> 
+                        Launch your Ubuntu virtual machine and open the terminal. Ensure you have internet connectivity to fetch live weather data. 
+                    </div> 
+                    <div class="alert alert-info"> 
+                        <div class="alert-title">💡 Prerequisites:</div> 
+                        <ul> 
+                            <li>Ubuntu VM must be running</li> 
+                            <li>Terminal application opened</li> 
+                            <li>Active internet connection</li> 
+                            <li><code>curl</code> command available</li> 
+                        </ul> 
+                    </div> 
+                </div> 
+ 
+                <div class="step"> 
+                    <div class="step-title"> 
+                        <span class="step-number">2.2</span> 
+                        Use the Weather API 
+                    </div> 
+                    <div class="step-content"> 
+                        Copy and run the following command to get weather information. Replace <code><city_name></code> with your desired city. 
+                    </div> 
+                    <div class="code-block"> 
+                        <div class="code-header"> 
+                            <span class="code-lang">Command Format</span> 
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button> 
+                        </div> 
+                        <pre>curl wttr.in/<city_name></pre> 
+                    </div> 
+                     
+                    <div class="step-content" style="margin-top: 1.5rem;"> 
+                        <strong>Example Usage:</strong> 
+                    </div> 
+                    <div class="code-block"> 
+                        <div class="code-header"> 
+                            <span class="code-lang">Bash</span> 
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button> 
+                        </div> 
+                        <pre>curl wttr.in/Visakhapatnam</pre> 
+                    </div> 
+ 
+                    <div class="alert alert-success"> 
+                        <div class="alert-title">✅ What you'll see:</div> 
+                        <ul> 
+                            <li>Beautiful ASCII art weather display</li> 
+                            <li>Current temperature and "feels like" temperature</li> 
+                            <li>Weather conditions (sunny, cloudy, rainy, etc.)</li> 
+                            <li>Wind speed and direction</li> 
+                            <li>Visibility and humidity levels</li> 
+                            <li>3-day weather forecast</li> 
+                            <li>Sunrise and sunset times</li> 
+                        </ul> 
+                    </div> 
+ 
+                    <div class="alert alert-info"> 
+                        <div class="alert-title">💡 Try different cities:</div> 
+                        <ul> 
+                            <li><strong>Mumbai:</strong> <code>curl wttr.in/Mumbai</code></li> 
+                            <li><strong>London:</strong> <code>curl wttr.in/London</code></li> 
+                            <li><strong>New York:</strong> <code>curl wttr.in/NewYork</code></li> 
+                            <li><strong>Tokyo:</strong> <code>curl wttr.in/Tokyo</code></li> 
+                            <li><strong>Paris:</strong> <code>curl wttr.in/Paris</code></li> 
+                        </ul> 
+                    </div> 
+ 
+                    <div class="alert alert-warning"> 
+                        <div class="alert-title">⚠️ Advanced Options:</div> 
+                        <ul> 
+                            <li><strong>Specific format:</strong> Add <code>?format=3</code> for compact output 
+                                <br><code>curl wttr.in/Visakhapatnam?format=3</code></li> 
+                            <li><strong>Different units:</strong> Add <code>?m</code> for metric or <code>?u</code> for US units</li> 
+                            <li><strong>Moon phase:</strong> Try <code>curl wttr.in/Moon</code></li> 
+                            <li><strong>PNG image:</strong> Add <code>.png</code> at the end to get an image</li> 
+                        </ul> 
+                    </div> 
+                </div> 
+            </div> 
+        </section> 
+    </div> 
+ 
+    <footer> 
+        <div class="container"> 
+            <div class="footer-content"> 
+                <p>© 2026 AI-Karyashala</p> 
+            </div> 
+        </div> 
+    </footer> 
+ 
+    <script> 
+        // Copy code functionality 
+        function copyCode(button) { 
+            const codeBlock = button.closest('.code-block'); 
+            const code = codeBlock.querySelector('pre').textContent; 
+             
+            navigator.clipboard.writeText(code).then(() => { 
+                const originalText = button.textContent; 
+                button.textContent = 'Copied!'; 
+                button.style.color = 'var(--success)'; 
+                button.style.borderColor = 'var(--success)'; 
+                 
+                setTimeout(() => { 
+                    button.textContent = originalText; 
+                    button.style.color = ''; 
+                    button.style.borderColor = ''; 
+                }, 2000); 
+            }); 
+        } 
+ 
+        // Scroll to Top Button Functionality 
+        const scrollTopBtn = document.getElementById('scrollTopBtn'); 
+ 
+        // Show/hide button based on scroll position 
+        window.addEventListener('scroll', () => { 
+            if (window.pageYOffset > 300) { 
+                scrollTopBtn.classList.add('visible'); 
+            } else { 
+                scrollTopBtn.classList.remove('visible'); 
+            } 
+        }); 
+ 
+        // Scroll to top when button is clicked 
+        scrollTopBtn.addEventListener('click', () => { 
+            window.scrollTo({ 
+                top: 0, 
+                behavior: 'smooth' 
+            }); 
+        }); 
+ 
+        // Smooth scrolling for navigation 
+        document.querySelectorAll('.nav-pill').forEach(pill => { 
+            pill.addEventListener('click', (e) => { 
+                e.preventDefault(); 
+                const targetId = pill.getAttribute('href'); 
+                const targetSection = document.querySelector(targetId); 
+                 
+                // Calculate the offset to account for fixed elements and spacing 
+                const navHeight = 80; // Approximate height of navigation pills area 
+                const offset = 100; // Additional offset for better viewing 
+                const targetPosition = targetSection.offsetTop - navHeight - offset; 
+                 
+                window.scrollTo({ 
+                    top: targetPosition, 
+                    behavior: 'smooth' 
+                }); 
+ 
+                document.querySelectorAll('.nav-pill').forEach(p => p.classList.remove('active')); 
+                pill.classList.add('active'); 
+            }); 
+        }); 
+ 
+        // Intersection Observer for fade-in animations 
+        const observerOptions = { 
+            threshold: 0.1, 
+            rootMargin: '0px 0px -100px 0px' 
+        }; 
+ 
+        const observer = new IntersectionObserver((entries) => { 
+            entries.forEach(entry => { 
+                if (entry.isIntersecting) { 
+                    entry.target.classList.add('is-visible'); 
+                } 
+            }); 
+        }, observerOptions); 
+ 
+        document.querySelectorAll('.fade-in-section').forEach(section => { 
+            observer.observe(section); 
+        }); 
+ 
+        // Update active nav pill on scroll 
+        window.addEventListener('scroll', () => { 
+            let current = ''; 
+            const sections = document.querySelectorAll('.section'); 
+             
+            sections.forEach(section => { 
+                const sectionTop = section.offsetTop; 
+                const sectionHeight = section.clientHeight; 
+                if (window.pageYOffset >= sectionTop - 200) { 
+                    current = section.getAttribute('id'); 
+                } 
+            }); 
+ 
+            document.querySelectorAll('.nav-pill').forEach(pill => { 
+                pill.classList.remove('active'); 
+                if (pill.getAttribute('href') === `#${current}`) { 
+                    pill.classList.add('active'); 
+                } 
+            }); 
+        }); 
+    </script> 
+</body> 
+</html>
