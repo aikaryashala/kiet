@@ -160,18 +160,6 @@ def code_file(caption, relpath, copy=False, pre_id=None, on=None, strip_header=F
     return code(caption, text, copy=copy, pre_id=pre_id, on=on, lang=lang)
 
 
-def video(stage, desc):
-    return (f'<div class="panel media">\n<div class="cap">videos/stage{stage}.mp4</div>\n'
-            f'<video controls preload="metadata" src="videos/stage{stage}.mp4">'
-            f'<span class="missing">Demo video not available yet — follow the written steps below.</span></video>\n</div>\n'
-            f'<p class="note">{desc}</p>')
-
-
-def figure(path, alt, caption):
-    return (f'<div class="panel media">\n<div class="cap">{esc(caption)}</div>\n'
-            f'<img src="{path}" alt="{esc(alt)}">\n</div>')
-
-
 def callout(text):
     return f'<div class="callout"><p>{text}</p></div>'
 

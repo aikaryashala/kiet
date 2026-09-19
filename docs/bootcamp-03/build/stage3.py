@@ -160,7 +160,6 @@ qz = quiz([
 
 body = "\n".join([
     section("concept", "Concept", concept + stp),
-    section("video", "Demo video", video(3, "Starting demo_server.py, running every curl from the list while the server logs each one, then stopping it and watching curl fail.")),
     section("task", "Task", task),
     section("expected", "Expected output", expected),
     section("check", "Check yourself", check),

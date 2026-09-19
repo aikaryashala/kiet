@@ -118,7 +118,6 @@ qz = quiz([
 
 body = "\n".join([
     section("concept", "Concept", concept + stp),
-    section("video", "Demo video", video(2, "Running read_all.py, then filling the TODO in by_college.py in an editor, running it with a real college and with an unknown one, and check.py.")),
     section("task", "Task", task),
     section("expected", "Expected output", expected),
     section("check", "Check yourself", check),

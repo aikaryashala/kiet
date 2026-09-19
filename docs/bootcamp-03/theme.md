@@ -93,7 +93,7 @@ background-size:4px 4px;
 
 Surfaces are flat. No shadows, no gradients, no elevation. Separation comes from the hairline border plus the paper-against-cream contrast. `border-radius` is `2px` — near-square, deliberately not the rounded-card look.
 
-The one dark surface permitted is a terminal or console block: `--ink` background, `#f3ece1` text, `#8c8478` for the prompt symbol. Nothing else inverts. A video or screenshot sits inside a normal light panel, never on a dark surface.
+The one dark surface permitted is a terminal or console block: `--ink` background, `#f3ece1` text, `#8c8478` for the prompt symbol. Nothing else inverts.
 
 ---
 
@@ -154,24 +154,6 @@ pre.term .ln.on{background:rgba(184,67,10,.18);box-shadow:inset 2px 0 0 var(--ru
 ```
 
 The panel caption names the terminal the way the material does (`terminal 1 — server`, `terminal 2 — curl`). A copy button on the panel copies only `.cmd` lines, without the prompt.
-
-### Video and figure
-
-Same panel as everything else; the media fills the panel body. The caption is the file name or what the frame shows.
-
-```html
-<div class="panel media">
-  <h2>stage3.mp4</h2>
-  <video controls preload="metadata" src="videos/stage3.mp4">Demo video not available yet — follow the written steps below.</video>
-</div>
-```
-
-```css
-.panel.media video,.panel.media img{display:block;width:100%;height:auto;background:var(--cream)}
-.panel.media video:not([src]),.panel.media .missing{padding:24px 14px;color:var(--muted);font-size:14.5px}
-```
-
-When the file is missing, the browser shows the fallback text inside the panel at the same width; the page must not jump.
 
 ### Callout
 
@@ -284,13 +266,12 @@ header        h1 + one-paragraph sub (max 62ch) + the artifact in mono
 1 Concept     prose, 200–400 words; optional stepper visualization
               (two-column grid minmax(0,1.08fr)/minmax(0,1fr), collapsing at 860px,
                controls / track / narration with min-height)
-2 Demo video  media panel
-3 Task        numbered steps, terminal blocks, which terminal stated in the caption
-4 Expected output   terminal blocks with output lines under the command
-5 Check yourself    terminal block with the check command and all-PASS output
-6 Takeaway    callout
-7 Stuck?      links: solution folder, reference pages
-8 Quiz        four questions
+2 Task        numbered steps, terminal blocks, which terminal stated in the caption
+3 Expected output   terminal blocks with output lines under the command
+4 Check yourself    terminal block with the check command and all-PASS output
+5 Takeaway    callout
+6 Stuck?      links: solution folder, reference pages
+7 Quiz        four questions
 footer        one line: how to navigate, who it is for
 ```
 

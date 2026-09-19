@@ -296,7 +296,6 @@ qz = quiz([
 
 body = "\n".join([
     section("concept", "Concept", concept + table_html),
-    section("video", "Demo video", video(0, "Stepping through Blocks 1, 2 and 7 on this page, then running the same files in a terminal and matching the output line by line.")),
     section("task", "Task", task),
     section("expected", "Expected output", expected),
     section("check", "Check yourself", check),

@@ -94,7 +94,6 @@ qz = quiz([
 
 body = "\n".join([
     section("concept", "Concept", concept),
-    section("video", "Demo video", video(4, "Starting the stub, filling in wish, restarting, curl; the same for about; then both servers side by side answering /hai and /wish/Ravi.")),
     section("task", "Task", task),
     section("expected", "Expected output", expected),
     section("check", "Check yourself", check),

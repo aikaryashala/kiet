@@ -83,7 +83,6 @@ qz = quiz([
 
 body = "\n".join([
     section("concept", "Concept", concept),
-    section("video", "Demo video", video(7, "Two terminals running two servers, the page loading with the dropdown filled, three clicks with the table and Request log updating, and Terminal 1 logging each one beside a curl.")),
     section("task", "Task", task),
     section("expected", "Expected output", expected),
     section("check", "Check yourself", check),

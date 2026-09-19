@@ -38,7 +38,7 @@ The bootcamp repo is built as a sibling directory in the workspace, as its own g
 | Frontend styling | Plain HTML, no theme, no fonts, one short `<style>` block. It is "someone else's client"; theme.md does not apply to it. |
 | Setup script | `scripts/setup.sh` in this folder, run from `https://aikaryashala.com/kiet/bootcamp-03/scripts/setup.sh`. Not in the student repos. |
 | Self-check | every stage has a `check.py` printing PASS/FAIL lines |
-| Demo videos | not built here — placeholders + shot lists (see §5.4) |
+| Demo videos | none. No video, no screenshot placeholders; the pages stand on their own. |
 | Solutions | every task has a solution in `code/stageN/solution/`; material links to it under "Stuck? Compare with the solution" |
 | Look and feel | `theme.md` in this folder is the visual system. Where this spec and theme.md disagree on appearance, theme.md wins. |
 
@@ -60,11 +60,8 @@ kiet-bootcamp-3/
 │   ├── style.css                 # the one stylesheet, from theme.md; no inline styles in pages
 │   ├── script.js                 # the one script: copy buttons, quiz, stepper (§5.6, §5.7)
 │   ├── fonts/                    # Fraunces, Inter Tight, JetBrains Mono as .woff2 (theme.md §2)
-│   ├── img/                      # stage8 screenshots (§9 Stage 8)
 │   ├── stage0.html … stage8.html
 │   ├── troubleshooting.html
-│   ├── videos/
-│   │   └── README.md             # expected filenames + shot list per video (§5.4)
 │   └── reference/
 │       ├── python-cheatsheet.html
 │       ├── c-to-python.html
@@ -136,18 +133,13 @@ Prints a PASS/FAIL table for: python3 version, `curl` on PATH, `sqlite3` CLI on 
 - Left nav on every page (theme.md §4 "Left nav"): Stage 0 → 8, Reference, Troubleshooting. Current page in rust.
 - **Every stage page has exactly these sections, in order** (theme.md §5 is the same list with the CSS):
   1. **Concept** — the one new idea, hooked to C or to the previous stage. 200–400 words. Use the wording in §7–§9 as the basis. Stages listed in §5.7 also carry a stepper visualization here.
-  2. **Demo video** — a media panel (theme.md §4 "Video and figure") with `<video controls preload="metadata" src="videos/stageN.mp4">` and fallback text inside the tag: *"Demo video not available yet — follow the written steps below."* Plus a one-line description of what the video shows.
-  3. **Task** — numbered steps. Each command in a terminal block (theme.md §4 "Terminal block"): dark panel, `pre.term`, one `.ln.cmd` per command with the `$ ` prompt in `.p`. The panel caption names the terminal (`terminal 1 — server`, `terminal 2 — curl`).
-  4. **Expected output** — the literal output as plain `.ln` lines in the same terminal block, directly under the command that produces it. Source files shown on the page use the light `pre.code` block with `.ln` lines, never the dark one.
-  5. **Check yourself** — the `python3 check.py` command and what all-PASS looks like, one terminal block.
-  6. **Takeaway** — 1–3 sentences in a `.callout`.
-  7. **Stuck?** — link to the solution folder and the relevant reference pages.
-  8. **Quiz** — four questions (§5.6).
+  2. **Task** — numbered steps. Each command in a terminal block (theme.md §4 "Terminal block"): dark panel, `pre.term`, one `.ln.cmd` per command with the `$ ` prompt in `.p`. The panel caption names the terminal (`terminal 1 — server`, `terminal 2 — curl`).
+  3. **Expected output** — the literal output as plain `.ln` lines in the same terminal block, directly under the command that produces it. Source files shown on the page use the light `pre.code` block with `.ln` lines, never the dark one.
+  4. **Check yourself** — the `python3 check.py` command and what all-PASS looks like, one terminal block.
+  5. **Takeaway** — 1–3 sentences in a `.callout`.
+  6. **Stuck?** — link to the solution folder and the relevant reference pages.
+  7. **Quiz** — four questions (§5.6).
 - Commands and output are told apart only by the prompt symbol and colour inside one transcript, exactly as the student's own terminal shows them.
-
-### 5.4 Demo video placeholders
-
-`docs/videos/README.md` lists, for `stage0.mp4` … `stage8.mp4`: target length (3–6 min), and a **shot list** — the exact sequence of terminal actions to record, matching the Task section of that stage. Videos are not committed to git; the README says so and where they'll be distributed from (USB / LAN share). The HTML must degrade cleanly when the file is missing.
 
 ### 5.5 Troubleshooting page
 
@@ -406,7 +398,7 @@ Curl list for all five routes, using values from their team DB. **Spaces in a qu
 6. **Break it on purpose:** in `code/stage5/server.py` put a `#` in front of **all three lines** of the `allow_browser` hook (the `@hook` line, the `def` line, and the header line — commenting only the header line leaves an empty function and Python refuses to start: `IndentationError: expected an indented block`). Restart the server, click **Fetch by college**. The table does not change, the yellow banner appears, the Request log says `FAILED`. Network tab: the row is red, status `(failed)` or `CORS error`. **Console** tab: `Access to fetch at 'http://localhost:8080/students?college=…' from origin 'http://localhost:9000' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.` followed by `TypeError: Failed to fetch`. Terminal 1: the server logged `200` — it answered; only the browser refused to hand the page the answer. Terminal 3: `curl -i` still works. Remove the three `#`s, restart, click again. This is the only time the material shows an error deliberately.
 7. Watch Terminal 1 during all of it: the log lines never changed, even during step 6.
 
-**Expected output.** Screenshot placeholders in media panels (`docs/img/stage8-network-headers.png`, `stage8-network-response.png`, `stage8-cors-error.png`) with alt text describing exactly what should be visible; the literal `curl -i` output; the literal Console error text; the literal server log lines.
+**Expected output.** the literal `curl -i` output; the literal Console error text; the literal server log lines.
 
 **Check.** `check.py` verifies 8080 answers `/colleges` **with** the `Access-Control-Allow-Origin: *` header, and prints the `curl -i` command for the student to compare by eye.
 
@@ -440,9 +432,8 @@ code/frontend/
 3. Remaining `code/` stages + solutions + `check.py` for each.
 4. `check_env.py`, `.gitignore`, `README.md`.
 5. `code/frontend/`.
-6. `docs/` — `style.css` from theme.md and `script.js` first, fonts downloaded once into `fonts/`, then reference pages (stage pages link to them), then stage0–7, index, troubleshooting, `videos/README.md`.
+6. `docs/` — `style.css` from theme.md and `script.js` first, fonts downloaded once into `fonts/`, then reference pages (stage pages link to them), then stage0–8, index, troubleshooting.
 7. This folder: `scripts/setup.sh`, `setup.html`, `index.html`.
-   (Stage pages are stage0–8; `videos/README.md` covers stage0–8.)
 8. Run §13.
 
 ## 13. Definition of done
@@ -455,7 +446,6 @@ code/frontend/
 - [ ] Stage 7: the three buttons produce three Request log lines and three matching server log lines.
 - [ ] Stage 8: Network tab shows the three requests with Headers and Response; removing the CORS line produces the Console error and a red row while `curl -i` still succeeds; restoring it fixes it.
 - [ ] No file in the student repo references a URL other than `localhost`, except the README line pointing at the hub setup page.
-- [ ] `docs/videos/README.md` shot lists match the Task sections step for step.
 - [ ] No page has an inline `<style>` or `<script>` block, a `style=` attribute, or a `<link>`/`<script src>` pointing anywhere but `style.css` / `script.js`.
 - [ ] Every stage page has exactly four quiz questions and each answers correctly; the five steppers in §5.7 step forward, back, play, and respond to arrow keys.
 - [ ] Every stage page renders with the same look with the network disconnected (fonts load from `fonts/`).

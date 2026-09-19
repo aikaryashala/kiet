@@ -1,4 +1,4 @@
-/* KIET Bootcamp 3 — the one script. Copy buttons, command hints, quiz, stepper, missing-video fallback. No library. */
+/* KIET Bootcamp 3 — the one script. Sidebar toggle, copy buttons, command hints, quiz, stepper. No library. */
 (function () {
   "use strict";
 
@@ -298,26 +298,33 @@
     });
   }
 
-  /* ---------- 4. missing video ----------
-     The demo videos are handed out separately. When the file is not there, the browser would show an
-     empty black player; swap it for the fallback sentence instead so the panel keeps its size and says why. */
-  function initMedia() {
-    document.querySelectorAll(".panel.media video").forEach(function (v) {
-      function swap() {
-        var msg = document.createElement("div");
-        msg.className = "missing";
-        msg.textContent = v.textContent.trim() || "Demo video not available yet — follow the written steps below.";
-        v.replaceWith(msg);
-      }
-      v.addEventListener("error", swap);
-      if (v.error || v.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) swap();   // the 404 may have come before this ran
-    });
+  /* ---------- 5. sidebar toggle ----------
+     "hide contents" at the top of the sidebar; a fixed "contents" button brings it back.
+     The choice is remembered in this browser only. */
+  function initNavToggle() {
+    var nav = document.querySelector(".nav");
+    if (!nav) return;
+    var hide = document.createElement("button");
+    hide.className = "navhide"; hide.type = "button"; hide.textContent = "hide contents";
+    var show = document.createElement("button");
+    show.className = "navshow"; show.type = "button"; show.textContent = "contents";
+    function set(hidden) {
+      document.body.classList.toggle("nav-hidden", hidden);
+      try { localStorage.setItem("kiet-nav", hidden ? "hidden" : "shown"); } catch (e) { /* private window etc. */ }
+    }
+    hide.addEventListener("click", function () { set(true); show.focus(); });
+    show.addEventListener("click", function () { set(false); hide.focus(); });
+    nav.insertBefore(hide, nav.firstChild);
+    document.body.appendChild(show);
+    var saved = null;
+    try { saved = localStorage.getItem("kiet-nav"); } catch (e) { saved = null; }
+    if (saved === "hidden") document.body.classList.add("nav-hidden");
   }
 
   document.addEventListener("DOMContentLoaded", function () {
+    initNavToggle();
     addCopyButtons();
     initQuiz();
     initSteppers();
-    initMedia();
   });
 })();

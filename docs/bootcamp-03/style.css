@@ -51,10 +51,19 @@ hr{border:0;border-top:1px solid var(--line);margin:32px 0}
 .nav a.cur{color:var(--rust);border-left-color:var(--rust)}
 .nav .group{margin-top:14px;padding:0 12px;font-size:10.5px;color:var(--muted);letter-spacing:.04em}
 .nav .group:first-child{margin-top:0}
+.nav .navhide{display:block;margin:0 0 10px 12px;font-family:var(--mono);font-size:11px;padding:3px 9px;line-height:1.5}
+.navshow{position:fixed;left:12px;top:12px;z-index:50;font-family:var(--mono);font-size:11px;padding:4px 10px;line-height:1.5;display:none}
+body.nav-hidden .nav{display:none}
+body.nav-hidden .layout{grid-template-columns:minmax(0,1fr)}
+body.nav-hidden .wrap{max-width:none;padding-left:116px}
+body.nav-hidden p,body.nav-hidden li,body.nav-hidden .note,body.nav-hidden .callout,body.nav-hidden header.page .sub,body.nav-hidden .stepper .narration{max-width:none}
+@media(max-width:860px){body.nav-hidden .wrap{padding-left:16px;padding-top:44px}}
+body.nav-hidden .navshow{display:block}
 @media(max-width:860px){
   .layout{grid-template-columns:1fr;gap:16px}
   .nav{position:static;display:flex;flex-wrap:wrap;gap:2px;max-height:none;padding:16px 0 0}
   .nav .group{width:100%;margin-top:6px}
+  .nav .navhide{margin:0 8px 6px 0}
   .wrap{padding:0 16px 60px}
 }
 
@@ -103,10 +112,6 @@ pre.term .ln.cmd{color:#fff}
 pre.term .p{color:#8c8478;user-select:none}
 pre.term .ln.on{background:rgba(184,67,10,.18);box-shadow:inset 2px 0 0 var(--rust)}
 pre.term .ln.dim{color:#8c8478}
-
-/* ---------- video and figure ---------- */
-.panel.media video,.panel.media img{display:block;width:100%;height:auto;background:var(--cream)}
-.panel.media .missing{padding:24px 14px;color:var(--muted);font-size:14.5px}
 
 /* ---------- callout ---------- */
 .callout{border:1px solid var(--line);border-left:3px solid var(--rust);border-radius:2px;background:var(--paper);padding:14px 18px;font-size:16.5px;max-width:70ch;margin:0 0 14px}
@@ -188,7 +193,7 @@ footer.page{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);fo
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 @media print{
   body{background:#fff}
-  .nav,.stepper .controls,.track,.copy,.hintbtn{display:none!important}
+  .nav,.navshow,.stepper .controls,.track,.copy,.hintbtn{display:none!important}
   .layout{grid-template-columns:1fr}
   pre.term{background:#fff;color:#000;border:1px solid #000}
 }

@@ -16,7 +16,7 @@ This is the execution plan. `spec.md` holds the content (routes, concept wording
 | Offline | No Google Fonts, no CDN, no external images. Fonts are local `.woff2` in `docs/fonts/`, downloaded once and committed. |
 | CSS/JS | One shared `docs/style.css` and one `docs/script.js`. No inline styles or scripts in material pages. |
 | Look | `theme.md`. Page 1040px, prose 70ch, 16px base. Terminal blocks dark, everything else light. |
-| Stage page | 8 sections: Concept, Demo video, Task, Expected output, Check yourself, Takeaway, Stuck?, Quiz. Left nav on every page. |
+| Stage page | 7 sections: Concept, Task, Expected output, Check yourself, Takeaway, Stuck?, Quiz. Left nav on every page. |
 | Quiz | 4 questions per stage page, one correct, click to reveal, no score. Written during the build. |
 | Steppers | Stages 1, 2, 3, 5, 8 (spec §5.7). Others prose only. |
 | Frontend | `code/frontend/`: `index.html` + `app.js` + `README.md`. Plain HTML, no theme, no fonts, one short `<style>`. Focus stays on request/response. |
@@ -26,7 +26,7 @@ This is the execution plan. `spec.md` holds the content (routes, concept wording
 | Table | `students(student_name, inter_college, inter_city)`, no id |
 | Python | ≥ 3.12, Bottle 0.13.x as `bottle.py` copied into each server folder, no pip, no venv |
 | OS | Ubuntu 24.04 and Omarchy (Arch) |
-| Videos | Not built. Placeholders + shot lists in `docs/videos/README.md`. |
+| Videos | None. No video or screenshot placeholders anywhere. |
 
 ---
 
@@ -48,10 +48,8 @@ kiet-bootcamp-3/
 │   ├── style.css
 │   ├── script.js
 │   ├── fonts/            Fraunces, Inter Tight, JetBrains Mono (.woff2)
-│   ├── img/              stage8 screenshot placeholders
 │   ├── stage0.html … stage8.html
 │   ├── troubleshooting.html
-│   ├── videos/README.md
 │   └── reference/        python-cheatsheet, c-to-python, sqlite-cli,
 │                         sql-for-students-table, json, bottle, curl, http-basics
 └── code/
@@ -137,13 +135,11 @@ Each step ends with something runnable or renderable. Nothing later is started u
 1. `fonts/`: download the three variable `.woff2` files once, commit.
 2. `style.css` from `theme.md` §1–§4 plus the page skeleton and media rules.
 3. `script.js`: copy buttons (copy `.cmd` lines only, strip prompt), quiz, stepper (arrow keys, play at 3.4s, progress track).
-4. A template stage page with dummy content to prove the layout, the nav, a terminal block, a media panel with missing video, a quiz and a stepper. Render at 1366×768 and at phone width. Fix before going on.
+4. A template stage page with dummy content to prove the layout, the nav, a terminal block, a quiz and a stepper. Render at 1366×768 and at phone width. Fix before going on.
 5. `reference/` eight pages (spec §6), every example against `students` and this bootcamp's routes.
 6. `stage0.html … stage8.html`, each with the 8 sections, Expected output pasted from the Step 2/3 captures, four quiz questions, stepper where listed.
 7. `index.html`: what this is, day plan, port plan, links.
 8. `troubleshooting.html` (spec §5.5).
-9. `videos/README.md`: `stage0.mp4 … stage8.mp4`, length, shot list matching each Task section step for step.
-10. `img/`: three Stage 8 placeholder images with descriptive alt text on the page.
 - **Check:** serve with `python3 -m http.server 8000`, open every page, no console errors, no request leaves localhost (Network tab filtered). `grep -r "http" docs/` shows only localhost and the one README link.
 
 ### Step 7 — This folder
@@ -198,7 +194,7 @@ Built and verified on this machine (macOS build host; targets untested on a fres
 - **Step 3 code** — stubs, solutions, nine `check.py`. Each check passes against its solution and fails meaningfully against the stub. No forbidden constructs in student code.
 - **Step 4 root** — `check_env.py`, `.gitignore`, `README.md`.
 - **Step 5 frontend** — plain `index.html` + `app.js`; all three buttons verified in Chrome; CORS break reproduced (server 200, browser refuses).
-- **Step 6 material** — 19 pages, one `style.css`, one `script.js`, local fonts (500 KB), five steppers, 36 quiz questions, video fallback, link check clean.
+- **Step 6 material** — 19 pages, one `style.css`, one `script.js`, local fonts (500 KB), five steppers, 36 quiz questions, link check clean.
 - **Step 7 hub** — `index.html`, `setup.html`, `scripts/setup.sh` (syntax-checked, not yet run on a fresh VM).
 
 Findings folded into the spec during the build: query values with spaces must be `+`-encoded; `range` added to Stage 0; commenting only the header line of the CORS hook is a syntax error, so Stage 8 comments all three lines.
@@ -207,4 +203,3 @@ Still to do, outside this machine:
 1. Create the GitHub repo `aikaryashala/kiet-bootcamp-3`, push, enable Pages on `docs/`, point `aikaryashala.com/kiet-bootcamp-3/` at it.
 2. Commit this folder in the `kiet` repo so `aikaryashala.com/kiet/bootcamp-03/scripts/setup.sh` resolves.
 3. Run `setup.sh` on a fresh Ubuntu 24.04 and a fresh Omarchy; go offline; walk all nine stages from the material alone.
-4. Record the nine demo videos per `docs/videos/README.md`; replace the three Stage 8 placeholder PNGs with real screenshots.

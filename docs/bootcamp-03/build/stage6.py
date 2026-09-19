@@ -121,7 +121,6 @@ qz = quiz([
 
 body = "\n".join([
     section("concept", "Concept", concept),
-    section("video", "Demo video", video(6, "Building all_students.db from the .sql file, counting rows, restarting the Stage 5 server with --db, and the same curls returning twelve colleges and dozens of rows.")),
     section("task", "Task", task),
     section("expected", "Expected output", expected),
     section("check", "Check yourself", check),

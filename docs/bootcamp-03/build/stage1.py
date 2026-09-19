@@ -144,7 +144,6 @@ qz = quiz([
 
 body = "\n".join([
     section("concept", "Concept", concept + stp),
-    section("video", "Demo video", video(1, "Creating team_details.db in the sqlite3 shell: CREATE TABLE, four INSERTs, SELECT with and without .mode column, .quit, ls -l, reopen, COUNT(*).")),
     section("task", "Task", task),
     section("expected", "Expected output", expected),
     section("check", "Check yourself", check),

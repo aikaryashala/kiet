@@ -52,10 +52,8 @@ stp = stepper(left, right, [
 
 task = p("Everything from Stage 7 stays running: the backend on 8080 in Terminal 1, the frontend on 9000 in Terminal 2, the page open in the browser.") + steps([
     p("<strong>Browser.</strong> Press <kbd>F12</kbd> (or <kbd>Ctrl+Shift+I</kbd>) to open the inspector. Click the <strong>Network</strong> tab. Now click <strong>Fetch by college</strong> on the page. One row appears: <code>students?college=…</code>."),
-    p("Click that row. Under <strong>Headers</strong>: Request URL, Request Method <code>GET</code>, Status Code <code>200</code>. Scroll down to Response Headers: <code>content-type: application/json</code> and <code>access-control-allow-origin: *</code>.") +
-    figure("img/stage8-network-headers.png", "The browser inspector's Network tab with the students?college= row selected. The Headers sub-tab shows General: Request URL http://localhost:8080/students?college=Sasi%20Junior%20College, Request Method GET, Status Code 200 OK; and under Response Headers the lines access-control-allow-origin: * and content-type: application/json.", "img/stage8-network-headers.png"),
-    p("Click the <strong>Response</strong> sub-tab. The JSON, exactly as curl printed it.") +
-    figure("img/stage8-network-response.png", "The same Network row with the Response sub-tab selected, showing the JSON body starting with {\"count\": 3, \"students\": [ and the first student object.", "img/stage8-network-response.png"),
+    p("Click that row. Under <strong>Headers</strong>: Request URL, Request Method <code>GET</code>, Status Code <code>200</code>. Scroll down to Response Headers: <code>content-type: application/json</code> and <code>access-control-allow-origin: *</code>."),
+    p("Click the <strong>Response</strong> sub-tab. The JSON, exactly as curl printed it."),
     p("<strong>Terminal 3 — curl.</strong> The same request with <code>-i</code>. Put the terminal beside the inspector and match line to field.") +
     term("terminal 3 — curl", """$ curl -i "localhost:8080/students?college=Sasi+Junior+College"
 HTTP/1.0 200 OK
@@ -76,7 +74,6 @@ Content-Length: 351
     term("browser — console tab", """Access to fetch at 'http://localhost:8080/students?college=Sasi%20Junior%20College' from origin 'http://localhost:9000' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
 GET http://localhost:8080/students?college=Sasi%20Junior%20College net::ERR_FAILED 200 (OK)
 TypeError: Failed to fetch""") +
-    figure("img/stage8-cors-error.png", "The Console tab showing a red error: Access to fetch at 'http://localhost:8080/students?college=...' from origin 'http://localhost:9000' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. Below it, TypeError: Failed to fetch. In the page behind, the yellow banner is visible.", "img/stage8-cors-error.png") +
     p("Read the second line again: <code>net::ERR_FAILED 200 (OK)</code>. The server said 200. Now look at Terminal 1:") +
     term("terminal 1 — backend", """127.0.0.1 - - [21/Sep/2026 15:07:44] "GET /students?college=Sasi%20Junior%20College HTTP/1.1" 200 351""") +
     p("The server answered, fully, as always. The browser received the answer and then refused to give it to the page, because the answer did not say the page was allowed to have it. Terminal 3: <code>curl -i</code> the same URL — it works, and the <code>Access-Control-Allow-Origin</code> line is simply gone from the headers."),
@@ -115,7 +112,6 @@ qz = quiz([
 
 body = "\n".join([
     section("concept", "Concept", concept + stp),
-    section("video", "Demo video", video(8, "Opening the inspector, clicking a Network row, reading Headers and Response beside curl -i, commenting the hook, the red row and the Console error, then restoring it.")),
     section("task", "Task", task),
     section("expected", "Expected output", expected),
     section("check", "Check yourself", check),

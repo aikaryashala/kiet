@@ -156,7 +156,6 @@ qz = quiz([
 
 body = "\n".join([
     section("concept", "Concept", concept + stp),
-    section("video", "Demo video", video(5, "Starting server.py on the team database, the three curls on the given route, then writing each of the four routes and curling it, then check.py with the --db restart.")),
     section("task", "Task", task),
     section("expected", "Expected output", expected),
     section("check", "Check yourself", check),
