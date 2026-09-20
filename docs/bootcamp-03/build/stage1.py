@@ -167,6 +167,6 @@ body = "\n".join([
 write("stage1.html", page("Data that survives: SQLite and SQL", "stage1.html", body,
                           sub="An array of structs that lives in a file and does its own searching. Build your team's table by hand, then watch it outlive the program.",
                           artifact="SELECT student_name FROM students WHERE inter_city = 'Vijayawada';",
-                          stage_label="Stage 1 · Session 1 · morning",
+                          stage_label="Stage 1",
                           prev_page=("stage0.html", 'Stage 0 · Just enough Python'),
                           next_page=("stage2.html", 'Stage 2 · Python talks to the database')))

@@ -65,7 +65,7 @@ body = "\n".join([
     section("about", "What this is", intro + ports),
     section("before", "Before you start", before),
     section("day1", "Day 1 · 21 September", (day1 + day1b + day2).replace('</div><div class="cards">', "")),
-    section("day2", "Day 2 · 22 September", p("Each team presents what it built on Day 1. Then the Omarchy customization sessions, on the Omarchy laptop:") + '<div class="cards">' + card("Omarchy", "omarchy-branding.html", "Make Omarchy yours", "Task 1: your name on the screensaver, in the wordmark's block letters. Task 2: your photo on the boot and login screens.") + "</div>"),
+    section("day2", "Day 2 · 22 September", p("Each team presents what it built on Day 1. Then everyone customizes Omarchy, on the Omarchy laptop:") + '<div class="cards">' + card("Omarchy", "omarchy-branding.html", "Make Omarchy yours", "Task 1: your name on the screensaver, in the wordmark's block letters. Task 2: your photo on the boot and login screens.") + "</div>"),
     section("reference", "Reference and help", refs),
 ])
 

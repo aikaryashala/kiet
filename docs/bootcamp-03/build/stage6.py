@@ -188,6 +188,6 @@ body = "\n".join([
 write("stage6.html", page("Swap the data, not the code", "stage6.html", body,
                           sub="Build a 200-row database from its .sql source, point the same server at it, and change nothing else.",
                           artifact="python3 server.py --db ../../data/all_students.db",
-                          stage_label="Stage 6 · Session 3 · after dinner · short",
+                          stage_label="Stage 6 · short",
                           prev_page=("stage5.html", 'Stage 5 · Join the two halves'),
                           next_page=("stage7.html", "Stage 7 · Someone else's client: the browser")))

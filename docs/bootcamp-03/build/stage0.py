@@ -307,4 +307,4 @@ body = "\n".join([
 write("stage0.html", page("Just enough Python", "stage0.html", body,
                           sub="You know C. Here is Python as a set of differences from C — seven complete programs, each one stepped through line by line.",
                           artifact="python3 01_hello.py",
-                          stage_label="Stage 0 · Session 1 · morning · about 2 hours"))
+                          stage_label="Stage 0 · about 2 hours"))

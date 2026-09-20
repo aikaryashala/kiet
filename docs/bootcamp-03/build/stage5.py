@@ -194,6 +194,6 @@ body = "\n".join([
 write("stage5.html", page("Join the two halves", "stage5.html", body,
                           sub="Request in, SQL in the middle, JSON out — one function, repeated four times with different SQL.",
                           artifact='rows = query("... WHERE inter_college = ?", [college])',
-                          stage_label="Stage 5 · Session 2 · afternoon",
+                          stage_label="Stage 5",
                           prev_page=("stage4.html", 'Stage 4 · Write your own server'),
                           next_page=("stage6.html", 'Stage 6 · Swap the data, not the code')))
