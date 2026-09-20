@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Results &middot; KIET Bootcamp 3 &middot; AI Karyashala</title>
+<title>Rising Talent &middot; KIET Bootcamp 3 &middot; AI Karyashala</title>
 <link rel="icon" href="aiklogo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,8 +24,8 @@
       --gold-soft:  rgba(169, 116, 0, 0.14);
       --line:       rgba(36, 28, 21, 0.13);
       --line-soft:  rgba(36, 28, 21, 0.07);
-      --grade:      var(--teal);
-      --grade-soft: var(--teal-soft);
+      --grade:      var(--gold);
+      --grade-soft: var(--gold-soft);
     }
     * { box-sizing: border-box; }
     html { -webkit-text-size-adjust: 100%; }
@@ -161,6 +161,16 @@
 
     .colophon { margin-top: 44px; padding-top: 20px; border-top: 1px solid var(--line); font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 0.68rem; letter-spacing: 0.08em; color: var(--muted); line-height: 1.9; }
     .colophon a { color: inherit; }
+    .people { background: var(--paper); border: 1px solid var(--line); }
+    .people tbody td { vertical-align: top; }
+    .people .idx { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 0.7rem; letter-spacing: 0.1em; color: var(--rust); white-space: nowrap; }
+    .people .who .sname { display: block; }
+    .people .who .meta { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-top: 3px; }
+    .people .team-cell { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 0.8rem; white-space: nowrap; }
+    .people .note-cell { color: var(--ink-soft); font-size: 0.95rem; }
+    .people tr.unknown td { background: rgba(184, 67, 10, 0.035); }
+    .people tr.hidden { display: none; }
+    @media (max-width: 640px) { .people thead th:nth-child(3), .people tbody td:nth-child(3) { display: none; } }
 
     @media (max-width: 640px) {
       .wrap { padding: 36px 16px 64px; }
@@ -182,30 +192,27 @@
 </head>
 <body>
   <div class="wrap">
-    <div class="eyebrow"><a href="index.html">AI Karyashala &nbsp;/&nbsp; KIET Bootcamp 3</a> &nbsp;/&nbsp; Results</div>
+    <div class="eyebrow"><a href="index.html">AI Karyashala &nbsp;/&nbsp; KIET Bootcamp 3</a> &nbsp;/&nbsp; <a href="results.html">Results</a> &nbsp;/&nbsp; Rising talent</div>
 
-    <div class="grade-mark">Winners</div>
-    <h1>Bootcamp 3 <em>Results</em></h1>
-    <p class="lede">The winning teams by prize, then every team that took part.</p>
+    <div class="grade-mark">Rising talent</div>
+    <h1>Rising <em>Talent</em></h1>
+    <p class="lede">Students who stood out on the day, as individuals.</p>
     <div class="rule"></div>
 
     <section class="stats">
-      <div class="stat"><div class="label">Teams</div><div class="value" id="st-teams">–</div></div>
-      <div class="stat"><div class="label">Students</div><div class="value" id="st-students">–</div></div>
-      <div class="stat is-win"><div class="label">Winning teams</div><div class="value" id="st-win">–</div></div>
-      <div class="stat"><div class="label">Prizes</div><div class="value" id="st-prizes">–</div></div>
+      <div class="stat is-win"><div class="label">Rising talent</div><div class="value" id="st-count">–</div></div>
+      <div class="stat"><div class="label">Of all students</div><div class="value" id="st-of">–</div></div>
     </section>
 
     <div class="toolbar">
       <div class="search">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
-        <input id="q" type="search" placeholder="Search roll number, name, or team&hellip;" autocomplete="off">
+        <input id="q" type="search" placeholder="Search roll number or name&hellip;" autocomplete="off">
       </div>
-      <div class="seg" id="seg"><button type="button" data-g="" class="on">All teams</button><button type="button" data-g="win">Winners</button></div>
     </div>
-    <p class="count-note" id="note">Loading participants.csv and winners.csv&hellip;</p>
+    <p class="count-note" id="note">Loading rising-talent.csv and participants.csv&hellip;</p>
 
-    <div id="teams"></div>
+    <div id="list"></div>
     <div class="empty" id="empty"></div>
 
   </div>
@@ -215,9 +222,8 @@
   var box = document.getElementById('q');
   var note = document.getElementById('note');
   var empty = document.getElementById('empty');
-  var host = document.getElementById('teams');
+  var host = document.getElementById('list');
 
-  // ---- a small CSV parser: commas, quoted fields, "" inside quotes, CRLF ----
   function parseCSV(text) {
     var rows = [], row = [], field = '', q = false, i, c;
     for (i = 0; i < text.length; i++) {
@@ -239,161 +245,80 @@
   }
   function esc(s) { return String(s).replace(/[&<>"]/g, function (ch) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]; }); }
   function pad(n) { return (n < 10 ? '0' : '') + n; }
-  function isDone(s) { s = String(s || '').trim().toLowerCase(); return s === 'completed' || s === 'done' || s === 'yes' || s === 'y' || s === '1' || s === 'true'; }
-  function key(s) { return String(s || '').trim().toLowerCase(); }
-  // "1st prize" -> 1, "2nd" -> 2, "First" -> 1 ...; anything else sorts last, in file order
-  function rank(prize) {
-    var m = String(prize).match(/(\d+)/);
-    if (m) return parseInt(m[1], 10);
-    var words = { first: 1, second: 2, third: 3, fourth: 4, fifth: 5 };
-    var w = String(prize).toLowerCase().match(/first|second|third|fourth|fifth/);
-    return w ? words[w[0]] : 99;
-  }
-
+  function key(s) { return String(s || '').trim().toUpperCase(); }
+  function norm(h) { return h.trim().toLowerCase().replace(/[\s_]+/g, ''); }
   function fail(msg) { note.textContent = ''; empty.innerHTML = msg; empty.classList.add('show'); }
-
   function load(name) {
     return fetch(name, { cache: 'no-store' }).then(function (res) {
       if (!res.ok) throw new Error(name + ': ' + res.status + ' ' + res.statusText);
-      var lm = res.headers.get('last-modified');
-      return res.text().then(function (t) { return { rows: parseCSV(t), modified: lm }; });
+      return res.text().then(function (t) { return { rows: parseCSV(t), modified: res.headers.get('last-modified') }; });
     });
   }
 
-  Promise.all([load('participants.csv'), load('winners.csv').catch(function () { return null; })]).then(function (r) {
-    render(r[0], r[1]);
-  }).catch(function (err) {
-    fail('Could not load <code>participants.csv</code> (' + esc(err.message) + '). It must sit next to this page and be served over http; opening the page as a file will not work.');
-  });
+  Promise.all([load('rising-talent.csv'), load('participants.csv')]).then(function (r) { render(r[0], r[1]); })
+    .catch(function (err) { fail('Could not load the files (' + esc(err.message) + '). Both must sit next to this page and be served over http; opening the page as a file will not work.'); });
 
-  function render(part, win) {
-    var rows = part.rows.slice();
-    // Header names are matched after lower-casing and dropping spaces and underscores,
-    // so "Team Name", "team_name" and "Team" all work. Several spellings are accepted per field.
-    var header = rows.shift().map(function (h) { return h.trim().toLowerCase().replace(/[\s_]+/g, ''); });
-    var col = function () { for (var i = 0; i < arguments.length; i++) { var k = header.indexOf(arguments[i]); if (k >= 0) return k; } return -1; };
-    var iTeam = col('teamname', 'team'), iSec = col('classid', 'section', 'class'), iH = col('htno', 'rollno', 'roll'),
-        iName = col('studentname', 'name'), iRole = col('role'), iSt = col('status'),
-        iCollege = col('college'), iProg = col('program', 'programme', 'branch'), iBatch = col('academicbatch', 'batch'), iGender = col('gender');
-    if (iTeam < 0 || iH < 0 || iName < 0) return fail('participants.csv needs at least the columns <code>Team Name, HTNO, Student Name</code> in its first line.');
-
-    var teams = {}, order = [], students = 0;
-    rows.forEach(function (r) {
-      var team = (r[iTeam] || '').trim();
-      if (!team) return;
+  function render(rt, part) {
+    // ---- participants: HTNO -> details ----
+    var prow = part.rows.slice(), ph = prow.shift().map(norm);
+    var pc = function () { for (var i = 0; i < arguments.length; i++) { var k = ph.indexOf(arguments[i]); if (k >= 0) return k; } return -1; };
+    var iH = pc('htno', 'rollno', 'roll'), iName = pc('studentname', 'name'), iTeam = pc('teamname', 'team'), iSec = pc('classid', 'section', 'class'),
+        iProg = pc('program', 'programme', 'branch'), iRole = pc('role'), iBatch = pc('academicbatch', 'batch');
+    if (iH < 0 || iName < 0) return fail('participants.csv needs at least the columns <code>HTNO, Student Name</code>.');
+    var people = {}, total = 0;
+    prow.forEach(function (r) {
       var get = function (i) { return i >= 0 ? (r[i] || '').trim() : ''; };
-      if (!teams[team]) {
-        teams[team] = { name: team, section: get(iSec), college: get(iCollege), program: get(iProg), batch: get(iBatch), members: [], prize: '', rank: 99 };
-        order.push(team);
-      }
-      teams[team].members.push({ htno: get(iH), name: get(iName), role: get(iRole), gender: get(iGender), done: iSt >= 0 ? isDone(r[iSt]) : null });
-      students++;
+      var h = key(r[iH]); if (!h) return;
+      total++;
+      people[h] = { htno: get(iH), name: get(iName), team: get(iTeam), section: get(iSec), program: get(iProg), role: get(iRole), batch: get(iBatch) };
     });
 
-    // ---- winners.csv: team, prize ----
-    var prizes = [], unknown = [];
-    if (win && win.rows.length > 1) {
-      var wr = win.rows.slice(), wh = wr.shift().map(function (h) { return h.trim().toLowerCase(); });
-      var wTeam = wh.indexOf('team'), wPrize = wh.indexOf('prize');
-      if (wTeam < 0 || wPrize < 0) return fail('winners.csv needs the columns <code>team, prize</code> in its first line.');
-      var byKey = {};
-      order.forEach(function (n) { byKey[key(n)] = n; });
-      wr.forEach(function (r) {
-        var t = byKey[key(r[wTeam])], p = (r[wPrize] || '').trim();
-        if (!t) { if ((r[wTeam] || '').trim()) unknown.push(r[wTeam].trim()); return; }
-        if (!p) return;
-        teams[t].prize = p; teams[t].rank = rank(p);
-        if (prizes.map(key).indexOf(key(p)) < 0) prizes.push(p);
-      });
-      prizes.sort(function (a, b) { return rank(a) - rank(b); });
-    }
-    var winners = order.filter(function (n) { return teams[n].prize; })
-                       .sort(function (a, b) { return teams[a].rank - teams[b].rank || order.indexOf(a) - order.indexOf(b); });
+    // ---- rising-talent: HTNO (+ Note) ----
+    var rrow = rt.rows.slice(), rh = rrow.shift().map(norm);
+    var rH = rh.indexOf('htno'); if (rH < 0) rH = rh.indexOf('rollno'); if (rH < 0) rH = 0;
+    var rN = rh.indexOf('note'); if (rN < 0) rN = rh.indexOf('reason'); if (rN < 0) rN = rh.indexOf('remark');
+    var list = [], seen = {}, teams = {}, unknown = 0;
+    rrow.forEach(function (r) {
+      var h = key(r[rH]); if (!h || seen[h]) return;
+      seen[h] = true;
+      var p = people[h];
+      var entry = p ? { htno: p.htno, name: p.name, team: p.team, section: p.section, program: p.program, role: p.role, batch: p.batch, known: true }
+                    : { htno: (r[rH] || '').trim(), name: '', team: '', section: '', program: '', role: '', batch: '', known: false };
+      entry.note = rN >= 0 ? (r[rN] || '').trim() : '';
+      if (!p) unknown++;
+      if (entry.team) teams[entry.team] = true;
+      list.push(entry);
+    });
 
-    document.getElementById('st-teams').textContent = order.length;
-    document.getElementById('st-students').textContent = students;
-    document.getElementById('st-win').textContent = winners.length;
-    document.getElementById('st-prizes').textContent = prizes.length;
+    document.getElementById('st-count').textContent = list.length;
+    document.getElementById('st-of').textContent = total;
 
-    function card(name, idx, showPrize) {
-      var t = teams[name], n = t.members.length;
-      var hasStatus = t.members.some(function (m) { return m.done !== null; });
-      var d = t.members.filter(function (m) { return m.done; }).length;
-      var cls = showPrize && t.prize ? 'prize-' + (t.rank <= 3 ? t.rank : 'n') : 'plain';
-      var find = function (m) { return [m.htno, m.name, name, t.section, t.program, t.prize].join(' ').toLowerCase(); };
-      return '<article class="team ' + cls + '" data-win="' + (t.prize ? '1' : '') + '" data-team="' + esc(name.toLowerCase()) + '">' +
-        '<div class="team-head"><div class="num">' + pad(idx) + '</div>' +
-        '<div class="team-id"><div class="team-name">' + esc(name) + '</div>' +
-        '<div class="team-meta">' + [t.section, t.college || 'KIET', t.program, t.batch, n + ' member' + (n === 1 ? '' : 's')].filter(function (x) { return x; }).map(esc).join(' &middot; ') + '</div></div>' +
-        (t.prize ? '<div class="badge">' + esc(t.prize) + '</div>' : '') +
-        (hasStatus ? '<div class="tally"><div class="frac">' + d + '<span>/' + n + '</span></div><div class="cap">completed</div></div>' : '') +
-        '</div>' +
-        (hasStatus ? '<div class="bar">' + t.members.map(function (m) { return '<i class="' + (m.done ? 'on' : '') + '"></i>'; }).join('') + '</div>' : '') +
-        '<table><thead><tr><th>HTNO</th><th>Student name</th><th>Role</th>' + (hasStatus ? '<th style="text-align:right">Status</th>' : '') + '</tr></thead><tbody>' +
-        t.members.map(function (m) {
-          var lead = /lead/i.test(m.role);
-          return '<tr class="' + (hasStatus && !m.done ? 'miss' : '') + '" data-find="' + esc(find(m)) + '">' +
-            '<td class="htno">' + esc(m.htno) + '</td>' +
-            '<td class="sname">' + (lead ? '<span class="lead-dot"></span>' : '') + esc(m.name) + '</td>' +
-            '<td class="role' + (lead ? ' leader' : '') + '">' + esc(m.role || 'Member') + '</td>' +
-            (hasStatus ? '<td class="st"><span class="status ' + (m.done ? 'done">Completed' : 'miss">Not completed') + '</span></td>' : '') +
-            '</tr>';
-        }).join('') + '</tbody></table></article>';
-    }
-
-    var html = '';
-    if (winners.length) {
-      prizes.forEach(function (p) {
-        var group = winners.filter(function (n) { return key(teams[n].prize) === key(p); });
-        var rk = rank(p);
-        html += '<div class="group-head p' + (rk <= 3 ? rk : 'n') + '" data-win="1"><h2>' + esc(p) + '</h2><span>' + group.length + ' team' + (group.length === 1 ? '' : 's') + '</span><div class="line"></div></div>';
-        group.forEach(function (n, i) { html += card(n, i + 1, true); });
-      });
-      html += '<div class="group-head" data-win=""><h2>All teams</h2><span>' + order.length + ' teams &middot; ' + students + ' students</span><div class="line"></div></div>';
-    } else {
-      html += '<div class="group-head" data-win=""><h2>All teams</h2><span>winners not announced yet</span><div class="line"></div></div>';
-    }
-    order.forEach(function (n, i) { html += card(n, i + 1, false); });
-    if (unknown.length) html += '<p class="count-note">In winners.csv but not in participants.csv: ' + esc(unknown.join(', ')) + '</p>';
+    var hasNote = list.some(function (e) { return e.note; });
+    var html = '<table class="people"><thead><tr><th>#</th><th>Student</th>' + (hasNote ? '<th>Note</th>' : '<th>Class &middot; Program</th>') + '</tr></thead><tbody>';
+    list.forEach(function (e, i) {
+      var find = [e.htno, e.name, e.section, e.program, e.note].join(' ').toLowerCase();
+      var meta = [e.section, e.program, e.batch].filter(function (x) { return x; }).map(esc).join(' &middot; ');
+      html += '<tr class="' + (e.known ? '' : 'unknown') + '" data-find="' + esc(find) + '">' +
+        '<td class="idx">' + pad(i + 1) + '</td>' +
+        '<td class="who"><span class="htno">' + esc(e.htno) + '</span>' +
+          (e.known ? '<span class="sname">' + (/lead/i.test(e.role) ? '<span class="lead-dot"></span>' : '') + esc(e.name) + '</span>' : '<span class="meta">not in participants.csv</span>') +
+          (hasNote && meta ? '<span class="meta">' + meta + '</span>' : '') + '</td>' +
+        (hasNote ? '<td class="note-cell">' + esc(e.note) + '</td>' : '<td class="note-cell"><span class="meta">' + meta + '</span></td>') +
+        '</tr>';
+    });
+    html += '</tbody></table>';
+    if (unknown) html += '<p class="count-note" >' + unknown + ' roll number' + (unknown === 1 ? '' : 's') + ' in rising-talent.csv not found in participants.csv (shown with a tinted row).</p>';
     host.innerHTML = html;
-    wire();
-  }
 
-  function wire() {
-    var teams = Array.prototype.slice.call(document.querySelectorAll('.team'));
-    var heads = Array.prototype.slice.call(document.querySelectorAll('.group-head'));
-    var segBtns = Array.prototype.slice.call(document.querySelectorAll('#seg button'));
-    var mode = '';
+    var rows = Array.prototype.slice.call(host.querySelectorAll('tbody tr'));
     function apply() {
-      var q = (box.value || '').trim().toLowerCase();
-      var shownTeams = 0, shownRows = 0;
-      teams.forEach(function (t) {
-        var rows = Array.prototype.slice.call(t.querySelectorAll('tbody tr'));
-        var any = false;
-        var inPrizeList = t.classList.contains('plain') === false;   // cards under a prize heading
-        if (mode === 'win' && !inPrizeList) { t.classList.add('hidden'); return; }
-        var teamHit = !q || t.getAttribute('data-team').indexOf(q) !== -1;
-        rows.forEach(function (r) {
-          var ok = !q || teamHit || r.getAttribute('data-find').indexOf(q) !== -1;
-          r.style.display = ok ? '' : 'none';
-          if (ok) { any = true; shownRows++; }
-        });
-        t.classList.toggle('hidden', !any);
-        if (any) shownTeams++;
-      });
-      heads.forEach(function (h) { h.classList.toggle('hidden', mode === 'win' && h.getAttribute('data-win') !== '1'); });
-      note.textContent = shownTeams + ' team card' + (shownTeams === 1 ? '' : 's') + ' · ' + shownRows + ' student' + (shownRows === 1 ? '' : 's') + ' shown';
+      var q = (box.value || '').trim().toLowerCase(), shown = 0;
+      rows.forEach(function (r) { var ok = !q || r.getAttribute('data-find').indexOf(q) !== -1; r.classList.toggle('hidden', !ok); if (ok) shown++; });
+      note.textContent = shown + ' student' + (shown === 1 ? '' : 's') + ' shown';
       empty.textContent = 'No match.';
-      empty.classList.toggle('show', shownTeams === 0);
+      empty.classList.toggle('show', shown === 0);
     }
     box.addEventListener('input', apply);
-    segBtns.forEach(function (b) {
-      b.addEventListener('click', function () {
-        mode = b.getAttribute('data-g');
-        segBtns.forEach(function (x) { x.classList.toggle('on', x === b); });
-        apply();
-      });
-    });
     apply();
   }
 })();
