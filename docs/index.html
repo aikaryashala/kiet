@@ -3,91 +3,253 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>KIET — AI Karyashala</title>
-<link rel="stylesheet" href="bootcamp-03/style.css">
+<title>KIET by AI Karayashala</title>
+<link rel="icon" href="bootcamp-02/aiklogo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter+Tight:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#faf6ef;
+  --cream-deep:#f4efe4;
+  --paper:#fffcf5;
+  --ink:#201c17;
+  --ink-soft:#5b5147;
+  --rule:#e2d8c6;
+  --rust:#b8430a;
+  --teal:#1f6f68;
+  --gold:#a8791b;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  background-color:var(--cream);
+  background-image:radial-gradient(var(--rule) 0.6px, transparent 0.6px);
+  background-size:16px 16px;
+  color:var(--ink);
+  font-family:'Inter Tight',system-ui,sans-serif;
+  font-size:16.5px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1000px;margin:0 auto;padding:0 28px 90px;}
+
+/* ---------- header ---------- */
+header{
+  padding:64px 0 40px;
+  border-bottom:1px solid var(--rule);
+  margin-bottom:44px;
+}
+.masthead img{
+  height:54px;width:auto;max-width:100%;
+  display:block;margin:0 0 30px;
+}
+h1{
+  font-family:'Fraunces',serif;font-weight:600;
+  font-size:clamp(30px,5.2vw,50px);line-height:1.02;
+  letter-spacing:-.02em;margin:0;max-width:16ch;
+}
+h1 i{font-style:italic;font-weight:400;color:var(--rust);}
+.lede{
+  margin:22px 0 0;color:var(--ink-soft);max-width:60ch;font-size:17.5px;
+}
+
+/* ---------- jump link ---------- */
+.jump{margin:24px 0 0;}
+.jumplink{
+  display:inline-block;
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:var(--rust);text-decoration:none;
+  border:1px solid var(--rust);border-radius:999px;
+  padding:9px 16px;
+  transition:background .16s ease, color .16s ease;
+}
+.jumplink:hover{background:var(--rust);color:var(--paper);}
+.jumplink:focus-visible{outline:2px solid var(--rust);outline-offset:3px;}
+.jumplink::after{content:" ↓";}
+
+/* ---------- section label ---------- */
+.sectionlabel{
+  display:flex;align-items:baseline;gap:14px;margin-bottom:22px;
+  scroll-margin-top:24px;
+}
+.sectionlabel + .cards{margin-bottom:52px;}
+.sectionlabel h2{
+  font-family:'Fraunces',serif;font-weight:600;font-size:22px;margin:0;
+}
+.sectionlabel span{
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  letter-spacing:.16em;text-transform:uppercase;color:#a2957f;
+}
+.sectionlabel .line{flex:1;height:1px;background:var(--rule);}
+
+/* ---------- cards ---------- */
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:20px;
+}
+.card{
+  display:flex;flex-direction:column;
+  background:var(--paper);
+  border:1px solid var(--rule);
+  border-left:3px solid var(--rust);
+  border-radius:4px;
+  padding:22px 22px 20px;
+  text-decoration:none;color:inherit;
+  transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+}
+.card:nth-child(3n+2){border-left-color:var(--teal);}
+.card:nth-child(3n+3){border-left-color:var(--gold);}
+.card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 16px 30px -22px rgba(32,28,23,.55);
+}
+.card:focus-visible{outline:2px solid var(--rust);outline-offset:3px;}
+.card .num{
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  letter-spacing:.18em;color:#a2957f;margin-bottom:10px;
+}
+.card h3{
+  font-family:'Fraunces',serif;font-weight:600;font-size:21px;
+  line-height:1.2;margin:0 0 8px;
+}
+.card p{
+  margin:0 0 18px;color:var(--ink-soft);font-size:15px;line-height:1.55;
+}
+.card .go{
+  margin-top:auto;
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--rust);
+}
+.card:nth-child(3n+2) .go{color:var(--teal);}
+.card:nth-child(3n+3) .go{color:var(--gold);}
+.card .go::after{content:" →";}
+
+footer{
+  margin-top:60px;padding-top:22px;border-top:1px solid var(--rule);
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  letter-spacing:.12em;text-transform:uppercase;color:#a2957f;
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+}
+
+@media (max-width:640px){
+  .wrap{padding:0 20px 60px;}
+  header{padding-top:44px;}
+  .masthead img{height:40px;margin-bottom:22px;}
+}
+@media (prefers-reduced-motion:reduce){
+  .card{transition:none;}
+  .card:hover{transform:none;}
+}
+</style>
 </head>
 <body>
 <div class="wrap">
-<div class="layout">
-<nav class="nav" aria-label="Pages">
-<a href="index.html" class="cur">Home</a>
-<div class="group">Bootcamps</div>
-<a href="bootcamp-03/">Bootcamp 3</a>
-<a href="bootcamp-02/">Bootcamp 2</a>
-<a href="bootcamp-01/">Bootcamp 1</a>
-<div class="group">Guides</div>
-<a href="project_guidelines/">Project guidelines</a>
-<div class="group">Elsewhere</div>
-<a href="https://aikaryashala.com/system_setup/">System setup</a>
-<a href="https://aikaryashala.com">aikaryashala.com</a>
-</nav>
-<main>
-<header class="page">
-<h1>KIET with AI Karyashala</h1>
-<p class="sub">Everything from the KIET bootcamps in one place: the material for each one, and the rules every project follows afterwards.</p>
-<p class="artifact">bootcamp-01  ·  bootcamp-02  ·  bootcamp-03  ·  project_guidelines</p>
+
+<header>
+  <div class="masthead">
+    <img src="bootcamp-02/aiklogo.png" alt="AI Karayashala">
+    <h1>KIET <i>with AI Karyashala</i></h1>
+  </div>
+  <!-- EDIT: one-line description -->
+  <p class="lede">Everything from the KIET bootcamps in one place: the material for each one, and the knowledge space every project draws on afterwards.</p>
+  <p class="jump"><a class="jumplink" href="#knowledge">Jump to Knowledge Space</a></p>
 </header>
 
-<section id="bootcamps">
-<h2>Bootcamps</h2>
-<div class="cards">
-  <a class="card" href="bootcamp-03/">
-    <div class="num">03 · 21–22 September 2026</div>
-    <h3>Python backend with Bottle + SQLite</h3>
-    <p>From C to a working HTTP backend serving JSON from a database, then a browser using it. One day in three sessions; setup page and the offline material.</p>
-    <div class="go">Open →</div>
-  </a>
-  <a class="card" href="bootcamp-02/">
-    <div class="num">02 · 7–8 August 2026</div>
-    <h3>System internals, C, and the compilation pipeline</h3>
-    <p>What is inside a program and a video, the clang pipeline, a debugging mentor prompt, pull requests, the 2048 game, and the results.</p>
-    <div class="go">Open →</div>
-  </a>
-  <a class="card" href="bootcamp-01/">
-    <div class="num">01</div>
-    <h3>Student Development Hub</h3>
-    <p>The first bootcamp: installation guide, pre-bootcamp preparation, four sessions, and the quick reference.</p>
-    <div class="go">Open →</div>
-  </a>
-</div>
-</section>
 
-<section id="guides">
-<h2>Knowledge Space</h2>
+<div class="sectionlabel" id="bootcamps">
+  <h2>Bootcamps</h2>
+  <span>3 Links</span>
+  <div class="line"></div>
+</div>
+
+<!--
+  ============================================================
+  EDIT BELOW. Each card has three things to change:
+    1. href="..."   the page it opens
+    2. <h3>...</h3> the title
+    3. <p>...</p>   the one or two line description
+  To add a card, copy one whole <a class="card"> block and paste it.
+  Left-border colours (rust / teal / gold) cycle automatically.
+  ============================================================
+-->
 <div class="cards">
+
+  <a class="card" href="bootcamp-03/">
+    <div class="num">03 · 21st & 22nd Sep 2026</div>
+    <h3>Creating a backend using Python</h3>
+    <p>From C to a working HTTP backend serving JSON from a database, then a browser using it. Setup page, the offline material, and the results.</p>
+    <div class="go">Open</div>
+  </a>
+
+  <a class="card" href="bootcamp-02/">
+    <div class="num">02 · 7th & 8th Aug 2026</div>
+    <h3>C compilation internals, Video internals and Pull Requests</h3>
+    <p>What is inside a program and a video, the clang pipeline, a debugging mentor prompt, writing the 2048 game. Backend internals App. Creating a Pull Request and getting it accepted and the results.</p>
+    <div class="go">Open</div>
+  </a>
+
+  <a class="card" href="bootcamp-01/">
+    <div class="num">01 · 7th & 8th Feb 2026</div>
+    <h3>Algorithm principles, the command line, system internals, GitHub Pages, network internals</h3>
+    <p>The 2048 game and suno.com, algorithm principles and command-line commands, system internals and C programming, web APIs and network internals. Plus a special session on GitHub profiles and Pages.</p>
+    <div class="go">Open</div>
+  </a>
+
+</div>
+
+<div class="sectionlabel" id="knowledge">
+  <h2>Knowledge Space</h2>
+  <span>5 Links</span>
+  <div class="line"></div>
+</div>
+
+<div class="cards">
+
   <a class="card" href="project_guidelines/">
-    <div class="num">guide</div>
+    <div class="num">01</div>
     <h3>Project guidelines — build in public, ship for real</h3>
     <p>Eight rules for every project you build: daily commits, a domain, auto-deploy, videos, a profile page, and being able to defend the code.</p>
-    <div class="go">Open →</div>
+    <div class="go">Open</div>
   </a>
-  <a class="card" href="https://aikaryashala.com/system_setup/">
-    <div class="num">setup</div>
+
+  <a class="card" href="https://aikaryashala.com/system_setup/" target="_blank" rel="noopener">
+    <div class="num">02</div>
     <h3>System setup</h3>
     <p>A development environment from scratch: Ubuntu, then C, Python and Java toolchains, one command per step.</p>
-    <div class="go">Open →</div>
+    <div class="go">Open</div>
   </a>
-  <a class="card" href="bootcamp-02/compilation_pipeline.html">
-    <div class="num">explainer</div>
+
+  <a class="card" href="https://aikaryashala.com/system_setup/book/" target="_blank" rel="noopener">
+    <div class="num">03</div>
+    <h3>The Book — why the steps work</h3>
+    <p>The companion to the system_setup steps: the steps say what to type, the book says what is happening and why, in eight short chapters written in plain words for readers learning computing and English at once. It starts from a CPU that only reads one instruction and does it, never guessing, and builds upward: a program is a file of instructions, memory is where it runs, the shell is a program that starts programs. From there it explains the one tree of files and what a path really is, how WSL runs a real Linux beside Windows and why work belongs in the Linux home, the shell as a language of arguments, options, pipes, redirection and exit codes, and where software comes from through packages, sudo, PATH and .bashrc. The last three chapters follow a single C program through the four stages clang puts it through, compare C, Python and Java by the one question of when code is translated, and show with lldb that a debugger is only four ideas: breakpoint, step, inspect, call stack. Each chapter ends with commands to try and a list of what the reader can now explain, and every later chapter reaches back to an earlier one, so by the end the reader can account for everything that happens between pressing Enter and seeing the result.</p>
+    <div class="go">Open</div>
+  </a>
+
+  <a class="card" href="bootcamp-02/compilation_pipeline.html" target="_blank" rel="noopener">
+    <div class="num">04</div>
     <h3>From sum.c to a running process — the clang pipeline</h3>
     <p>One command hides six separate programs. Step through preprocessing, compiling, assembling, linking, loading and running.</p>
-    <div class="go">Open →</div>
+    <div class="go">Open</div>
   </a>
-  <a class="card" href="https://codexray-frontend.onrender.com">
-    <div class="num">tool</div>
-    <h3>CodeXray</h3>
-    <p>The CodeXray web app, hosted on Render.</p>
-    <div class="go">Open →</div>
-  </a>
-</div>
-</section>
 
-<footer class="page">
-  <span>KIET · AI Karyashala</span>
-  <span>aikaryashala.com/kiet</span>
-</footer>
-</main>
+  <a class="card" href="https://codexray-frontend.onrender.com" target="_blank" rel="noopener">
+    <div class="num">05</div>
+    <h3>CodeXray</h3>
+    <p>C Compilation Visualizer</p>
+    <div class="go">Open</div>
+  </a>
+
 </div>
+
+<footer>
+  <span>AI Karayashala</span>
+  <span>KIET</span>
+</footer>
+
 </div>
 </body>
 </html>
