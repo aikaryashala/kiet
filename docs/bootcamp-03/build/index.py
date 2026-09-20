@@ -6,13 +6,13 @@ def card(num, href, title, desc):
             f'<p>{desc}</p><div class="go">Open →</div></a>')
 
 
-intro = p("""One day, three sessions. You arrive knowing C. You leave with a Python program that answers HTTP requests
+intro = p("""One day, nine stages. You arrive knowing C. You leave with a Python program that answers HTTP requests
 with JSON read from a SQLite database, and a web page that uses it. Every stage is one new idea, one
 task, one self-check, one quiz. Everything on this site and in <code>~/kiet-bootcamp-3</code> works
-with the network off. Day 2 is not on this site: team presentations, then Omarchy customization.""")
+with the network off. Day 2 is team presentations, then making the Omarchy laptop your own.""")
 
 ports = table("port plan — four programs, one machine", ["port", "program", "started in", "used from"], [
-    ("8000", "this material site", "<code>docs/</code> · <code>python3 -m http.server 8000</code>", "your browser, all day"),
+    ("8000", "this guide", "<code>docs/</code> · <code>python3 -m http.server 8000</code>", "your browser, all day"),
     ("8080", "the given servers", "<code>code/stage3</code>, <code>code/stage5</code>", "Stage 3, 5, 6, 7, 8"),
     ("8081", "your own server", "<code>code/stage4</code>", "Stage 4"),
     ("9000", "the frontend page", "<code>code/frontend</code> · <code>python3 -m http.server 9000</code>", "Stage 7, 8"),
@@ -55,7 +55,7 @@ It installs git, curl and sqlite3, clones this repository to <code>~/kiet-bootca
 <code>check_env.py</code>. On the day, run the check again, then start this site:""") + \
     term("terminal", """$ python3 ~/kiet-bootcamp-3/check_env.py
 ~
-Ready. Start the material site with:
+Ready. Start the bootcamp guide with:
     cd ~/kiet-bootcamp-3/docs && python3 -m http.server 8000
 $ cd ~/kiet-bootcamp-3/docs && python3 -m http.server 8000
 Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...""") + \
@@ -64,13 +64,11 @@ Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...""") + \
 body = "\n".join([
     section("about", "What this is", intro + ports),
     section("before", "Before you start", before),
-    section("s1", "Session 1 · morning", day1),
-    section("s2", "Session 2 · afternoon", day1b),
-    section("s3", "Session 3 · after dinner, until 11:30 pm", day2),
-    section("day2", "Day 2 · 22 September", p("Not on this site. Each team presents what it built; then the Omarchy customization sessions.")),
+    section("day1", "Day 1 · 21 September", (day1 + day1b + day2).replace('</div><div class="cards">', "")),
+    section("day2", "Day 2 · 22 September", p("Each team presents what it built on Day 1. Then the Omarchy customization sessions, on the Omarchy laptop:") + '<div class="cards">' + card("Omarchy", "omarchy-branding.html", "Make Omarchy yours", "Task 1: your name on the screensaver, in the wordmark's block letters. Task 2: your photo on the boot and login screens.") + "</div>"),
     section("reference", "Reference and help", refs),
 ])
 
 write("index.html", page("Python backend with Bottle + SQLite", "index.html", body,
-                         sub="KIET Bootcamp 3 · 21 September 2026, three sessions · AI Karyashala",
+                         sub="KIET Bootcamp 3 · 21–22 September 2026 · AI Karyashala",
                          artifact="HTTP in  →  SQL in the middle  →  JSON out"))

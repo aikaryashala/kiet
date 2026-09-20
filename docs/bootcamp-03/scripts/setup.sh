@@ -9,7 +9,7 @@
 #   3. clones https://github.com/aikaryashala/kiet-bootcamp-3 into ~/kiet-bootcamp-3
 #      (or pulls the latest if it is already there)
 #   4. runs ~/kiet-bootcamp-3/check_env.py
-#   5. prints how to start the material site
+#   5. prints how to start the bootcamp guide
 # Safe to run twice. Works on Ubuntu 24.04 and on Arch-based systems such as Omarchy.
 
 set -u
