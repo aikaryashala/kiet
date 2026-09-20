@@ -99,6 +99,9 @@
     if (/^omarchy plymouth current/.test(c)) return "print which boot theme is in use now";
     if (/^magick identify/.test(c)) return "print the image's format, width, height and file size";
     if ((m = c.match(/^magick (\S+) -resize (\S+) (\S+)/))) return "shrink " + m[1] + " to fit " + m[2] + " pixels and save it as " + m[3] + " (the extension picks the format)";
+    if ((m = c.match(/^which (\S+)/))) return "print which file runs when you type " + m[1] + " — the first match on PATH";
+    if (/^echo 'export PATH=.*>> ~\/\.bashrc/.test(c)) return "add one line to ~/.bashrc so ~/.local/bin is searched first in every new terminal";
+    if (/^source ~\/\.bashrc/.test(c)) return "read ~/.bashrc into this terminal now, instead of opening a new one";
     if (/^git clone/.test(c)) return "download the repository";
     if (/^git pull/.test(c)) return "fetch the latest changes into the clone";
     if (/^\./.test(c)) return dotHint(c);
