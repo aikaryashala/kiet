@@ -9,6 +9,7 @@ this folder holds only what is needed online: the hub page, the setup page and s
 | File | What it is |
 |---|---|
 | `index.html` | The hub: preparation, Day 1 stages, Day 2, results, reference. Hand-written in the bootcamp-02 card style; edit it directly. |
+| `laptop.html` | Step 00: a laptop with Ubuntu 24.04 or Omarchy; WSL install of Ubuntu on Windows; forgotten WSL password. Hand-maintained. |
 | `setup.html` | The setup steps, written out. Hand-maintained; edit the HTML directly. |
 | `scripts/setup.sh` | The one-line setup students run online: `curl -sSL https://aikaryashala.com/kiet/bootcamp-03/scripts/setup.sh \| bash` |
 | `results.html` | Winning teams by prize, then every team. Reads `participants.csv` and `winners.csv`. |

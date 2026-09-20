@@ -47,6 +47,7 @@ refs = '<div class="cards">' + "".join([
     card("ref", "reference/curl.html", "curl", "The flags, the quoting, the + for spaces."),
     card("ref", "reference/http-basics.html", "HTTP basics", "Request line, status line, three doors."),
     card("help", "troubleshooting.html", "Troubleshooting", "Address in use, connection refused, no such table, CORS."),
+    card("faq", "faq.html", "FAQ · 15 doubts answered", "Git, GitHub, the terminal, building and deploying a website, understanding AI. For the weeks after."),
 ]) + "</div>"
 
 before = p("""Before the bootcamp, on a machine with internet: run the setup from

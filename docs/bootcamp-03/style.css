@@ -205,3 +205,15 @@ footer.page{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);fo
   .layout{grid-template-columns:1fr}
   pre.term{background:#fff;color:#000;border:1px solid #000}
 }
+
+/* FAQ pages: Markdown prose */
+.faq h3{margin:26px 0 8px}
+.faq h4{font-family:var(--serif);font-weight:600;font-size:16.5px;margin:20px 0 6px}
+.faq ul,.faq ol{margin:0 0 14px;padding-left:24px}
+.faq li{margin:0 0 6px}
+.faq li ul{margin:6px 0 0}
+.faq blockquote{margin:0 0 16px;padding:10px 18px;border-left:3px solid var(--rust);background:var(--paper);color:var(--ink);max-width:70ch}
+.faq blockquote p{margin:0 0 8px}
+.faq blockquote p:last-child{margin:0}
+.faq .panel table{margin:0}
+.faq .panel table.prose td,.faq .panel table.prose th{vertical-align:top}

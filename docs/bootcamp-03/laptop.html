@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Get your laptop ready — KIET Bootcamp 3</title>
+<link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
+</head>
+<body>
+<div class="wrap">
+<div class="layout">
+<nav class="nav" aria-label="Pages">
+<a href="index.html">Home</a>
+<a href="laptop.html" class="cur">Laptop</a>
+<a href="setup.html">Setup</a>
+<div class="group">On the day</div>
+<a href="https://aikaryashala.com/kiet-bootcamp-3/">Bootcamp guide</a>
+<a href="https://github.com/aikaryashala/kiet-bootcamp-3">GitHub repo</a>
+<div class="group">Earlier</div>
+<a href="../bootcamp-02/">Bootcamp 2</a>
+<a href="../bootcamp-01/">Bootcamp 1</a>
+</nav>
+<main>
+<header class="page">
+<h1>Get your laptop ready</h1>
+<p class="sub">The bootcamp runs on Linux. Bring a laptop running Ubuntu 24.04 or Omarchy; if yours runs Windows, put Ubuntu on it with the steps below.</p>
+</header>
+<section id="have">
+<h2>Already on Ubuntu 24.04 or Omarchy?</h2>
+<p>Nothing to do on this page. Go straight to <a href="setup.html">Make your system ready for offline bootcamp</a> and run the one setup line.</p>
+</section>
+<section id="windows">
+<h2>Want to install Ubuntu 24.04 on Windows in a VM?</h2>
+<p>Windows can run Ubuntu inside it through WSL, the Windows Subsystem for Linux. Three commands, one restart. Every command below runs in <strong>PowerShell opened as Administrator</strong>: press the Windows key, type <code>PowerShell</code>, right-click <em>Windows PowerShell</em> and choose <em>Run as administrator</em>. Say Yes when Windows asks for permission.</p>
+<ol class="steps">
+<li><p>Turn on WSL. This downloads the Linux layer; it can take a few minutes.</p><div class="panel">
+<div class="cap">PowerShell — as Administrator</div>
+<pre class="term"><span class="ln cmd" data-hint="turn on the Windows Subsystem for Linux and download its parts"><span class="p">PS&gt; </span>wsl --install</span></pre>
+</div></li>
+<li><p>Restart Windows so the new layer starts. <strong>Save your work first</strong> — this restarts at once, with no countdown.</p><div class="panel">
+<div class="cap">PowerShell — as Administrator</div>
+<pre class="term"><span class="ln cmd" data-hint="restart (/r) the computer now (/t 0 means a zero-second timer)"><span class="p">PS&gt; </span>shutdown /r /t 0</span></pre>
+</div></li>
+<li><p>After the restart, open PowerShell as Administrator again and install Ubuntu 24.04. At the end it asks you to choose a Linux username and password; remember them, the setup step asks for that password.</p><div class="panel">
+<div class="cap">PowerShell — as Administrator</div>
+<pre class="term"><span class="ln cmd" data-hint="download and install the Ubuntu 24.04 distribution (-d) inside WSL"><span class="p">PS&gt; </span>wsl --install -d Ubuntu-24.04</span></pre>
+</div></li>
+</ol>
+<p>From now on, <em>Ubuntu 24.04</em> appears in the Start menu. Open it: that is your Linux terminal, and everything on the <a href="setup.html">setup page</a> runs inside it.</p>
+</section>
+<section id="password">
+<h2>Forgot your Ubuntu password?</h2>
+<p>This is the Linux password you chose in step 3, the one <code>sudo</code> asks for. It is not your Windows password. On WSL there is no recovery menu to boot into: Windows can start Ubuntu as <code>root</code> directly, and root may set any user's password.</p>
+<ol class="steps">
+<li><p>Open PowerShell as Administrator and check the exact name of your Ubuntu. The next command needs it spelled the same way.</p><div class="panel">
+<div class="cap">PowerShell — as Administrator</div>
+<pre class="term"><span class="ln cmd" data-hint="list (-l) the installed Linux distributions with their state and WSL version (-v)"><span class="p">PS&gt; </span>wsl -l -v</span><span class="ln">  NAME              STATE           VERSION</span><span class="ln">* Ubuntu-24.04      Stopped         2</span></pre>
+</div></li>
+<li><p>Start that Ubuntu as root. The prompt ends in <code>#</code> instead of <code>$</code>: you are root. A warning about <code>motd</code> may appear; ignore it.</p><div class="panel">
+<div class="cap">PowerShell — as Administrator</div>
+<pre class="term"><span class="ln cmd" data-hint="start the distribution (-d) Ubuntu-24.04 logged in as user (-u) root"><span class="p">PS&gt; </span>wsl -d Ubuntu-24.04 -u root</span><span class="ln">root@LAPTOP:/mnt/c/Windows/system32#</span></pre>
+</div></li>
+<li><p>Find your username: it is the folder in <code>/home</code>. Then set a new password for it. Nothing shows while you type the password; that is normal.</p><div class="panel">
+<div class="cap">Ubuntu — as root</div>
+<pre class="term"><span class="ln cmd" data-hint="list the home folders: one per user, named after the user"><span class="p"># </span>ls /home/</span><span class="ln">kiet</span><span class="ln cmd" data-hint="set a new password for the user kiet (root is not asked for the old one)"><span class="p"># </span>passwd kiet</span><span class="ln">New password:</span><span class="ln">Retype new password:</span><span class="ln">passwd: password updated successfully</span><span class="ln cmd" data-hint="leave the root shell and return to PowerShell"><span class="p"># </span>exit</span></pre>
+</div><p>Use your own name from <code>ls /home/</code> in place of <code>kiet</code>.</p></li>
+<li><p>Open <em>Ubuntu 24.04</em> from the Start menu as usual and confirm the new password works with <code>sudo</code>.</p><div class="panel">
+<div class="cap">Ubuntu — you, as usual</div>
+<pre class="term"><span class="ln cmd" data-hint="print your username"><span class="p">$ </span>whoami</span><span class="ln">kiet</span><span class="ln cmd" data-hint="run whoami as root, through sudo: it asks for your new password"><span class="p">$ </span>sudo whoami</span><span class="ln">[sudo] password for kiet:</span><span class="ln">root</span></pre>
+</div><p>If the last line says <code>root</code>, the new password is in place and <code>sudo</code> works. Carry on with the <a href="setup.html">setup page</a>.</p></li>
+</ol>
+</section>
+<section id="next">
+<h2>Next</h2>
+<p>With Ubuntu running, do the one-line setup: <a href="setup.html">Make your system ready for offline bootcamp</a>.</p>
+</section>
+
+<footer class="page">
+  <span>KIET Bootcamp 3 · 21–22 September 2026</span>
+  <span>AI Karyashala</span>
+</footer>
+</main>
+</div>
+</div>
+</body>
+</html>

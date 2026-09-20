@@ -31,6 +31,8 @@ NAV = [
     ("reference/http-basics.html", "HTTP basics"),
     ("group", "Help"),
     ("troubleshooting.html", "Troubleshooting"),
+    ("group", "After the bootcamp"),
+    ("faq.html", "FAQ · 15 doubts"),
 ]
 
 
