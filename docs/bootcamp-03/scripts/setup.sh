@@ -5,7 +5,7 @@
 #
 # What it does, in order:
 #   1. installs git, curl and sqlite3 (asks for your password once, for sudo)
-#   2. checks python3 is 3.12 or newer
+#   2. checks python3 is 3.12 or newer; on an older Ubuntu installs python3.12 (deadsnakes PPA)
 #   3. clones https://github.com/aikaryashala/kiet-bootcamp-3 into ~/kiet-bootcamp-3
 #      (or pulls the latest if it is already there)
 #   4. runs ~/kiet-bootcamp-3/check_env.py
@@ -44,12 +44,41 @@ case "$OS_ID $OS_LIKE" in
 esac
 
 # ---- 2. python --------------------------------------------------------------
+# The bootcamp needs python3 3.12 or newer. Ubuntu 24.04 ships 3.12; Ubuntu 22.04 ships 3.10.
+# On an older Ubuntu we install python3.12 from the deadsnakes PPA and put a `python3` link in
+# ~/.local/bin, which comes first on PATH for the student's own shell. The system's /usr/bin/python3
+# is left alone, so apt and other system tools keep working.
 say "Checking python3"
-command -v python3 >/dev/null 2>&1 || fail "python3 is not installed."
-PYV="$(python3 -c 'import sys; print("%d.%d" % sys.version_info[:2])')"
-python3 -c 'import sys; sys.exit(0 if sys.version_info >= (3, 12) else 1)' \
-    || fail "python3 is $PYV; the bootcamp needs 3.12 or newer. Ubuntu 24.04 ships 3.12 — upgrade the OS or install python3.12."
-echo "    python3 $PYV — ok"
+py_ok() { "$1" -c 'import sys; sys.exit(0 if sys.version_info >= (3, 12) else 1)' 2>/dev/null; }
+py_ver() { "$1" -c 'import sys; print("%d.%d.%d" % sys.version_info[:3])' 2>/dev/null; }
+
+export PATH="$HOME/.local/bin:$PATH"
+if command -v python3 >/dev/null 2>&1 && py_ok python3; then
+    echo "    python3 $(py_ver python3) — ok"
+else
+    echo "    python3 is $(py_ver python3 || echo missing); the bootcamp needs 3.12 or newer."
+    case "$OS_ID $OS_LIKE" in
+        *ubuntu*|*debian*)
+            say "Installing python3.12 (from the deadsnakes PPA)"
+            sudo apt-get install -y -qq software-properties-common >/dev/null
+            sudo add-apt-repository -y ppa:deadsnakes/ppa >/dev/null 2>&1 || fail "could not add the deadsnakes PPA. Install python3.12 by hand and re-run."
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq python3.12 >/dev/null || fail "could not install python3.12."
+            mkdir -p "$HOME/.local/bin"
+            ln -sf "$(command -v python3.12)" "$HOME/.local/bin/python3"
+            if ! grep -q 'kiet-bootcamp-3: python3.12' "$HOME/.bashrc" 2>/dev/null; then
+                printf '\n# kiet-bootcamp-3: python3.12 first on PATH\nexport PATH="$HOME/.local/bin:$PATH"\n' >> "$HOME/.bashrc"
+            fi
+            hash -r
+            py_ok python3 || fail "python3.12 was installed but python3 still runs $(py_ver python3). Open a new terminal and re-run this script."
+            echo "    python3 is now $(py_ver python3) for your shell (/usr/bin/python3 is unchanged)"
+            NEW_SHELL_NEEDED=1
+            ;;
+        *)
+            fail "install python 3.12 or newer with your package manager, then re-run this script."
+            ;;
+    esac
+fi
 
 # ---- 3. clone or pull -------------------------------------------------------
 if [ -d "$DEST/.git" ]; then
@@ -79,4 +108,9 @@ cat <<EOF
   and open  http://localhost:8000  in your browser.
 
 EOF
+if [ "${NEW_SHELL_NEEDED:-0}" = 1 ]; then
+    echo "  python3.12 was installed for you. Close this terminal and open a new one before you start,"
+    echo "  so that 'python3' means 3.12 in it. Then run the check above once more."
+    echo
+fi
 exit "$STATUS"

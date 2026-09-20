@@ -203,3 +203,8 @@ Still to do, outside this machine:
 1. Create the GitHub repo `aikaryashala/kiet-bootcamp-3`, push, enable Pages on `docs/`, point `aikaryashala.com/kiet-bootcamp-3/` at it.
 2. Commit this folder in the `kiet` repo so `aikaryashala.com/kiet/bootcamp-03/scripts/setup.sh` resolves.
 3. Run `setup.sh` on a fresh Ubuntu 24.04 and a fresh Omarchy; go offline; walk all nine stages from the material alone.
+
+## 8. To do
+
+- [ ] **Moments page** — `moments.html` in this folder, results theme: a grid of thumbnails read from `moments/photos.txt`, full image on click, a Moments card on the hub. Fully static; the page never needs editing.
+- [ ] **Resize script** — `moments.py`, run on the Mac: takes a folder of originals kept outside the repo, resizes each photo to ~1600 px on the long edge (JPEG q82) into `moments/`, writes ~400 px thumbnails into `moments/thumbs/`, names files by the EXIF date taken (`2026-09-21_14-32-05.jpg`), skips ones already done, rewrites `photos.txt` sorted, prints a summary. Uses `sips` (ships with macOS, reads HEIC), so nothing to install. Routine: copy photos in → run script → `git add moments` → commit → push.
