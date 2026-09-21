@@ -38,6 +38,7 @@ day2 = '<div class="cards">' + "".join([
 ]) + "</div>"
 
 refs = '<div class="cards">' + "".join([
+    card("diagram", "request-response.html", "Request and response", "One curl followed into the server, down to SQLite and back. Step through it."),
     card("ref", "reference/python-cheatsheet.html", "Python cheatsheet", "Every construct the stages use."),
     card("ref", "reference/c-to-python.html", "C to Python", "The translation table."),
     card("ref", "reference/sqlite-cli.html", "sqlite3 CLI", "Open, look, run a script, quit."),

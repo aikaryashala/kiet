@@ -21,6 +21,7 @@ NAV = [
     ("group", "Day 2"),
     ("omarchy-branding.html", "Make Omarchy yours"),
     ("group", "Reference"),
+    ("request-response.html", "Request/response diagram"),
     ("reference/python-cheatsheet.html", "Python cheatsheet"),
     ("reference/c-to-python.html", "C to Python"),
     ("reference/sqlite-cli.html", "sqlite3 CLI"),
