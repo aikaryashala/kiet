@@ -12,6 +12,7 @@ this folder holds only what is needed online: the hub page, the setup page and s
 | `laptop.html` | Step 00: a laptop with Ubuntu 24.04 or Omarchy; WSL install of Ubuntu on Windows; forgotten WSL password. Hand-maintained. |
 | `setup.html` | The setup steps, written out. Hand-maintained; edit the HTML directly. |
 | `scripts/setup.sh` | The one-line setup students run online: `curl -sSL https://aikaryashala.com/kiet/bootcamp-03/scripts/setup.sh \| bash` |
+| `selected-teams.html` | The shortlisted teams with their members. Reads `selected-teams.csv` and `participants.csv`. |
 | `results.html` | Winning teams by prize, then every team. Reads `participants.csv` and `winners.csv`. |
 | `rising-talent.html` | Individuals who stood out. Reads `rising-talent.csv` and looks the roll numbers up in `participants.csv`. |
 
@@ -34,6 +35,16 @@ ID,Type,HTNO,Student Name,Gender,Class ID,Team Name,Role,College,Program,Academi
 - `Class ID`, `College`, `Program`, `Academic Batch` appear under the team name. `ID`, `Type`, `Gender` are read but not shown.
 - Header matching ignores case, spaces and underscores, so `team_name` or `Team` also work.
 - An optional `Status` column (Completed / Not completed) adds completion badges; without it none are shown.
+
+### `selected-teams.csv` — the shortlist
+
+```
+team,note
+KIET_3,All four routes and the frontend working
+```
+
+- One row per shortlisted team, in the order they should appear. `note` is optional and shows under the team name.
+- `team` must match a `Team Name` in `participants.csv` (case-insensitive); members come from there. An unmatched name is still listed, without members.
 
 ### `winners.csv` — the prizes
 
