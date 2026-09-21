@@ -138,4 +138,5 @@ on the sample database.""") + stp),
 write("request-response.html", page("Request and response", "request-response.html", body,
                                     sub="One curl, followed into the server, down to SQLite, and back — as a diagram you can step through.",
                                     artifact="GET /students?college=…  →  SELECT … WHERE ?  →  rows  →  JSON  →  200 OK",
-                                    stage_label="Diagram", head_extra=CSS))
+                                    stage_label="Diagram · step by step", head_extra=CSS,
+                                    prev_page=("request-flow.html", "the overview animation")))
