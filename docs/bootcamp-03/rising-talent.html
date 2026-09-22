@@ -140,6 +140,20 @@
     .bar i { height: 4px; flex: 1; background: var(--line); display: block; }
     .bar i.on { background: var(--teal); }
 
+    /* ---------- rising photos ---------- */
+    .sky { position: relative; height: 360px; overflow: hidden; margin: 32px 0 0; border: 1px solid var(--line); background: var(--cream-2); }
+    .sky.empty-sky { display: none; }
+    .sky img { position: absolute; bottom: -260px; aspect-ratio: 4 / 3; object-fit: cover; border: 4px solid #fff; box-shadow: 0 10px 24px -12px rgba(36, 28, 21, 0.6); animation: rise linear forwards; will-change: transform; }
+    @keyframes rise {
+      0%   { transform: translate(0, 0) rotate(var(--rot, 0deg)); opacity: 0; }
+      10%  { opacity: 1; }
+      50%  { transform: translate(var(--sway, 0px), -340px) rotate(calc(var(--rot, 0deg) * -1)); }
+      92%  { opacity: 1; }
+      100% { transform: translate(0, -700px) rotate(var(--rot, 0deg)); opacity: 0; }
+    }
+    .sky.still { height: auto; display: flex; flex-wrap: wrap; gap: 10px; padding: 12px; }
+    .sky.still img { position: static; width: 140px; animation: none; }
+    .sky-cap { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 0.64rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin: 8px 0 0; }
     table { width: 100%; border-collapse: collapse; }
     thead th { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); font-weight: 400; text-align: left; padding: 14px 22px 10px; border-bottom: 1px solid var(--line); }
     tbody td { padding: 12px 22px; border-bottom: 1px solid var(--line-soft); vertical-align: middle; }
@@ -199,6 +213,9 @@
     <p class="lede">Students who stood out on the day, as individuals.</p>
     <div class="rule"></div>
 
+    <div class="sky" id="sky" aria-hidden="true"></div>
+    <p class="sky-cap" id="sky-cap" hidden>Rising talent, each with the mentor from AI Karyashala</p>
+
     <section class="stats">
       <div class="stat is-win"><div class="label">Rising talent</div><div class="value" id="st-count">–</div></div>
       <div class="stat"><div class="label">Of all students</div><div class="value" id="st-of">–</div></div>
@@ -253,6 +270,41 @@
       if (!res.ok) throw new Error(name + ': ' + res.status + ' ' + res.statusText);
       return res.text().then(function (t) { return { rows: parseCSV(t), modified: res.headers.get('last-modified') }; });
     });
+  }
+
+  fetch('photos/rising/list.txt', { cache: 'no-store' }).then(function (res) { return res.ok ? res.text() : ''; }).catch(function () { return ''; })
+    .then(function (t) { sky(t.split(/\r?\n/).filter(function (n) { return n.trim(); }).map(function (n) { return 'photos/rising/' + encodeURIComponent(n.trim()); })); });
+
+  function sky(list) {
+    var host = document.getElementById('sky'), cap = document.getElementById('sky-cap');
+    if (!list.length) { host.classList.add('empty-sky'); return; }
+    cap.hidden = false;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      host.classList.add('still');
+      list.slice(0, 16).forEach(function (src) { var im = document.createElement('img'); im.src = src; host.appendChild(im); });
+      return;
+    }
+    var order = list.slice(), k = 0;
+    function pick() {                                   // every photo once, in a fresh random order, then again
+      if (k >= order.length) { k = 0; }
+      if (k === 0) order.sort(function () { return Math.random() - 0.5; });
+      return order[k++];
+    }
+    function spawn() {
+      if (document.hidden) return;
+      var W = host.clientWidth, size = 110 + Math.random() * 90, dur = 16 + Math.random() * 12;
+      var im = document.createElement('img');
+      im.src = pick();
+      im.style.width = size + 'px';
+      im.style.left = Math.max(0, Math.random() * (W - size)) + 'px';
+      im.style.animationDuration = dur + 's';
+      im.style.setProperty('--rot', (Math.random() * 14 - 7).toFixed(1) + 'deg');
+      im.style.setProperty('--sway', (Math.random() * 80 - 40).toFixed(0) + 'px');
+      host.appendChild(im);
+      setTimeout(function () { im.remove(); }, dur * 1000);
+    }
+    for (var i = 0; i < 5; i++) setTimeout(spawn, i * 900);
+    setInterval(spawn, 2200);
   }
 
   Promise.all([load('rising-talent.csv'), load('participants.csv')]).then(function (r) { render(r[0], r[1]); })

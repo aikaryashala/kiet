@@ -140,6 +140,9 @@
     .bar i { height: 4px; flex: 1; background: var(--line); display: block; }
     .bar i.on { background: var(--teal); }
 
+    .photo { margin: 0; background: var(--cream-2); border-bottom: 1px solid var(--line); }
+    .photo img { display: block; width: 100%; max-height: 560px; object-fit: cover; }
+    .photo figcaption { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 0.64rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); padding: 8px 22px; }
     table { width: 100%; border-collapse: collapse; }
     thead th { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); font-weight: 400; text-align: left; padding: 14px 22px 10px; border-bottom: 1px solid var(--line); }
     tbody td { padding: 12px 22px; border-bottom: 1px solid var(--line-soft); vertical-align: middle; }
@@ -304,7 +307,9 @@
         '<div class="team-head"><div class="num">' + pad(i + 1) + '</div>' +
         '<div class="team-id"><div class="team-name">' + esc(t.name) + '</div>' +
         '<div class="team-meta">' + (t.known ? t.members.length + ' member' + (t.members.length === 1 ? '' : 's') : 'not in participants.csv') + (t.note ? ' &middot; ' + esc(t.note) : '') + '</div></div>' +
-        '<div class="badge">Selected</div></div>';
+        '<div class="badge">Selected</div></div>' +
+        '<figure class="photo"><img src="photos/teams/' + encodeURIComponent(t.name) + '.jpg" alt="' + esc(t.name) + ' with the mentor" loading="lazy" onerror="this.parentNode.remove()">' +
+        '<figcaption>' + esc(t.name) + ' with the mentor from AI Karyashala</figcaption></figure>';
       if (t.members.length) {
         html += '<table><thead><tr><th>Roll number</th><th>Student</th><th>Class &middot; Program</th><th style="text-align:right">Role</th></tr></thead><tbody>';
         t.members.forEach(function (m) {

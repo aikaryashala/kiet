@@ -22,6 +22,17 @@ blocks the read and the page says so.
 
 ## Data files
 
+### Photos
+
+Originals go in `photos-src/` (git-ignored, never uploaded); `python3 photos.py` writes web-size JPEGs to `photos/`, which is what gets committed:
+
+| Put the original at | Shown on | Size after |
+|---|---|---|
+| `photos-src/teams/<Team Name>.jpg` | `selected-teams.html`, under that team's name: the group photo with the mentor | long edge 1600 px |
+| `photos-src/rising/<anything>.jpg` | `rising-talent.html`, the band of photos that keeps rising at the top: each rising-talent student with the mentor, any file names; `photos.py` also writes `photos/rising/list.txt`, the list the page reads | long edge 900 px |
+
+A team with no photo simply shows no photo; with no rising photos the band is not shown. Phone photos (HEIC included) are fine as input. `--quality 65` for smaller files.
+
 ### `participants.csv` — everyone who took part
 
 One row per student. Header, in this order:
